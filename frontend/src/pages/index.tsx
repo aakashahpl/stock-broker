@@ -10,8 +10,8 @@ import {Ap} from "./chart";
 import React, {  useRef } from 'react';
 
 let indexes = [
-    { indexName: "NIFTY50" },
-    { indexName: "SENSEX" },
+    { indexName: "NASDAQ" },
+    { indexName: "S&P500" },
     { indexName: "BANKNIFTY" },
 ];
 const initialData = [
@@ -164,7 +164,8 @@ export default function Home() {
                 <div className=" flex-[3] flex flex-row justify-between">
                     {indexes.map((element, index) => (
                         <div
-                            className=" w-4/12 mx-1 h-18 bg-slate-600 rounded flex justify-center items-center"
+                            className=" w-4/12 mx-1 h-18 bg-[#1b1b1b] border-2 border-[#2b2b2b] flex justify-center items-center text-slate-300"
+                            
                             key={index}
                         >
                             <div className="flex flex-col w-11/12 ">

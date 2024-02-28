@@ -2,7 +2,8 @@ import { createChart, ColorType } from "lightweight-charts";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
-export const ChartComponent = (props) => {
+export const ChartComponent = (props:any) => {
+
     const {
         data,
         colors: {
@@ -12,7 +13,10 @@ export const ChartComponent = (props) => {
             areaTopColor = "#2962FF",
             areaBottomColor = "rgba(41, 98, 255, 0.28)",
         } = {},
+        grid
     } = props;
+
+    
 
     const chartContainerRef = useRef<HTMLDivElement>(null);
 
@@ -32,6 +36,8 @@ export const ChartComponent = (props) => {
             },
             width: chartContainerRef.current.clientWidth,
             height: 500,
+            grid: grid
+
         });
         chart.timeScale().fitContent();
 
@@ -39,6 +45,7 @@ export const ChartComponent = (props) => {
             lineColor,
             topColor: areaTopColor,
             bottomColor: areaBottomColor,
+            
         });
         newSeries.setData(data);
 
@@ -58,9 +65,26 @@ export const ChartComponent = (props) => {
     );
 };
 
-export default function Ap(props) {
+export default function Chart() {
     const [convertedData, setConvertedData] = useState([]);
-
+    const props = {
+        colors: {
+          backgroundColor: "#121212",
+          lineColor: "#FF5733",
+          textColor: "white",
+          areaTopColor: "rgba(255, 123, 94, 0.5)",
+          areaBottomColor: "rgba(255, 87, 51, 0.28)",
+        },
+        grid: {
+			vertLines: {
+				color: '#2B2B43',
+			},
+			horzLines: {
+				color: '#363C4E',
+			},
+		},
+        
+      };
     useEffect(() => {
         let formattedData: any = [];
         const fetchData = async () => {
@@ -102,10 +126,10 @@ export default function Ap(props) {
     }, []);
     console.log("aakash");
     return (
-        <>
-            <div> {JSON.stringify(convertedData)}</div>
+        <div className="">
+            {/* <div> {JSON.stringify(convertedData)}</div> */}
 
             <ChartComponent {...props} data={convertedData}></ChartComponent>
-        </>
+        </div>
     );
 }
