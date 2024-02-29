@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { LineGraph } from "@groww-tech/react-charts";
 const inter = Inter({ subsets: ["latin"] });
-import {Ap} from "./chart";
+// import { Ap } from "./chart";
 
 
-import React, {  useRef } from 'react';
+import React, { useRef } from "react";
 
 let indexes = [
     { indexName: "NASDAQ" },
@@ -15,16 +15,16 @@ let indexes = [
     { indexName: "BANKNIFTY" },
 ];
 const initialData = [
-	{ time: '2018-12-22', value: 32.51 },
-	{ time: '2018-12-23', value: 31.11 },
-	{ time: '2018-12-24', value: 27.02 },
-	{ time: '2018-12-25', value: 27.32 },
-	{ time: '2018-12-26', value: 25.17 },
-	{ time: '2018-12-27', value: 28.89 },
-	{ time: '2018-12-28', value: 25.46 },
-	{ time: '2018-12-29', value: 23.92 },
-	{ time: '2018-12-30', value: 22.68 },
-	{ time: '2018-12-31', value: 22.67 },
+    { time: "2018-12-22", value: 32.51 },
+    { time: "2018-12-23", value: 31.11 },
+    { time: "2018-12-24", value: 27.02 },
+    { time: "2018-12-25", value: 27.32 },
+    { time: "2018-12-26", value: 25.17 },
+    { time: "2018-12-27", value: 28.89 },
+    { time: "2018-12-28", value: 25.46 },
+    { time: "2018-12-29", value: 23.92 },
+    { time: "2018-12-30", value: 22.68 },
+    { time: "2018-12-31", value: 22.67 },
 ];
 
 const data1 = [
@@ -135,47 +135,48 @@ export default function Home() {
         };
     }, []); // Empty dependency array means this effect only runs once after the component mounts
     return (
-        <main
-            className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-        >
-           
-            <LineGraph
-                width={200}
-                height={80}
-                paddingHorz={4}
-                paddingVert={4}
-                linePaths={[
-                    {
-                        series: data1,
-                        color: "#00D09C",
-                        strokeWidth: 2,
-                        key: "line-graph",
-                        showLastPointBlinking: true,
-                        strokeOpacity: 1,
-                        isSeriesToScale: true,
-                        allowToolTip: false,
-                    },
-                ]}
-            />
-            <div className="flex flex-col  w-5/12 h-24">
-                <div className=" flex-1 font-bold text-slate-100 pb-3">
-                    Index
-                </div>
-                <div className=" flex-[3] flex flex-row justify-between">
-                    {indexes.map((element, index) => (
-                        <div
-                            className=" w-4/12 mx-1 h-18 bg-[#1b1b1b] border-2 border-[#2b2b2b] flex justify-center items-center text-slate-300"
-                            
-                            key={index}
-                        >
-                            <div className="flex flex-col w-11/12 ">
-                                <div>{element.indexName}</div>
-                                <div>price</div>
+        <>
+         
+            <main
+                className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+            >
+                <LineGraph
+                    width={200}
+                    height={80}
+                    paddingHorz={4}
+                    paddingVert={4}
+                    linePaths={[
+                        {
+                            series: data1,
+                            color: "#00D09C",
+                            strokeWidth: 2,
+                            key: "line-graph",
+                            showLastPointBlinking: true,
+                            strokeOpacity: 1,
+                            isSeriesToScale: true,
+                            allowToolTip: false,
+                        },
+                    ]}
+                />
+                <div className="flex flex-col  w-5/12 h-24">
+                    <div className=" flex-1 font-bold text-slate-100 pb-3">
+                        Index
+                    </div>
+                    <div className=" flex-[3] flex flex-row justify-between">
+                        {indexes.map((element, index) => (
+                            <div
+                                className=" w-4/12 mx-1 h-18 bg-[#1b1b1b] border-2 border-[#2b2b2b] flex justify-center items-center text-slate-300"
+                                key={index}
+                            >
+                                <div className="flex flex-col w-11/12 ">
+                                    <div>{element.indexName}</div>
+                                    <div>price</div>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </>
     );
 }
