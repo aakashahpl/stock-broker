@@ -1,12 +1,16 @@
 import React from "react";
 import Chart from "../chart";
+import { useRouter } from "next/router";
 
 function BasicComponent() {
     const borderColor = "#2e2e2e";
+    const router = useRouter();
+    const { slug } = router.query;
     return (
         <div className=" flex flex-row justify-center h-screen">
+            <div className=" text-white">{slug}</div>
             <div className="w-6/12 ">
-                <Chart />
+                <Chart ticker={slug}/>
 
             </div>
             <div className=" flex flex-col h-3/5 w-  w-2/12 border-[1px] border-myBorder rounded ml-10">

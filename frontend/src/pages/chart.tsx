@@ -1,9 +1,9 @@
 import { createChart, ColorType } from "lightweight-charts";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import { render } from "react-dom";
 
-export const ChartComponent = (props:any) => {
-
+export const ChartComponent = (props: any) => {
     const {
         data,
         colors: {
@@ -13,19 +13,16 @@ export const ChartComponent = (props:any) => {
             areaTopColor = "#2962FF",
             areaBottomColor = "rgba(41, 98, 255, 0.28)",
         } = {},
-        grid
+        grid,
     } = props;
-
-    
 
     const chartContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if(!chartContainerRef.current) return;
+        if (!chartContainerRef.current) return;
         const handleResize = () => {
-            
             chart.applyOptions({
-                width: chartContainerRef.current!.clientWidth,    // "!" charContainerRef.current is strictly not null 
+                width: chartContainerRef.current!.clientWidth, // "!" charContainerRef.current is strictly not null
             });
         };
 
@@ -36,8 +33,7 @@ export const ChartComponent = (props:any) => {
             },
             width: chartContainerRef.current.clientWidth,
             height: 500,
-            grid: grid
-
+            grid: grid,
         });
         chart.timeScale().fitContent();
 
@@ -45,7 +41,6 @@ export const ChartComponent = (props:any) => {
             lineColor,
             topColor: areaTopColor,
             bottomColor: areaBottomColor,
-            
         });
         newSeries.setData(data);
 
@@ -65,32 +60,46 @@ export const ChartComponent = (props:any) => {
     );
 };
 
-export default function Chart() {
+interface prop {
+    ticker: string;
+}
+export default function Chart(props: prop) {
     const [convertedData, setConvertedData] = useState([]);
-    const props = {
+    const chartProps = {
         colors: {
-          backgroundColor: "#121212",
-          lineColor: "#FF5733",
-          textColor: "white",
-          areaTopColor: "rgba(255, 123, 94, 0.5)",
-          areaBottomColor: "rgba(255, 87, 51, 0.28)",
+            backgroundColor: "#121212",
+            lineColor: "#FF5733",
+            textColor: "white",
+            areaTopColor: "rgba(255, 123, 94, 0.5)",
+            areaBottomColor: "rgba(255, 87, 51, 0.28)",
         },
         grid: {
-			vertLines: {
-				color: '#2B2B43',
-			},
-			horzLines: {
-				color: '#363C4E',
-			},
-		},
-        
-      };
+            vertLines: {
+                color: "#2B2B43",
+            },
+            horzLines: {
+                color: "#363C4E",
+            },
+        },
+    };
+    const [ticker, setTicker] = useState("");
+    const count = useRef(0);
+    if (props.ticker != undefined && count.current === 0) {
+        count.current++;
+        setTicker(props.ticker);
+    }
     useEffect(() => {
         let formattedData: any = [];
+
+        console.log(props);
+
         const fetchData = async () => {
             try {
-                const url =
-                    "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo";
+                console.log(ticker);
+                // const url =
+                //     `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_KEY_2}`;
+                const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`;
+
                 const response = await axios.get(url, {
                     headers: { "User-Agent": "axios" },
                 });
@@ -98,7 +107,7 @@ export default function Chart() {
                 if (response.status === 200) {
                     const inputData = response.data;
 
-                //transform the data from the api to your required data
+                    //transform the data from the api to your required data
                     Object.keys(inputData["Time Series (Daily)"]).forEach(
                         (key) => {
                             formattedData.push({
@@ -123,13 +132,16 @@ export default function Chart() {
         };
 
         fetchData();
-    }, []);
-    console.log("aakash");
+    }, [ticker]);
+
     return (
         <div className="">
             {/* <div> {JSON.stringify(convertedData)}</div> */}
 
-            <ChartComponent {...props} data={convertedData}></ChartComponent>
+            <ChartComponent
+                {...chartProps}
+                data={convertedData}
+            ></ChartComponent>
         </div>
     );
 }

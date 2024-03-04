@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import connectToDB from "./db";
+import route1 from "./api/frontPage";
 
 import cors from "cors";
 
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(cors());
-// app.use("/",route1);
+app.use("/frontPage",route1);
 
 
 connectToDB();
