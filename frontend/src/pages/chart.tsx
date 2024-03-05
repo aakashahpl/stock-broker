@@ -84,6 +84,9 @@ export default function Chart(props: prop) {
     };
     const [ticker, setTicker] = useState("");
     const count = useRef(0);
+
+    //to prevent continuous rendering
+    //count checks the number of renders
     if (props.ticker != undefined && count.current === 0) {
         count.current++;
         setTicker(props.ticker);
@@ -108,6 +111,9 @@ export default function Chart(props: prop) {
                     const inputData = response.data;
 
                     //transform the data from the api to your required data
+                    //required data format :--
+                    //[{time:"2023-10-18",value:139.97},...]
+
                     Object.keys(inputData["Time Series (Daily)"]).forEach(
                         (key) => {
                             formattedData.push({
@@ -120,9 +126,9 @@ export default function Chart(props: prop) {
                             });
                         }
                     );
-
-                    setConvertedData(formattedData.reverse());
-                    console.log("asldf");
+                    const formattedData30Days = formattedData.slice(0,30);
+                    console.log(formattedData30Days[0]);
+                    setConvertedData(formattedData30Days.reverse());
                 } else {
                     console.error("Status:", response.status);
                 }
