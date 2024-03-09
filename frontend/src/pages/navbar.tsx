@@ -56,7 +56,7 @@ function Navbar() {
     return (
         <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-20 h-16">
       <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
-        <Image width={230} height={230} src="/nookLogo.png" alt="" />
+        <Image width={230} height={230} src="/nookLogo.png" alt="" priority={false} />
     </div>
             <div className=" flex-[1.5]  h-full flex items-center justify-center  relative">
                 <form onSubmit={handleSubmit}>
@@ -71,7 +71,7 @@ function Navbar() {
                 </form>
                 <div>
                     {searchResults.length != 0 ? (
-                        <div className=" bg-orange-300 w-60 h-32 absolute right-24 top-20 flex flex-col">
+                        <div className=" bg-orange-300 w-60 h-32 absolute right-40 top-16 flex flex-col">
                             {searchResults.map((element, index) => (
                                 <Link
                                     href={`/stock/${element.symbol}`}
