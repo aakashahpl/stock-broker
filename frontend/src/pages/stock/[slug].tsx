@@ -2,17 +2,20 @@ import React from "react";
 import { useState } from "react";
 import Chart from "../../component/chart";
 import { useRouter } from "next/router";
-import Navbar from "../navbar";
+import {useUser} from "../context/userContext"
 
 function BasicComponent() {
     const [timeFrame, setTimeFrame] = useState("1M");
     const borderColor = "#2e2e2e";
     const router = useRouter();
     
+    const {user} = useUser();
     const { slug } = router.query;
+    
     return (
         <div>
-            <Navbar/>
+            
+            <div className="text-white text-8xl">{user.email}</div>
             <div className=" text-white flex flex-row justify-center h-screen mt-10">
                 <div className="w-6/12 ">
                     <Chart ticker={slug} timeFrame={timeFrame} />
