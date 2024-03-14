@@ -4,10 +4,12 @@ import { CiWallet } from "react-icons/ci";
 import { BsCart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { useState, useRef } from "react";
+import { useUser } from "./context/userContext";
 import axios from "axios";
 import { RiH1 } from "react-icons/ri";
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 function Navbar() {
     // const [inputValue, setInputValue] = useState("");
@@ -18,7 +20,8 @@ function Navbar() {
         inputValue.current = event.target.value;
         // Manually update the input field's value
     };
-
+    const { user } = useUser();
+    console.log(user);
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         console.log(inputValue.current); // Do whatever you want with the input value
@@ -55,9 +58,15 @@ function Navbar() {
 
     return (
         <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-20 h-16">
-      <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
-        <Image width={230} height={230} src="/nookLogo.png" alt="" priority={false} />
-    </div>
+            <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
+                <Image
+                    width={230}
+                    height={230}
+                    src="/nookLogo.png"
+                    alt=""
+                    priority={false}
+                />
+            </div>
             <div className=" flex-[1.5]  h-full flex items-center justify-center  relative">
                 <form onSubmit={handleSubmit}>
                     <input
@@ -88,20 +97,34 @@ function Navbar() {
                     ) : null}
                 </div>
             </div>
-            <div className=" flex-[1] flex flex-row justify-center items-center ">
-                <div className=" px-4">
-                    <IoIosNotificationsOutline size={22} />
+            {user === null ? (
+                <div className=" flex-1 ">
+                    <Button
+                
+                        variant={"myButton"}
+                        type="submit"
+                    >
+                        <div className=" font-bold text-md text-white ">
+                            Login/Register
+                        </div>
+                    </Button>
                 </div>
-                <div className=" px-4">
-                    <CiWallet size={22} />
+            ) : (
+                <div className=" flex-[1] flex flex-row justify-center items-center ">
+                    <div className=" px-4">
+                        <IoIosNotificationsOutline size={22} />
+                    </div>
+                    <div className=" px-4">
+                        <CiWallet size={22} />
+                    </div>
+                    <div className=" px-4">
+                        <BsCart size={22} />
+                    </div>
+                    <div className=" px-4">
+                        <CgProfile size={22} />
+                    </div>
                 </div>
-                <div className=" px-4">
-                    <BsCart size={22} />
-                </div>
-                <div className=" px-4">
-                    <CgProfile size={22} />
-                </div>
-            </div>
+            )}
         </div>
     );
 }

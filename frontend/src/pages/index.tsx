@@ -1,5 +1,5 @@
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -23,11 +23,11 @@ import { useUser } from "./context/userContext";
 import { redirect } from "next/dist/server/api-utils";
 
 const Hero = () => {
-    const {loginUser,user} = useUser();
+    const { loginUser, user } = useUser();
     const [signUp, setSignUp] = useState(false);
-    
+
     const router = useRouter();
-  
+
     const formSchema = z.object({
         email: z.string().email({
             message: "Invalid email format.",
@@ -41,12 +41,10 @@ const Hero = () => {
         setSignUp(true);
     };
 
-
-    const handleFormData = async(data: any) => {
+    const handleFormData = async (data: any) => {
         console.log(data);
         await loginUser(data);
         router.push("/stock/IBM");
-           
     };
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -59,14 +57,18 @@ const Hero = () => {
 
     return (
         <div>
-           
             <div className=" flex flex-col items-center justify-center h-screen relative">
-                <button
+                {/* <button
                     className=" bg-blue-400 w-28 h-8 font-bold text-white rounded-sm hover:cursor-pointer"
                     onClick={handleSignUp}
                 >
-                    SignUp
-                </button>
+                    Get started
+                </button> */}
+                <Button variant={"myButton"} onClick={handleSignUp} size={"lg"}>
+                    <div className=" font-bold text-md text-white ">
+                        Get Started
+                    </div>
+                </Button>
                 <div>
                     {signUp == true ? (
                         <div className=" h-screen w-full bg-slate-500 bg-opacity-10 absolute top-0 left-0 flex justify-center ">
@@ -83,7 +85,7 @@ const Hero = () => {
                                     <div className="absolute text-4xl font-bold w-1/3 top-16 left-10 text-white ">
                                         Simple, Free Investing
                                     </div>
-                                    <div className=" h-3 bg-white absolute w-7 bottom-10 left-10 animate-width-cycle"></div>    
+                                    <div className=" h-3 bg-white absolute w-7 bottom-10 left-10 animate-width-cycle"></div>
                                 </div>
                                 <div className=" bg-white h-full w-1/2 flex flex-col justify-center items-center">
                                     <div
@@ -151,7 +153,7 @@ const Hero = () => {
                                                         </FormItem>
                                                     )}
                                                 />
-                                                
+
                                                 <Button
                                                     style={{
                                                         marginTop: "2rem",
@@ -163,7 +165,6 @@ const Hero = () => {
                                                         Continue
                                                     </div>
                                                 </Button>
-                                                
                                             </form>
                                         </Form>
                                     </div>
