@@ -57,7 +57,7 @@ function Navbar() {
     };
 
     return (
-        <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-20 h-16">
+        <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-20 h-16 border-myBorder ">
             <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
                 <Image
                     width={230}
@@ -66,7 +66,18 @@ function Navbar() {
                     alt=""
                     priority={false}
                 />
+                <div>
+                    {user ? (
+                        <Link
+                            href={`/explore`}
+                            className=" text-neutral-100 font-medium hover:cursor-pointer"
+                        >
+                            Explore
+                        </Link>
+                    ) : null}
+                </div>
             </div>
+
             <div className=" flex-[1.5]  h-full flex items-center justify-center  relative">
                 <form onSubmit={handleSubmit}>
                     <input
@@ -74,7 +85,7 @@ function Navbar() {
                         type="text"
                         // value={inputValue.current}
                         onChange={handleChange}
-                        placeholder="Enter something..."
+                        placeholder="Enter stock symbol"
                     />
                     {/* No explicit submit button, pressing Enter in the input field will trigger form submission */}
                 </form>
@@ -99,11 +110,7 @@ function Navbar() {
             </div>
             {user === null ? (
                 <div className=" flex-1 ">
-                    <Button
-                
-                        variant={"myButton"}
-                        type="submit"
-                    >
+                    <Button variant={"myButton"} type="submit">
                         <div className=" font-bold text-md text-white ">
                             Login/Register
                         </div>

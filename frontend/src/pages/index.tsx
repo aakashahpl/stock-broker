@@ -44,7 +44,7 @@ const Hero = () => {
     const handleFormData = async (data: any) => {
         console.log(data);
         await loginUser(data);
-        router.push("/stock/IBM");
+        router.push("/explore");
     };
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -58,12 +58,6 @@ const Hero = () => {
     return (
         <div>
             <div className=" flex flex-col items-center justify-center h-screen relative">
-                {/* <button
-                    className=" bg-blue-400 w-28 h-8 font-bold text-white rounded-sm hover:cursor-pointer"
-                    onClick={handleSignUp}
-                >
-                    Get started
-                </button> */}
                 <Button variant={"myButton"} onClick={handleSignUp} size={"lg"}>
                     <div className=" font-bold text-md text-white ">
                         Get Started

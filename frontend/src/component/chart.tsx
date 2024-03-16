@@ -70,23 +70,35 @@ interface prop {
 
 export default function Chart(props: prop) {
     const [convertedData, setConvertedData] = useState([]);
+    let lineColor: string;
+    let areaTopColor: string;
+    let areaBottomColor: string;
+    if (convertedData[0] - convertedData[convertedData.length - 1] > 0) {
+        lineColor = "rgba(255, 123, 94, 1)";
+        areaTopColor = "rgba(255, 123, 94, 0.25)";
+        areaBottomColor = "rgba(255, 123, 94, 0.1)";
+    } else {
+        lineColor = "#70bfaa";
+        areaTopColor = "rgba(52, 235, 140,0.25)";
+        areaBottomColor = "rgba(52, 235, 140,0)";
+    }
     const chartProps = {
         colors: {
             backgroundColor: "#121212",
-            lineColor: "#FF5733",
+            lineColor: lineColor,
             textColor: "white",
-            areaTopColor: "rgba(255, 123, 94, 0.5)",
-            areaBottomColor: "rgba(255, 87, 51, 0.28)",
+            areaTopColor: areaTopColor,
+            areaBottomColor: areaBottomColor,
         },
         grid: {
             vertLines: {
-                color: "#2B2B43",
+                color: "#121212",
             },
             horzLines: {
-                color: "#363C4E",
+                color: "#121212",
             },
         },
-    };
+    };  
     const [ticker, setTicker] = useState("");
     const count = useRef(0);
 
@@ -105,27 +117,27 @@ export default function Chart(props: prop) {
         setFrame(props.timeFrame);
     }, [props.timeFrame]);
 
-
     const inputData: any = useRef([]);
-    const formattedData : any = useRef([]);
+    const formattedData: any = useRef([]);
+
+    console.log(formattedData);
 
     useEffect(() => {
-        
         console.log("inside useEffect");
         const fetchData = async () => {
             try {
                 // const url =
                 //     `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_KEY_2}`;
                 // const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`;
-                
+
                 if (inputData.current.length === 0) {
                     const url =
                         "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo";
-                   
+
                     const response = await axios.get(url, {
                         headers: { "User-Agent": "axios" },
                     });
-                    
+
                     inputData.current = response.data;
                     // console.log(inputData.current);
                     //transform the data from the api to your required data
@@ -142,10 +154,7 @@ export default function Chart(props: prop) {
                                 ]
                             ),
                         });
-                        
-    
                     });
-                    
                 }
 
                 if (formattedData.current.length > 0) {
@@ -159,10 +168,14 @@ export default function Chart(props: prop) {
                         setConvertedData(formattedData30Days.reverse());
                     } else if (frame == "1Y") {
                         console.log("inside 1Y");
-                        const formattedData365Days = formattedData.current.slice(
-                            0,
-                            365
-                        );
+                        const formattedData365Days =
+                            formattedData.current.slice(0, 365);
+
+                        setConvertedData(formattedData365Days.reverse());
+                    } else if (frame == "3Y") {
+                        console.log("inside 1Y");
+                        const formattedData365Days =
+                            formattedData.current.slice(0, 356 * 3);
 
                         setConvertedData(formattedData365Days.reverse());
                     } else {
