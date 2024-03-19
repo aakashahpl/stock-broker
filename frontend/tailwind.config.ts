@@ -20,6 +20,7 @@ const config = {
     extend: {
       colors: {
         myBorder:"rgba(63,63,65,0.7)",
+        myBackground:"#121212",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

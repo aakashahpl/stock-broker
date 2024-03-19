@@ -44,7 +44,7 @@ const Hero = () => {
     const handleFormData = async (data: any) => {
         console.log(data);
         await loginUser(data);
-        router.push("/explore");
+        router.push("/stock/IBM");
     };
 
     const form = useForm<z.infer<typeof formSchema>>({

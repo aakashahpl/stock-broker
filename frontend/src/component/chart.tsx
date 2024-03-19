@@ -126,11 +126,10 @@ export default function Chart(props: prop) {
         console.log("inside useEffect");
         const fetchData = async () => {
             try {
-                // const url =
-                //     `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${process.env.ALPHA_VANTAGE_KEY_2}`;
-                // const url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`;
-
+                
                 if (inputData.current.length === 0) {
+                    // const url =
+                    //     `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&outputsize=full&apikey=${process.env.ALPHA_VANTAGE_KEY_2}`;
                     const url =
                         "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo";
 

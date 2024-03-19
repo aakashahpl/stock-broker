@@ -4,6 +4,7 @@ import { CiWallet } from "react-icons/ci";
 import { BsCart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { useState, useRef } from "react";
+import { IoSearchSharp } from "react-icons/io5";
 import { useUser } from "./context/userContext";
 import axios from "axios";
 import { RiH1 } from "react-icons/ri";
@@ -79,9 +80,11 @@ function Navbar() {
             </div>
 
             <div className=" flex-[1.5]  h-full flex items-center justify-center  relative">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="flex flex-row justify-center items-center gap-2 border-[1px] border-myBorder px-4 py-1 rounded-lg">
+                <IoSearchSharp size={20} />
                     <input
-                        className=" text-black border-"
+                        
+                        className=" text-white bg-myBackground border-myBorder  focus:border-transparent outline-none "
                         type="text"
                         // value={inputValue.current}
                         onChange={handleChange}
