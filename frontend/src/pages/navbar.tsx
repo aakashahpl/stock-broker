@@ -4,10 +4,13 @@ import { CiWallet } from "react-icons/ci";
 import { BsCart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { useState, useRef } from "react";
+import { IoSearchSharp } from "react-icons/io5";
+import { useUser } from "./context/userContext";
 import axios from "axios";
 import { RiH1 } from "react-icons/ri";
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 function Navbar() {
     // const [inputValue, setInputValue] = useState("");
@@ -18,7 +21,8 @@ function Navbar() {
         inputValue.current = event.target.value;
         // Manually update the input field's value
     };
-
+    const { user } = useUser();
+    console.log(user);
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         console.log(inputValue.current); // Do whatever you want with the input value
@@ -54,18 +58,37 @@ function Navbar() {
     };
 
     return (
-        <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-20 h-16">
-      <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
-        <Image width={230} height={230} src="/nookLogo.png" alt="" priority={false} />
-    </div>
+        <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-20 h-16 border-myBorder ">
+            <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
+                <Image
+                    width={230}
+                    height={230}
+                    src="/nookLogo.png"
+                    alt=""
+                    priority={false}
+                />
+                <div>
+                    {user ? (
+                        <Link
+                            href={`/explore`}
+                            className=" text-neutral-100 font-medium hover:cursor-pointer"
+                        >
+                            Explore
+                        </Link>
+                    ) : null}
+                </div>
+            </div>
+
             <div className=" flex-[1.5]  h-full flex items-center justify-center  relative">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="flex flex-row justify-center items-center gap-2 border-[1px] border-myBorder px-4 py-1 rounded-lg">
+                <IoSearchSharp size={20} />
                     <input
-                        className=" text-black border-"
+                        
+                        className=" text-white bg-myBackground border-myBorder  focus:border-transparent outline-none "
                         type="text"
                         // value={inputValue.current}
                         onChange={handleChange}
-                        placeholder="Enter something..."
+                        placeholder="Enter stock symbol"
                     />
                     {/* No explicit submit button, pressing Enter in the input field will trigger form submission */}
                 </form>
@@ -88,20 +111,30 @@ function Navbar() {
                     ) : null}
                 </div>
             </div>
-            <div className=" flex-[1] flex flex-row justify-center items-center ">
-                <div className=" px-4">
-                    <IoIosNotificationsOutline size={22} />
+            {user === null ? (
+                <div className=" flex-1 ">
+                    <Button variant={"myButton"} type="submit">
+                        <div className=" font-bold text-md text-white ">
+                            Login/Register
+                        </div>
+                    </Button>
                 </div>
-                <div className=" px-4">
-                    <CiWallet size={22} />
+            ) : (
+                <div className=" flex-[1] flex flex-row justify-center items-center ">
+                    <div className=" px-4">
+                        <IoIosNotificationsOutline size={22} />
+                    </div>
+                    <div className=" px-4">
+                        <CiWallet size={22} />
+                    </div>
+                    <div className=" px-4">
+                        <BsCart size={22} />
+                    </div>
+                    <div className=" px-4">
+                        <CgProfile size={22} />
+                    </div>
                 </div>
-                <div className=" px-4">
-                    <BsCart size={22} />
-                </div>
-                <div className=" px-4">
-                    <CgProfile size={22} />
-                </div>
-            </div>
+            )}
         </div>
     );
 }
