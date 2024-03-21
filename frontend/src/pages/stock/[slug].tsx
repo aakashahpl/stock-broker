@@ -5,6 +5,17 @@ import { useRouter } from "next/router";
 import { useUser } from "../context/userContext";
 import axios from "axios";
 import Image from "next/image";
+import {
+    AlertDialog,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 function BasicComponent() {
     const [timeFrame, setTimeFrame] = useState("1M");
@@ -26,8 +37,7 @@ function BasicComponent() {
         { value: "3Y", label: "3Y" },
     ];
 
-
-    const [stockData,setStockData] =  useState({});
+    const [stockData, setStockData] = useState({});
     useEffect(() => {
         const apiUrl = `https://api.finnhub.io/api/v1/stock/profile2?symbol=${slug}&token=cns5e01r01qmmmfkrc8gcns5e01r01qmmmfkrc90`;
 
@@ -45,9 +55,7 @@ function BasicComponent() {
         fetchData();
     }, [slug]);
 
-
-
-    const [option,setOption] = useState("buy");
+    const [option, setOption] = useState("buy");
     return (
         <div>
             {/* <div className="text-white text-8xl">{user.email}</div> */}
@@ -64,7 +72,9 @@ function BasicComponent() {
                                 style={{ opacity: 0.4 }}
                             />
                         </div>
-                        <div className=" text-3xl font-semibold">{stockData.name}</div>
+                        <div className=" text-3xl font-semibold">
+                            {stockData.name}
+                        </div>
                     </div>
                     <Chart ticker={slug} timeFrame={timeFrame} />
                     <div className=" flex flex-row justify-around w-full h-32  mt-4 border-t-[1px] border-myBorder pt-2">
@@ -103,12 +113,35 @@ function BasicComponent() {
                     </div>
                     <div className="flex-[6] ">
                         <div className=" flex flex-row justify-start items-center gap-2 px-2 h-12">
-                        <button className=" focus:bg-[#10362d] focus:text-[#0ba782] font-semibold bg-myBg text-white text-xs rounded-full bg-[#252525] px-3 py-2 ">
-                            Delivery
-                        </button>
-                        <button className="focus:bg-[#10362d] focus:text-[#0ba782] font-semibold bg-myBg text-white text-xs rounded-full bg-[#252525] px-3 py-2">
-                            Intraday
-                        </button>
+                            <button className=" focus:bg-[#10362d] focus:text-[#0ba782] font-semibold bg-myBg text-white text-xs rounded-full bg-[#252525] px-3 py-2 ">
+                                Delivery
+                            </button>
+                            <AlertDialog>
+                                <AlertDialogTrigger>
+                                    <div className="focus:bg-[#10362d] focus:text-[#0ba782] font-semibold bg-myBg text-white text-xs rounded-full bg-[#252525] px-3 py-2">Intraday</div>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Intraday Coming Soon
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            The feature will be available soon
+                                            Nook .
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                            <Button
+                                                variant={"myButton"}
+                                                size={"xl"}
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </AlertDialogCancel>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
                         </div>
                     </div>
                     <div className="flex-[2.5] border-t-[1px] mx-2 border-myBorder "></div>

@@ -12,6 +12,15 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 function Navbar() {
     // const [inputValue, setInputValue] = useState("");
     const [searchData, setSearchData] = useState(0);
@@ -58,7 +67,7 @@ function Navbar() {
     };
 
     return (
-        <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-20 h-16 border-myBorder ">
+        <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-18 h-16 border-myBorder ">
             <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
                 <Image
                     width={230}
@@ -80,10 +89,12 @@ function Navbar() {
             </div>
 
             <div className=" flex-[1.5]  h-full flex items-center justify-center  relative">
-                <form onSubmit={handleSubmit} className="flex flex-row justify-center items-center gap-2 border-[1px] border-myBorder px-4 py-1 rounded-lg">
-                <IoSearchSharp size={20} />
+                <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-row justify-center items-center gap-2 border-[1px] border-myBorder px-4 py-1 rounded-lg"
+                >
+                    <IoSearchSharp size={20} />
                     <input
-                        
                         className=" text-white bg-myBackground border-myBorder  focus:border-transparent outline-none "
                         type="text"
                         // value={inputValue.current}
@@ -131,7 +142,21 @@ function Navbar() {
                         <BsCart size={22} />
                     </div>
                     <div className=" px-4">
-                        <CgProfile size={22} />
+                        <DropdownMenu>
+                            <DropdownMenuTrigger><CgProfile size={22} /></DropdownMenuTrigger>
+                            <DropdownMenuContent>
+                                <DropdownMenuLabel>
+                                    My Account
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem>Profile</DropdownMenuItem>
+                                <DropdownMenuItem>Billing</DropdownMenuItem>
+                                <DropdownMenuItem>Team</DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    Subscription
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
             )}
