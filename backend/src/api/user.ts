@@ -7,6 +7,27 @@ import userModel from "../model/user";
 
 const Router = express.Router();
 
+Router.get("/balance", verifyToken, async (req: any, res: any) => {
+    try {
+        // console.log("inside balance get");
+        // const cookies = req.cookies.authorization;
+        // console.log(cookies);
+        const userId = req.user.user._id;
+        console.log(userId);
+        const user:any = await userModel.findById(userId);
+        console.log(user.balances);
+        return res
+            .status(200)
+            .json({
+                success: true,
+                balance: user.balances,
+                message: "balance updated",
+            });
+    } catch (error: any) {
+        return res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 Router.post("/register", async (req, res) => {
     try {
         console.log(req.body);
@@ -70,17 +91,21 @@ Router.post("/login", async (req, res, next) => {
 
 Router.get("/logout", (req, res) => {});
 
-Router.put("/balance", verifyToken, async(req: any, res: any) => {
+Router.put("/balance", verifyToken, async (req: any, res: any) => {
     try {
-        const userId = req.user.user._id
+        const userId = req.user.user._id;
         const updatedUser = await userModel.findOneAndUpdate(
-            { _id:userId },
+            { _id: userId },
             { balances: req.body.balances }
         );
         return res
             .status(200)
-            .json({ success:true,user: updatedUser, message: "balance updated" });
-    } catch (error:any) {
+            .json({
+                success: true,
+                user: updatedUser,
+                message: "balance updated",
+            });
+    } catch (error: any) {
         return res.status(500).json({ success: false, error: error.message });
     }
 });
