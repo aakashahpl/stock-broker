@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import connectToDB from "./db";
 import route1 from "./api/frontPage";
 import userRoute from "./api/user";
+import orderRoute from "./api/order";
 import cors from "cors";
 
 import passport from "passport";
@@ -16,6 +17,7 @@ app.use(passport.initialize());
 app.use(cors());
 app.use("/frontPage",route1);
 app.use("/user",userRoute);
+app.use("/order",orderRoute);
 
 connectToDB();
 const PORT = process.env.PORT||3001;

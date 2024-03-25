@@ -4,9 +4,15 @@ import passport from "passport";
 import passportLocalMongoose from "passport-local-mongoose";
 dotenv.config();
 
+
+
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
+    balances:{
+        type: Map,
+        of: Number 
+    }
 });
 userSchema.plugin(passportLocalMongoose);
 
