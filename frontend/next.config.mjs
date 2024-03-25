@@ -3,7 +3,23 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['zerodha.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'zerodha.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'static2.finnhub.io',
+        pathname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '**',
+      },
+    ],
   },
 };
 

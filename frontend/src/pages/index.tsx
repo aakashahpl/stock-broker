@@ -8,6 +8,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
+import Cookies from "universal-cookie";
+import axios from "axios";
+import cors from "cors";
 import {
     Form,
     FormControl,
@@ -23,13 +26,14 @@ import { useUser } from "./context/userContext";
 import { redirect } from "next/dist/server/api-utils";
 
 const Hero = () => {
+    const cookies = new Cookies();
     const { loginUser, user } = useUser();
     const [signUp, setSignUp] = useState(false);
 
     const router = useRouter();
 
     const formSchema = z.object({
-        email: z.string().email({
+        username: z.string().email({
             message: "Invalid email format.",
         }),
         password: z.string().min(2, {
@@ -42,30 +46,68 @@ const Hero = () => {
     };
 
     const handleFormData = async (data: any) => {
-        console.log(data);
-        await loginUser(data);
-        router.push("/stock/IBM");
+        // console.log(data);
+        const userLogin = async () => {
+            try {
+                // console.log(data);
+                const response = await axios.post(
+                    "http://localhost:3001/user/login",
+                    data
+                );
+                // console.log(response.data);
+                cookies.set("authorization", response.data, { path: "/" });
+                console.log(cookies.get("authorization"));
+                await loginUser(data);
+                router.push("/explore");
+            } catch (error: any) {
+                console.log(error);
+            }
+        };
+        userLogin();
     };
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "",
+            username: "",
             password: "",
         },
     });
 
     return (
         <div>
-            <div className=" flex flex-col items-center justify-center h-screen relative">
-                <Button variant={"myButton"} onClick={handleSignUp} size={"lg"}>
-                    <div className=" font-bold text-md text-white ">
-                        Get Started
+            <div className=" flex flex-col items-center justify-center h-screen relative bg-white">
+                <div className=" h-3/4 w-full  max-lg:px-5 flex flex-col justify-start items-center relative  ">
+                    <div className="text-center opacity-80">
+                        <p className="font-medium pb-3 text-8xl">
+                            All things finance,
+                            <br />
+                            right here.
+                        </p>
+                        <p className="text-xl pb-4 text-wrap py-2 font-md">
+                            Online platform to invest in stocks.
+                        </p>
                     </div>
-                </Button>
+                    <Button
+                        variant={"myButton"}
+                        onClick={handleSignUp}
+                        size={"lg"}
+                    >
+                        <div className=" font-bold text-md text-white ">
+                            Get Started
+                        </div>
+                    </Button>
+                    <div>
+                        <img
+                            className=" h-96 hover:h-80 transition-height duration-500 ease-in-out"
+                            src="https://zerodha.com/static/images/landing.png"
+                            alt=""
+                        />
+                    </div>
+                </div>
                 <div>
                     {signUp == true ? (
-                        <div className=" h-screen w-full bg-slate-500 bg-opacity-10 absolute top-0 left-0 flex justify-center ">
+                        <div className=" h-screen w-full bg-slate-600 bg-opacity-70 absolute top-0 left-0 flex justify-center ">
                             <div className=" flex flex-row absolute h-3/5 w-2/4 top-40 rounded-md overflow-hidden ">
                                 <div className=" bg-[#77c1ad] h-full w-1/2 ">
                                     <Image
@@ -117,7 +159,7 @@ const Hero = () => {
                                             >
                                                 <FormField
                                                     control={form.control}
-                                                    name="email"
+                                                    name="username"
                                                     render={({ field }) => (
                                                         <FormItem>
                                                             <FormControl>

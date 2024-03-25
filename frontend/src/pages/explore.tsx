@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { LineGraph } from "@groww-tech/react-charts";
+// import { LineGraph } from "@groww-tech/react-charts";
 const inter = Inter({ subsets: ["latin"] });
 import Link from "next/link";
 // import { Ap } from "./chart";
@@ -29,7 +29,7 @@ export default function Home() {
 
                 const data = response.data;
 
-                console.log(data.TopGainers);
+                // console.log(data.TopGainers);
 
                 // if(data.indexesData.SPX&&data.indexesData.IXIC&&data.indexesData.DJI){
 

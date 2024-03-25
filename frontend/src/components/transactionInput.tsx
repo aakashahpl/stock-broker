@@ -35,7 +35,7 @@ const TransactionInput = ({ currentStock }: any) => {
     };
 
     const [transactionType, setTransactionType] = useState("buy");
-    const changeTransactionType = (data) => {
+    const changeTransactionType = (data:string) => {
         setTransactionType(data);
     };
 
@@ -78,7 +78,7 @@ const TransactionInput = ({ currentStock }: any) => {
                                     Intraday Coming Soon
                                 </AlertDialogTitle>
                                 <AlertDialogDescription>
-                                    The feature will be available soon on Nook .
+                                    This feature will be available soon.
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
@@ -103,7 +103,7 @@ const TransactionInput = ({ currentStock }: any) => {
                                 <input
                                     className="w-28 bg-[#10362d] text-right border-none focus:outline-none text-[#0ba782] font-semibold rounded-sm"
                                     type="number"
-                                    inputMode="numeric"
+                                    
                                     {...register("firstNumber")}
                                 />
                                 {errors.firstNumber && (
@@ -116,6 +116,7 @@ const TransactionInput = ({ currentStock }: any) => {
                                     Price Limit
                                 </label>
                                 <input
+                                    inputMode="numeric"
                                     className=" w-28 bg-[#10362d] text-right focus:outline-none text-[#0ba782] font-semibold rounded-sm"
                                     type="number"
                                     {...register("secondNumber")}
@@ -129,7 +130,7 @@ const TransactionInput = ({ currentStock }: any) => {
                                     <div className=" font-semibold">BUY</div>
                                 </Button>
                             ) : (
-                                <Button variant={"outline"} size={"st"}>
+                                <Button variant={"destructive"} size={"st"}>
                                     <div className=" font-semibold">SELL</div>
                                 </Button>
                             )}

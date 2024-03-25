@@ -13,9 +13,9 @@ function BasicComponent() {
     const borderColor = "#2e2e2e";
     const router = useRouter();
     const { user } = useUser();
-    console.log(router.query.slug);
+    // console.log(router.query.slug);
     const [slug, setSlug] = useState(router.query.slug);
-    console.log(slug);
+    // console.log(slug);
 
     useEffect(() => {
         setSlug(router.query.slug);
@@ -31,14 +31,14 @@ function BasicComponent() {
     const [stockData, setStockData] = useState({});
     const [stockData2, setStockData2] = useState({});
     useEffect(() => {
-        const apiUrl = `https://api.finnhub.io/api/v1/stock/profile2?symbol=${slug}&token=${process.env.FINNHUB_API_KEY}`;
-        const apiUrl2 = `https://api.twelvedata.com/quote?symbol=AAPL&apikey=`;
+        const apiUrl = `https://api.finnhub.io/api/v1/stock/profile2?symbol=${slug}&token=cnv0m69r01qub9j05af0cnv0m69r01qub9j05afg`;
+        const apiUrl2 = `https://api.twelvedata.com/quote?symbol=AAPL&apikey=765204f9080943c8a1b8c253ce302ff9`;
         async function fetchData() {
             if (slug) {
                 try {
                     const response = await axios.get(apiUrl);
                     const response2 = await axios.get(apiUrl2);
-                    console.log("Data:", response.data);
+                    // console.log("Data:", response.data);
                     setStockData(response.data);
                     setStockData2(response2.data);
                 } catch (error) {
@@ -122,7 +122,6 @@ function BasicComponent() {
 
                     </div>
                 </div>
-
                 <TransactionInput currentStock={stockData} />
             </div>
         </div>
