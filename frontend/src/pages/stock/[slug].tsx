@@ -94,7 +94,7 @@ function BasicComponent() {
                         <h1 className="text-white">Performance</h1>
                         <FaCircleInfo />
                     </div>
-                    <div className=" grid grid-cols-4 grid-flow-row h-56 border">
+                    <div className=" grid grid-cols-4 grid-flow-row h-56 ">
                         <div>
                             <div>Open</div>
                             <div>{stockData2.open}</div>

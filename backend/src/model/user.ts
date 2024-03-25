@@ -10,8 +10,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     balances:{
-        type: Map,
-        of: Number 
+        type: mongoose.Schema.Types.Mixed
     }
 });
 userSchema.plugin(passportLocalMongoose);

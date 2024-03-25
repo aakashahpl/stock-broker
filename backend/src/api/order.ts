@@ -47,6 +47,34 @@ const tickerOrder: TickerOrders = {};
 
 // const asks: Order[] = [];
 
+const flipBalance = async (
+    userId1: string,
+    userId2: string,
+    quantity: number,
+    price: number,
+    ticker: string
+) => {
+    try {
+        let user1 = await userModel.findById(userId1);
+        let user2 = await userModel.findById(userId2);
+
+        if (!user1 || !user2) {
+            console.log("user1 or user2 not present");
+            return;
+        }
+
+        user1.balances[ticker] -= quantity;
+        user2.balances[ticker] += quantity;
+        user1.balances["USD"] += quantity * price;
+        user2.balances["USD"] -= quantity * price;
+
+        await user1.save();
+        await user2.save();
+    } catch (error) {
+        console.error("Error flipping balances:", error);
+    }
+};
+
 const fillOrders = (
     side: string,
     price: number,
@@ -57,36 +85,60 @@ const fillOrders = (
     try {
         let remainingQty = quantity;
         if (side === "bid") {
-            const currentAsks = tickerOrder[ticker].asks;
+            const currentAsks = tickerOrder[ticker].asks; //currentAsks is in ascending order
             for (let i = 0; i < currentAsks.length - 1; i++) {
                 if (currentAsks[i].price > price) {
                     break;
                 }
                 if (currentAsks[i].quantity > remainingQty) {
                     currentAsks[i].quantity -= remainingQty;
-                    // flipBalance();
+                    flipBalance(
+                        currentAsks[i].userId,
+                        userId,
+                        quantity,
+                        price,
+                        ticker
+                    );
                     remainingQty = 0;
                     return remainingQty;
                 } else {
                     remainingQty -= currentAsks[i].quantity;
-                    // flipBalance();
+                    flipBalance(
+                        currentAsks[i].userId,
+                        userId,
+                        quantity,
+                        price,
+                        ticker
+                    );
                     currentAsks.shift();
                 }
             }
             return remainingQty;
         } else {
-            const currentBids = tickerOrder[ticker].bids;
-            for (let i = 0; i<currentBids.length; i++) {
+            const currentBids = tickerOrder[ticker].bids; //currentBids is in descending order
+            for (let i = 0; i < currentBids.length; i++) {
                 if (price > currentBids[i].price) {
                     break;
                 }
                 if (currentBids[i].quantity > remainingQty) {
                     currentBids[i].quantity -= remainingQty;
-                    // flipBalance();
+                    flipBalance(
+                        userId,
+                        currentBids[i].userId,
+                        quantity,
+                        price,
+                        ticker
+                    );
                     return 0;
                 } else {
                     remainingQty -= currentBids[i].quantity;
-                    // flipBalance();
+                    flipBalance(
+                        userId,
+                        currentBids[i].userId,
+                        quantity,
+                        price,
+                        ticker
+                    );
                     currentBids.shift();
                 }
             }
@@ -96,14 +148,13 @@ const fillOrders = (
         console.log(error);
         return 0;
     }
-   
 };
 
-route.post("/place", verifyToken, (req: any, res: any) => {
+route.post("/place-order", verifyToken, (req: any, res: any) => {
     const side: string = req.body.side;
     const price: number = req.body.price;
     const quantity: number = req.body.quantity;
-    const userId: string = req.user._id;
+    const userId: string = req.user.user._id;
     const ticker: string = req.body.ticker;
 
     if (!tickerOrder[ticker]) {
@@ -113,7 +164,6 @@ route.post("/place", verifyToken, (req: any, res: any) => {
             asks: [],
         };
     }
-
     const remainingQty = fillOrders(side, price, quantity, userId, ticker);
 
     if (remainingQty == 0) {

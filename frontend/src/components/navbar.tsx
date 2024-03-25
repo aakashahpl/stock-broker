@@ -80,7 +80,7 @@ function Navbar() {
                     {user ? (
                         <Link
                             href={`/explore`}
-                            className=" text-neutral-100 font-medium hover:cursor-pointer"
+                            className=" text-neutral-100 font-semibold hover:cursor-pointer"
                         >
                             Explore
                         </Link>
