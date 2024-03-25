@@ -55,7 +55,7 @@ const Hero = () => {
                     data
                 );
                 // console.log(response.data);
-                cookies.set("authorization", response.data, { path: "/" });
+                cookies.set("authorization", response.data.accessToken, { path: "/" });
                 console.log(cookies.get("authorization"));
                 await loginUser(data);
                 router.push("/explore");
