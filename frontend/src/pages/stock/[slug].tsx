@@ -7,6 +7,8 @@ import axios from "axios";
 import Image from "next/image";
 import TransactionInput from "@/components/transactionInput";
 import { FaCircleInfo } from "react-icons/fa6";
+import { Button } from "@/components/ui/button";
+import { Divide } from "lucide-react";
 
 function BasicComponent() {
     const [timeFrame, setTimeFrame] = useState("1M");
@@ -49,13 +51,32 @@ function BasicComponent() {
         fetchData();
     }, [slug]);
 
+    const [orderBook, setOrderBook] = useState(false);
+    const [orderBookData, setOrderBookData] = useState({ bids: {}, asks: {} });
+    useEffect(() => {
+        const apiUrl = `http://localhost:3001/order/depth/AAPL`;
+        async function fetchData() {
+            if (slug) {
+                try {
+                    const response = await axios.get(apiUrl);
+                    if (Object.values(response.data.depth).length != 0)
+                        setOrderBookData(response.data.depth);
+                    console.log(response.data);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            }
+        }
+        fetchData();
+    }, [orderBook]);
+
     const [option, setOption] = useState("buy");
     return (
         <div>
             <div className=" text-white flex flex-row justify-center h-screen mt-10">
                 <div className="w-6/12 ">
                     <div className=" ">
-                        <div>
+                        <div className=" flex justify-between items-center">
                             <Image
                                 className=" overflow-hidden w-24 h-24"
                                 width={10}
@@ -64,31 +85,88 @@ function BasicComponent() {
                                 alt=""
                                 style={{ opacity: 0.4 }}
                             />
+                            {/* <div className=" float-right  flex justify-center items-center mr-10 border">OrderBook</div> */}
+                            <Button
+                                variant={"outline2"}
+                                className="  font-bold flex justify-center items-center px-10 text-sm"
+                                onClick={() => setOrderBook(!orderBook)}
+                            >
+
+                                {orderBook===false?(<>Order Book</> ):(<>Price Chart</>)}
+                            </Button>
                         </div>
                         <div className=" text-3xl font-semibold">
                             {stockData.name}
                         </div>
                     </div>
-                    <Chart ticker={slug} timeFrame={timeFrame} />
-                    <div className=" flex flex-row justify-around w-full h-32  mt-4 border-t-[1px] border-myBorder pt-2">
-                        <div className=" flex-[2] ">
-                            <div className=" max-w-fit border-[1px] border-myBorder p-2 rounded-md">
-                                NYSE
-                            </div>
-                        </div>
-                        <div className="flex-[5] flex flex-row gap-4">
-                            {timeFrames.map((timeframe) => (
-                                <div
-                                    key={timeframe.value}
-                                    className="max-w-fit border-[1px] border-myBorder py-2 px-4 h-min rounded-full font-bold hover:cursor-pointer"
-                                    onClick={() =>
-                                        setTimeFrame(timeframe.label)
-                                    }
-                                >
-                                    {timeframe.label}
+                    <div className=" h-3/5">
+                        {orderBook === false ? (
+                            <>
+                                <Chart ticker={slug} timeFrame={timeFrame} />
+                                <div className=" flex flex-row justify-around w-full h-32  mt-4 border-t-[1px] border-myBorder pt-2">
+                                    <div className=" flex-[2] ">
+                                        <div className=" max-w-fit border-[1px] border-myBorder p-2 rounded-md">
+                                            NYSE
+                                        </div>
+                                    </div>
+                                    <div className="flex-[5] flex flex-row gap-4">
+                                        {timeFrames.map((timeframe) => (
+                                            <div
+                                                key={timeframe.value}
+                                                className="max-w-fit border-[1px] border-myBorder py-2 px-4 h-min rounded-full font-bold hover:cursor-pointer"
+                                                onClick={() =>
+                                                    setTimeFrame(
+                                                        timeframe.label
+                                                    )
+                                                }
+                                            >
+                                                {timeframe.label}
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
-                            ))}
-                        </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="flex flex-row justify-between pt-10 font-medium text-xl">
+                                    <div>Price(USD)</div>
+                                    <div>Quantity</div>
+                                </div>
+                                <div>
+                                    {Object.values(orderBookData.bids)
+                                        .length != 0 ? (
+                                        Object.entries(orderBookData.bids).map(
+                                            ([price, data]) => (
+                                                <div
+                                                    key={price}
+                                                    className="flex flex-row justify-between w-full text-green-400 px-3 h-20 items-center border-b border-myBorder border-dashed"
+                                                >
+                                                    <div>{price}</div>
+                                                    <div>{data}</div>
+                                                </div>
+                                            )
+                                        )
+                                    ) : (
+                                        <div className=" font-bold text-xl pt-10 text-red-500">
+                                            No orders were placed for this stock
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    {Object.entries(orderBookData.asks).map(
+                                        ([price, data]) => (
+                                            <div
+                                                key={price}
+                                                className="flex flex-row justify-between w-full text-red-600 px-3 h-20 items-center border-b border-myBorder border-dashed"
+                                            >
+                                                <div>{price}</div>
+                                                <div>{data}</div>
+                                            </div>
+                                        )
+                                    )}
+                                </div>
+                            </>
+                        )}
                     </div>
                     <div className=" flex flex-row justify-start items-center gap-2 text-xl font-semibold">
                         <h1 className="text-white">Performance</h1>
@@ -119,7 +197,6 @@ function BasicComponent() {
                             <div>Lower Circuit</div>
                             <div>{stockData2.low}</div>
                         </div>
-
                     </div>
                 </div>
                 <TransactionInput currentStock={stockData} />
@@ -130,10 +207,8 @@ function BasicComponent() {
 
 export default BasicComponent;
 
-
-
-
-{/* <div className="performacePopup_popUpContainer__DPKnI">
+{
+    /* <div className="performacePopup_popUpContainer__DPKnI">
     <div className="absolute-center">
         <div className="absolute-center backgroundAccentSubtle performacePopup_infoWrap__kdOVV">
             <svg
@@ -222,4 +297,5 @@ export default BasicComponent;
             </div>
         </div>
     </div>
-</div> */}
+</div> */
+}
