@@ -21,6 +21,7 @@ const config = {
       colors: {
         myBorder:"rgba(63,63,65,0.7)",
         myBackground:"#121212",
+        myBackground2:"#10362d",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

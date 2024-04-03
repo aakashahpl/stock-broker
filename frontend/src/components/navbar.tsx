@@ -78,12 +78,20 @@ function Navbar() {
                 />
                 <div>
                     {user ? (
-                        <Link
-                            href={`/explore`}
-                            className=" text-neutral-100 font-semibold hover:cursor-pointer"
-                        >
-                            Explore
-                        </Link>
+                        <div className="gap-6 flex flex-row">
+                            <Link
+                                href={`/explore`}
+                                className=" text-neutral-100 font-semibold hover:cursor-pointer"
+                            >
+                                Explore
+                            </Link>
+                            <Link
+                                href={`/user/investments`}
+                                className=" text-neutral-100 font-semibold hover:cursor-pointer"
+                            >
+                                Investments
+                            </Link>
+                        </div>
                     ) : null}
                 </div>
             </div>
@@ -143,7 +151,9 @@ function Navbar() {
                     </div>
                     <div className=" px-4">
                         <DropdownMenu>
-                            <DropdownMenuTrigger><CgProfile size={22} /></DropdownMenuTrigger>
+                            <DropdownMenuTrigger>
+                                <CgProfile size={22} />
+                            </DropdownMenuTrigger>
                             <DropdownMenuContent>
                                 <DropdownMenuLabel>
                                     My Account

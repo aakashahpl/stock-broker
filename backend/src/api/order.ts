@@ -192,35 +192,41 @@ route.post("/place-order", verifyToken, (req: any, res: any) => {
 });
 
 route.get("/depth/:ticker", (req: any, res: any) => {
-    const ticker: string = req.query.ticker;
+    const ticker: string = req.params.ticker;
+    console.log(ticker);
     const depth: {
-        [price: string]: {
-            type: "bid" | "ask";
-            quantity: number;
+        bids: {
+            [price: string]: number;
         };
-    } = {};
+        asks: {
+            [price: string]: number;
+        };
+    } = {
+        bids: {},
+        asks: {},
+    };
+    if (!tickerOrder[ticker]) {
+        console.log(tickerOrder);
+        return res.json({});
+    }
     const tickerBids = tickerOrder[ticker].bids;
     const tickerAsks = tickerOrder[ticker].asks;
 
     for (let i = 0; i < tickerBids.length; i++) {
-        if (!depth[tickerBids[i].price]) {
-            depth[tickerBids[i].price] = {
-                quantity: tickerBids[i].quantity,
-                type: "bid",
-            };
+        if (!depth.bids[tickerBids[i].price]) {
+            depth.bids[tickerBids[i].price] = tickerBids[i].quantity;
         } else {
-            depth[tickerBids[i].price].quantity += tickerBids[i].quantity;
-        }
-
-        if (!depth[tickerAsks[i].price]) {
-            depth[tickerAsks[i].price] = {
-                quantity: tickerAsks[i].quantity,
-                type: "ask",
-            };
-        } else {
-            depth[tickerAsks[i].price].quantity += tickerAsks[i].quantity;
+            depth.bids.price += tickerBids[i].quantity;
         }
     }
+    for (let i = 0; i < tickerAsks.length; i++) {
+        if (!depth.asks[tickerAsks[i].price]) {
+            depth.asks[tickerAsks[i].price] = tickerAsks[i].quantity;
+        } else {
+            depth.asks[tickerAsks[i].price] += tickerAsks[i].quantity;
+        }
+    }
+
     return res.json({
         depth,
     });

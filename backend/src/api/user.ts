@@ -21,7 +21,6 @@ Router.get("/balance", verifyToken, async (req: any, res: any) => {
             .json({
                 success: true,
                 balance: user.balances,
-                message: "balance updated",
             });
     } catch (error: any) {
         return res.status(500).json({ success: false, error: error.message });
