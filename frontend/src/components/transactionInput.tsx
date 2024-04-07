@@ -1,6 +1,7 @@
 import React from "react";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import axios from "axios";
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -14,28 +15,72 @@ import {
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 const schema = z.object({
-    firstNumber: z.number(),
-    secondNumber: z.number(),
+    firstNumber: z.string(),
+    secondNumber: z.string(),
 });
+type FormFields = z.infer<typeof schema>;
 
 const TransactionInput = ({ currentStock }: any) => {
+    const [transactionType, setTransactionType] = useState("buy");
+    const [orderDetails, setOrderDetails] = useState({});
+
+    // useEffect(() => {
+    //     const URL = "http://localhost:3001/order/place-order";
+    //     // const setOrder = (data: any) => {};
+    //     async function fetchData() {
+    //         try {
+    //             const data = {
+    //                 side: "ask",
+    //                 price: 34,
+    //                 quantity: 2,
+    //                 ticker: "AAPL",
+    //             };
+
+    //             const response = await axios.post(URL, data, {
+    //                 withCredentials: true,
+    //             });
+    //             console.log(response.data);
+    //         } catch (error) {
+    //             console.error("Error placing order:", error);
+    //         }
+    //     }
+    //     fetchData();
+    // }, [orderDetails]);
+
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({
+    } = useForm<FormFields>({
         resolver: zodResolver(schema),
     });
-
-    const onSubmit = (data: any) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<FormFields> = async (data:any) => {
+        const URL = "http://localhost:3001/order/place-order";
+   
+        async function fetchData() {
+            try {
+                const side = transactionType==="buy"?"bid":"ask";
+                const orderData = {
+                    side: side,
+                    price: Number(data.secondNumber),
+                    quantity: Number(data.firstNumber),
+                    ticker: "AAPL",
+                };
+                const response = await axios.post(URL, orderData, {
+                    withCredentials: true,
+                });
+                console.log(response.data);
+            } catch (error) {
+                console.error("Error placing order:", error);
+            }
+        }
+        fetchData();
     };
 
-    const [transactionType, setTransactionType] = useState("buy");
-    const changeTransactionType = (data:string) => {
+    const changeTransactionType = (data: string) => {
         setTransactionType(data);
     };
 
@@ -99,11 +144,9 @@ const TransactionInput = ({ currentStock }: any) => {
                         <div className=" h-[75%] flex flex-col gap-3">
                             <div className=" flex flex-row justify-between items-center ">
                                 <label htmlFor="firstNumber">Qty</label>
-
                                 <input
-                                    className="w-28 bg-[#10362d] text-right border-none focus:outline-none text-[#0ba782] font-semibold rounded-sm"
+                                    className="w-28 bg-[#10362d] text-right border-none focus:outline-none text-[#0ba782] font-semibold rounded-sm px-2"
                                     type="number"
-                                    
                                     {...register("firstNumber")}
                                 />
                                 {errors.firstNumber && (
@@ -116,21 +159,29 @@ const TransactionInput = ({ currentStock }: any) => {
                                     Price Limit
                                 </label>
                                 <input
-                                    inputMode="numeric"
-                                    className=" w-28 bg-[#10362d] text-right focus:outline-none text-[#0ba782] font-semibold rounded-sm"
+                                    className=" w-28 bg-[#10362d] text-right focus:outline-none text-[#0ba782] font-semibold rounded-sm px-2"
                                     type="number"
                                     {...register("secondNumber")}
                                 />
                                 {errors.secondNumber && <></>}
                             </div>
+                            {/* <button type="submit">Buy</button> */}
                         </div>
                         <div className=" border-t-[1px] mx-2 border-myBorder flex justify-center items-center  h-[25%] ">
                             {transactionType === "buy" ? (
-                                <Button variant={"myButton"} size={"st"}>
+                                <Button
+                                    variant={"myButton"}
+                                    size={"st"}
+                                    type="submit"
+                                >
                                     <div className=" font-semibold">BUY</div>
                                 </Button>
                             ) : (
-                                <Button variant={"destructive"} size={"st"}>
+                                <Button
+                                    variant={"destructive"}
+                                    size={"st"}
+                                    type="submit"
+                                >
                                     <div className=" font-semibold">SELL</div>
                                 </Button>
                             )}
