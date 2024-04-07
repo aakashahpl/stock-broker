@@ -11,204 +11,192 @@ import { Button } from "@/components/ui/button";
 import { Divide } from "lucide-react";
 
 function BasicComponent() {
-    const [timeFrame, setTimeFrame] = useState("1M");
-    const borderColor = "#2e2e2e";
-    const router = useRouter();
-    const { user } = useUser();
-    // console.log(router.query.slug);
-    const [slug, setSlug] = useState(router.query.slug);
-    // console.log(slug);
+  const [timeFrame, setTimeFrame] = useState("1M");
+  const borderColor = "#2e2e2e";
+  const router = useRouter();
+  const { user } = useUser();
+  // console.log(router.query.slug);
+  const [slug, setSlug] = useState(router.query.slug);
+  // console.log(slug);
 
-    useEffect(() => {
-        setSlug(router.query.slug);
-    }, [router.query.slug]);
+  useEffect(() => {
+    setSlug(router.query.slug);
+  }, [router.query.slug]);
 
-    const timeFrames = [
-        { value: "1D", label: "1D" },
-        { value: "1M", label: "1M" },
-        { value: "1Y", label: "1Y" },
-        { value: "3Y", label: "3Y" },
-    ];
+  const timeFrames = [
+    { value: "1D", label: "1D" },
+    { value: "1M", label: "1M" },
+    { value: "1Y", label: "1Y" },
+    { value: "3Y", label: "3Y" },
+  ];
 
-    const [stockData, setStockData] = useState({});
-    const [stockData2, setStockData2] = useState({});
-    useEffect(() => {
-        const apiUrl = `https://api.finnhub.io/api/v1/stock/profile2?symbol=${slug}&token=cnv0m69r01qub9j05af0cnv0m69r01qub9j05afg`;
-        const apiUrl2 = `https://api.twelvedata.com/quote?symbol=AAPL&apikey=765204f9080943c8a1b8c253ce302ff9`;
-        async function fetchData() {
-            if (slug) {
-                try {
-                    const response = await axios.get(apiUrl);
-                    const response2 = await axios.get(apiUrl2);
-                    // console.log("Data:", response.data);
-                    setStockData(response.data);
-                    setStockData2(response2.data);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                }
-            }
+  const [stockData, setStockData] = useState({});
+  const [stockData2, setStockData2] = useState({});
+  useEffect(() => {
+    const apiUrl = `https://api.finnhub.io/api/v1/stock/profile2?symbol=${slug}&token=cnv0m69r01qub9j05af0cnv0m69r01qub9j05afg`;
+    const apiUrl2 = `https://api.twelvedata.com/quote?symbol=AAPL&apikey=765204f9080943c8a1b8c253ce302ff9`;
+    async function fetchData() {
+      if (slug) {
+        try {
+          const response = await axios.get(apiUrl);
+          const response2 = await axios.get(apiUrl2);
+          // console.log("Data:", response.data);
+          setStockData(response.data);
+          setStockData2(response2.data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
         }
-        fetchData();
-    }, [slug]);
+      }
+    }
+    fetchData();
+  }, [slug]);
 
-    const [orderBook, setOrderBook] = useState(false);
-    const [orderBookData, setOrderBookData] = useState({ bids: {}, asks: {} });
-    useEffect(() => {
-        const apiUrl = `http://localhost:3001/order/depth/AAPL`;
-        async function fetchData() {
-            if (slug) {
-                try {
-                    const response = await axios.get(apiUrl);
-                    if (Object.values(response.data.depth).length != 0)
-                        setOrderBookData(response.data.depth);
-                    console.log(response.data);
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                }
-            }
+  const [orderBook, setOrderBook] = useState(false);
+  const [orderBookData, setOrderBookData] = useState({ bids: {}, asks: {} });
+  useEffect(() => {
+    const apiUrl = `http://localhost:3001/order/depth/AAPL`;
+    async function fetchData() {
+      if (slug) {
+        try {
+          const response = await axios.get(apiUrl);
+          if (Object.values(response.data.depth).length != 0)
+            setOrderBookData(response.data.depth);
+          console.log(response.data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
         }
-        fetchData();
-    }, [orderBook]);
+      }
+    }
+    fetchData();
+  }, [orderBook]);
 
-    const [option, setOption] = useState("buy");
-    return (
-        <div>
-            <div className=" text-white flex flex-row justify-center h-screen mt-10">
-                <div className="w-6/12 ">
-                    <div className=" ">
-                        <div className=" flex justify-between items-center">
-                            <Image
-                                className=" overflow-hidden w-24 h-24"
-                                width={10}
-                                height={10}
-                                src={stockData.logo}
-                                alt=""
-                                style={{ opacity: 0.4 }}
-                            />
-                            {/* <div className=" float-right  flex justify-center items-center mr-10 border">OrderBook</div> */}
-                            <Button
-                                variant={"outline2"}
-                                className="  font-bold flex justify-center items-center px-10 text-sm"
-                                onClick={() => setOrderBook(!orderBook)}
-                            >
-
-                                {orderBook===false?(<>Order Book</> ):(<>Price Chart</>)}
-                            </Button>
-                        </div>
-                        <div className=" text-3xl font-semibold">
-                            {stockData.name}
-                        </div>
-                    </div>
-                    <div className=" h-3/5">
-                        {orderBook === false ? (
-                            <>
-                                <Chart ticker={slug} timeFrame={timeFrame} />
-                                <div className=" flex flex-row justify-around w-full h-32  mt-4 border-t-[1px] border-myBorder pt-2">
-                                    <div className=" flex-[2] ">
-                                        <div className=" max-w-fit border-[1px] border-myBorder p-2 rounded-md">
-                                            NYSE
-                                        </div>
-                                    </div>
-                                    <div className="flex-[5] flex flex-row gap-4">
-                                        {timeFrames.map((timeframe) => (
-                                            <div
-                                                key={timeframe.value}
-                                                className="max-w-fit border-[1px] border-myBorder py-2 px-4 h-min rounded-full font-bold hover:cursor-pointer"
-                                                onClick={() =>
-                                                    setTimeFrame(
-                                                        timeframe.label
-                                                    )
-                                                }
-                                            >
-                                                {timeframe.label}
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <div className="flex flex-row justify-between pt-10 font-medium text-xl">
-                                    <div>Price(USD)</div>
-                                    <div>Quantity</div>
-                                </div>
-                                <div>
-                                    {Object.values(orderBookData.bids)
-                                        .length != 0 ? (
-                                        Object.entries(orderBookData.bids).map(
-                                            ([price, data]) => (
-                                                <div
-                                                    key={price}
-                                                    className="flex flex-row justify-between w-full text-green-400 px-3 h-20 items-center border-b border-myBorder border-dashed"
-                                                >
-                                                    <div>{price}</div>
-                                                    <div>{data}</div>
-                                                </div>
-                                            )
-                                        )
-                                    ) : (
-                                        <div className=" font-bold text-xl pt-10 text-red-500">
-                                            No orders were placed for this stock
-                                        </div>
-                                    )}
-                                </div>
-                                <div>
-                                    {Object.entries(orderBookData.asks).map(
-                                        ([price, data]) => (
-                                            <div
-                                                key={price}
-                                                className="flex flex-row justify-between w-full text-red-600 px-3 h-20 items-center border-b border-myBorder border-dashed"
-                                            >
-                                                <div>{price}</div>
-                                                <div>{data}</div>
-                                            </div>
-                                        )
-                                    )}
-                                </div>
-                            </>
-                        )}
-                    </div>
-                    <div className=" flex flex-row justify-start items-center gap-2 text-xl font-semibold">
-                        <h1 className="text-white">Performance</h1>
-                        <FaCircleInfo />
-                    </div>
-                    <div className=" grid grid-cols-4 grid-flow-row h-56 ">
-                        <div>
-                            <div>Open</div>
-                            <div>{stockData2.open}</div>
-                        </div>
-                        <div>
-                            <div>Prev. Close</div>
-                            <div>{stockData2.previous_close}</div>
-                        </div>
-                        <div>
-                            <div>Volume</div>
-                            <div>{stockData2.volume}</div>
-                        </div>
-                        <div>
-                            <div>Total traded value</div>
-                            <div>{stockData2.volume}</div>
-                        </div>
-                        <div>
-                            <div>Upper Circuit</div>
-                            <div>{stockData2.high}</div>
-                        </div>
-                        <div>
-                            <div>Lower Circuit</div>
-                            <div>{stockData2.low}</div>
-                        </div>
-                    </div>
-                </div>
-                <TransactionInput currentStock={stockData} />
+  const [option, setOption] = useState("buy");
+  return (
+    <div>
+      <div className=" text-white flex flex-row justify-center h-screen mt-10">
+        <div className="w-6/12 ">
+          <div className=" ">
+            <div className=" flex justify-between items-center">
+              <Image
+                className=" overflow-hidden w-24 h-24"
+                width={10}
+                height={10}
+                src={stockData.logo}
+                alt=""
+                style={{ opacity: 0.4 }}
+              />
+              {/* <div className=" float-right  flex justify-center items-center mr-10 border">OrderBook</div> */}
+              <Button
+                variant={"outline2"}
+                className="  font-bold flex justify-center items-center px-10 text-sm"
+                onClick={() => setOrderBook(!orderBook)}
+              >
+                {orderBook === false ? <>Order Book</> : <>Price Chart</>}
+              </Button>
             </div>
+            <div className=" text-3xl font-semibold">{stockData.name}</div>
+          </div>
+          <div className=" h-3/5">
+            {orderBook === false ? (
+              <>
+                {/* <Chart ticker={slug} timeFrame={timeFrame} /> */}
+                <div className=" flex flex-row justify-around w-full h-32  mt-4 border-t-[1px] border-myBorder pt-2">
+                  <div className=" flex-[2] ">
+                    <div className=" max-w-fit border-[1px] border-myBorder p-2 rounded-md">
+                      NYSE
+                    </div>
+                  </div>
+                  <div className="flex-[5] flex flex-row gap-4">
+                    {timeFrames.map((timeframe) => (
+                      <div
+                        key={timeframe.value}
+                        className="max-w-fit border-[1px] border-myBorder py-2 px-4 h-min rounded-full font-bold hover:cursor-pointer"
+                        onClick={() => setTimeFrame(timeframe.label)}
+                      >
+                        {timeframe.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-row justify-between pt-10 font-medium text-xl">
+                  <div>Price(USD)</div>
+                  <div>Quantity</div>
+                </div>
+                <div>
+                  {Object.values(orderBookData.bids).length != 0 ? (
+                    Object.entries(orderBookData.bids).map(([price, data]) => (
+                      <div
+                        key={price}
+                        className="flex flex-row justify-between w-full text-green-400 px-3 h-20 items-center border-b border-myBorder border-dashed"
+                      >
+                        <div>{price}</div>
+                        <div>{data}</div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className=" font-bold text-xl pt-10 text-red-500">
+                      No orders were placed for this stock
+                    </div>
+                  )}
+                </div>
+                <div>
+                  {Object.entries(orderBookData.asks).map(([price, data]) => (
+                    <div
+                      key={price}
+                      className="flex flex-row justify-between w-full text-red-600 px-3 h-20 items-center border-b border-myBorder border-dashed"
+                    >
+                      <div>{price}</div>
+                      <div>{data}</div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+          <div className=" flex flex-row justify-start items-center gap-2 text-xl font-semibold">
+            <h1 className="text-white">Performance</h1>
+            <FaCircleInfo />
+          </div>
+          <div className=" grid grid-cols-4 grid-flow-row h-56 ">
+            <div>
+              <div>Open</div>
+              <div>{stockData2.open}</div>
+            </div>
+            <div>
+              <div>Prev. Close</div>
+              <div>{stockData2.previous_close}</div>
+            </div>
+            <div>
+              <div>Volume</div>
+              <div>{stockData2.volume}</div>
+            </div>
+            <div>
+              <div>Total traded value</div>
+              <div>{stockData2.volume}</div>
+            </div>
+            <div>
+              <div>Upper Circuit</div>
+              <div>{stockData2.high}</div>
+            </div>
+            <div>
+              <div>Lower Circuit</div>
+              <div>{stockData2.low}</div>
+            </div>
+          </div>
         </div>
-    );
+        <TransactionInput currentStock={stockData} />
+      </div>
+    </div>
+  );
 }
 
 export default BasicComponent;
 
 {
-    /* <div className="performacePopup_popUpContainer__DPKnI">
+  /* <div className="performacePopup_popUpContainer__DPKnI">
     <div className="absolute-center">
         <div className="absolute-center backgroundAccentSubtle performacePopup_infoWrap__kdOVV">
             <svg

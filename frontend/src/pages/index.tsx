@@ -60,7 +60,7 @@ const Hero = () => {
                 await loginUser(data);
                 router.push("/explore");
             } catch (error: any) {
-                console.log(error);
+                console.log(error.message);
             }
         };
         userLogin();

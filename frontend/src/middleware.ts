@@ -5,7 +5,7 @@ import Cookies from "universal-cookie";
 // This function can be marked `async` if using `await` inside
 export function middleware(req: NextRequest) {
     const cookies = new Cookies();
-    console.log("ram");
+    console.log("inside middleware function");
     const user = req.cookies.get("authorization");
     console.log("user", user);
     if (!user) {
@@ -16,5 +16,5 @@ export function middleware(req: NextRequest) {
 // return NextResponse.redirect(new URL("/home", req.url));
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: ["/explore","/stock/:slug*"],
+    matcher: ["/explore","/stock/:slug*","/investments"],
 };
