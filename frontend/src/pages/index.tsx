@@ -99,7 +99,7 @@ const Hero = () => {
                     </Button>
                     <div>
                         <img
-                            className=" h-96 hover:h-80 transition-height duration-500 ease-in-out"
+                            className=" h-96 transition-height duration-500 ease-in-out"
                             src="https://zerodha.com/static/images/landing.png"
                             alt=""
                         />

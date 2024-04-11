@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import userModel from "../model/user";
 import verifyToken from "../middleware/auth";
+import orderModel from "../model/order";
 
 const route = express.Router();
 
@@ -162,6 +163,18 @@ route.post("/place-order", verifyToken, (req: any, res: any) => {
     });
     tickerOrder[ticker].asks.sort((a, b) => (a.price < b.price ? -1 : 1));
   }
+  const newOrder = new orderModel({
+    stock: ticker,
+    quantity : quantity,
+    user:userId,
+    remainingQty:remainingQty,
+    price:price,
+    status:remainingQty===0?"complete":"pending",
+    stockName:ticker,
+    type:side
+
+  });
+  newOrder.save();
   res.json({
     filledQuantity: quantity - remainingQty,
   });

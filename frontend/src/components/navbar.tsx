@@ -40,7 +40,6 @@ function Navbar() {
     const apiUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${inputValue.current}&apikey=demo`;
 
     try {
- 
       const responseData = await axios.get(apiUrl);
 
       const bestMatches = responseData.data.bestMatches; //bestMatches will be an array. reduce takes array as input
@@ -61,12 +60,11 @@ function Navbar() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-
     // setInputValue("");
   };
 
   return (
-    <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-18 h-16 border-myBorder ">
+    <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-18 h-16 border-myBorder">
       <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
         <Image
           width={230}
@@ -111,7 +109,7 @@ function Navbar() {
           {/* No explicit submit button, pressing Enter in the input field will trigger form submission */}
         </form>
         <div>
-          {searchResults.length != 0 ? ( 
+          {searchResults.length != 0 ? (
             <div className=" bg-orange-300 w-60 h-32 absolute right-40 top-16 flex flex-col">
               {searchResults.map((element, index) => (
                 <Link
@@ -154,7 +152,7 @@ function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuItem><Link href="/user/order">Orders</Link></DropdownMenuItem>
                 <DropdownMenuItem>Subscription</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
