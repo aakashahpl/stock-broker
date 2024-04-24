@@ -7,6 +7,7 @@ import { Currency } from "lucide-react";
 export const ChartComponent = (props: any) => {
     // console.log("current frame in chartComponent", props.frame);
     const {
+
         data,
         colors: {
             backgroundColor = "black",

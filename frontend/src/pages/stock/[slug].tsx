@@ -79,8 +79,8 @@ function BasicComponent() {
             <div className=" flex justify-between items-center">
               <Image
                 className=" overflow-hidden w-24 h-24"
-                width={10}
-                height={10}
+                width={96}
+                height={96}
                 src={stockData.logo}
                 alt=""
                 style={{ opacity: 0.4 }}
@@ -195,7 +195,7 @@ function BasicComponent() {
 
 export default BasicComponent;
 
-{
+{ 
   /* <div className="performacePopup_popUpContainer__DPKnI">
     <div className="absolute-center">
         <div className="absolute-center backgroundAccentSubtle performacePopup_infoWrap__kdOVV">
