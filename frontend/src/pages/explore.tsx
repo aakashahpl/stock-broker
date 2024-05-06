@@ -9,17 +9,16 @@ import StockDetails from "@/components/explore/stock";
 import InvestmentDetails from "@/components/explore/investments";
 import Chart from "@/components/realTimeChart";
 
-
 export default function Home() {
   return (
     <>
-      {/* <main
+      <main
         className={`flex min-h-screen flex-row justify-between  mx-96 mt-4`}
-      > */}
-        <Chart ticker="AAPL" timeFrame="1M"/>
-        {/* <StockDetails /> */}
-        {/* <InvestmentDetails /> */}
-      {/* </main> */}
+      >
+        {/* <Chart ticker="AAPL" timeFrame="1M"/> */}
+        <StockDetails />
+        <InvestmentDetails />
+      </main>
     </>
   );
 }

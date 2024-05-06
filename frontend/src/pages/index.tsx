@@ -13,13 +13,30 @@ import cors from "cors";
 import z from "zod";
 import { useUser } from "./context/userContext";
 import { redirect } from "next/dist/server/api-utils";
+import jwt from "jsonwebtoken";
+
+interface Payload {
+  user: {
+    username: string;
+    _id: string;
+  };
+}
 
 const Hero = () => {
   const cookies = new Cookies();
   const { loginUser, user } = useUser();
   const [signUp, setSignUp] = useState(false);
-
   const router = useRouter();
+  if (cookies.get("authorization")) {
+    const token = cookies.get("authorization");
+    console.log(token);
+    const payload = jwt.decode(token) as Payload ;   // type assertion
+    if (payload) {
+      loginUser(payload.user);
+    }
+
+    router.push("/explore");
+  }
   const handleFormData = async (data: any) => {
     console.log(data);
     const userLogin = async () => {
@@ -28,7 +45,6 @@ const Hero = () => {
           "http://localhost:3001/user/login",
           data
         );
-
         cookies.set("authorization", response.data.accessToken, { path: "/" });
         console.log(cookies.get("authorization"));
         await loginUser(data);
@@ -46,7 +62,7 @@ const Hero = () => {
   return (
     <div>
       <div className=" flex flex-col items-center justify-center h-screen relative bg-white">
-        <div className=" h-3/4 w-full  max-lg:px-5 flex flex-col justify-start items-center relative  ">
+        <div className=" h-3/4 w-full  max-lg:px-5 flex flex-col justify-start items-center relative">
           <div className="text-center opacity-80">
             <p className="font-medium pb-3 text-8xl">
               All things finance,

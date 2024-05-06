@@ -11,6 +11,9 @@ import { RiH1 } from "react-icons/ri";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/router";
+import Cookies from "universal-cookie";
+
 
 import {
   DropdownMenu,
@@ -23,9 +26,12 @@ import {
 
 function Navbar() {
   // const [inputValue, setInputValue] = useState("");
+  const cookies = new Cookies();
   const [searchData, setSearchData] = useState(0);
+  const {logoutUser} = useUser();
   const inputValue = useRef("");
   const [searchResults, setSearchResults] = useState([]);
+  const router = useRouter();
   const handleChange = (event: any) => {
     inputValue.current = event.target.value;
     // Manually update the input field's value
@@ -62,6 +68,12 @@ function Navbar() {
     }
     // setInputValue("");
   };
+
+  const handleLogout = () => {
+    logoutUser();
+    router.push("/")
+    cookies.remove("authorization", { path: "/" });
+  }
 
   return (
     <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-18 h-16 border-myBorder">
@@ -136,11 +148,11 @@ function Navbar() {
           <div className=" px-4">
             <IoIosNotificationsOutline size={22} />
           </div>
+          <Link href="/user/order" className=" px-4">
+            <BsCart size={22} />
+          </Link>
           <div className=" px-4">
             <CiWallet size={22} />
-          </div>
-          <div className=" px-4">
-            <BsCart size={22} />
           </div>
           <div className=" px-4">
             <DropdownMenu>
@@ -153,7 +165,7 @@ function Navbar() {
                 <DropdownMenuItem>Profile</DropdownMenuItem>
                 <DropdownMenuItem>Billing</DropdownMenuItem>
                 <DropdownMenuItem><Link href="/user/order">Orders</Link></DropdownMenuItem>
-                <DropdownMenuItem>Subscription</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

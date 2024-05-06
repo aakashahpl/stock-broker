@@ -81,8 +81,8 @@ const TransactionInput = ({ currentStock }: any) => {
   return (
     <div className=" flex flex-col h-3/5 w-2/12 border-[1px] border-myBorder rounded-md ml-10">
       <div className=" flex-[1.5] border-b-[1px] border-myBorder flex flex-col justify-center items-start px-2 ">
-        <div className=" text-lg">{currentStock.name}</div>
-        <div className=" text-sm">132.23</div>
+        <div className=" text-lg font-bold">{currentStock.name}</div>
+        <div className=" text-sm font-semibold">$132.23</div>
       </div>
 
       <div className="flex-[1] border-b-[1px] border-myBorder px-2">
@@ -120,9 +120,9 @@ const TransactionInput = ({ currentStock }: any) => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>
-                  <Button variant={"myButton"} size={"xl"}>
+                
                     Cancel
-                  </Button>
+          
                 </AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>

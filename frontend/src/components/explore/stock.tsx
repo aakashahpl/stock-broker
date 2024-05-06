@@ -37,8 +37,8 @@ const StockDetails = () => {
         // }
         setUpdate(1);
         if (data.TopGainers && data.TopLossers) {
-          topGainers.current = data.TopGainers.slice(0, 12);
-          topLossers.current = data.TopLossers.slice(0, 12);
+          topGainers.current = data.TopGainers;
+          topLossers.current = data.TopLossers;
           setUpdate(1);
         }
         if (data.TopLossers) {
@@ -69,7 +69,7 @@ const StockDetails = () => {
               key={index}
             >
               <div className="flex flex-col w-11/12 ">
-                <div>{element.indexName}</div>
+                <div className=" font-bold">{element.indexName}</div>
                 <div>{element.price}</div>
               </div>
             </div>
@@ -87,9 +87,12 @@ const StockDetails = () => {
               className=" w-11/12 mx-1 h-40 bg-[#1b1b1b] border-[1px] border-[#2b2b2b] flex justify-center items-center text-slate-300 rounded-lg hover:border-[2.5px]"
               key={index}
             >
-              <div className="flex flex-col w-11/12 ">
-                <div>{element.ticker}</div>
-                <div>{element.price}</div>
+              <div className="flex flex-col w-11/12 justify-around h-full">
+                <div className=" text-sm font-bold">{element.name}</div>
+                <div>
+                  <div className=" text-sm">{element.ticker}</div>
+                  <div className=" text-sm text-green-400">${element.price}$</div>
+                </div>
               </div>
             </div>
           ))}
@@ -107,9 +110,12 @@ const StockDetails = () => {
               className=" w-11/12 mx-1 h-40 bg-[#1b1b1b] border-[1px] border-[#2b2b2b] flex justify-center items-center text-slate-300 rounded-lg hover:border-[2.5px]"
               key={index}
             >
-              <div className="flex flex-col w-11/12 ">
-                <div>{element.ticker}</div>
-                <div>{element.price}</div>
+              <div className="flex flex-col w-11/12 justify-around h-full">
+                <div className=" text-sm font-bold">{element.name}</div>
+                <div>
+                  <div className=" text-sm">{element.ticker}</div>
+                  <div className=" text-sm text-red-400">${element.price}</div>
+                </div>
               </div>
             </Link>
           ))}
@@ -125,9 +131,12 @@ const StockDetails = () => {
               className=" w-11/12 mx-1 h-40 bg-[#1b1b1b] border-[1px] border-[#2b2b2b] flex justify-center items-center text-slate-300 rounded-lg hover:border-[2.5px]"
               key={index}
             >
-              <div className="flex flex-col w-11/12 ">
-                <div>{element.ticker}</div>
-                <div>{element.price}</div>
+              <div className="flex flex-col w-11/12 justify-around h-full">
+                <div className=" text-sm font-bold">{element.name}</div>
+                <div>
+                  <div className=" text-sm">{element.ticker}</div>
+                  <div className=" text-sm text-green-400">${element.price}$</div>
+                </div>
               </div>
             </div>
           ))}

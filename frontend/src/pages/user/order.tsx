@@ -38,7 +38,7 @@ export default function Home() {
         className={`flex min-h-screen flex-row justify-between  mx-96 mt-10`}
       >
         <div className=" w-8/12 flex flex-col justify-start gap-5">
-          <div className=" font-bold text-slate-100 pb-3 ">Orders</div>
+          <div className=" font-bold text-slate-100 pb-3 text-xl ">Orders</div>
           <div className="flex flex-col w-full h-auto  justify-center  rounded-lg overflow-hidden  ">
             {orders.map((order, index) => (
               <div

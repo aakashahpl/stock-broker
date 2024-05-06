@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { createChart, ColorType } from "lightweight-charts";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -20,7 +20,6 @@ export const ChartComponent = (props: any) => {
   } = props;
 
   const chartContainerRef = useRef<HTMLDivElement>(null);
-
 
   useEffect(() => {
     if (!chartContainerRef.current) return;
@@ -54,21 +53,21 @@ export const ChartComponent = (props: any) => {
       window.removeEventListener("resize", handleResize);
       chart.remove();
     };
-  }, [data, frame]);
- 
+  }, [data]);
+
   return (
     <>
       <div ref={chartContainerRef} />
     </>
   );
-  }
+};
 
 interface prop {
   ticker: string;
   timeFrame: string;
 }
 
-export default function Chart(props: prop) {
+export default function RealTimeChart(props: prop) {
   const [convertedData, setConvertedData] = useState([]);
   let lineColor: string;
   let areaTopColor: string;
@@ -100,56 +99,51 @@ export default function Chart(props: prop) {
     },
   };
 
-  const [initialData,setInitialData] = useState([
-    { time: "2018-12-30", value: 169.19 },
-    { time: "2018-12-31", value: 169.29 },
+  const [initialData, setInitialData] = useState([
+    { time: "2018-12-30", value: 173.08 },
   ]);
 
-//   const initialData=[
-//     { time: "2018-12-23", value: 31.11 },
-//     { time: "2018-12-24", value: 27.02 },
-//     { time: "2018-12-25", value: 27.32 },
-//     { time: "2018-12-26", value: 25.17 },
-//     { time: "2018-12-27", value: 28.89 },
-//     { time: "2018-12-28", value: 25.46 },
-//     { time: "2018-12-29", value: 23.92 },
-//     { time: "2018-12-30", value: 22.68 },
-//     { time: "2018-12-31", value: 22.67 },
-//   ]
+  // let initialData=[
+  //   { time: "2018-12-23", value: 169.19 },
+  //   { time: "2018-12-24", value: 169.29 },
+  // ]
 
-  const socket = new WebSocket(
-    "wss://ws.finnhub.io?token=cnv0m69r01qub9j05af0cnv0m69r01qub9j05afg"
-  );
-  socket.addEventListener("open", function (event) {
-    socket.send(JSON.stringify({ type: "subscribe", symbol: "AAPL" }));
-  });
   const count = useRef(0);
-  socket.addEventListener("message", function (event) {
-    console.log("Message from server ", event.data);
-    const rawData = JSON.parse(event.data);
-    // console.log(rawData.data);
-    const finalArray = rawData.data;
-    const formattedData = finalArray.map((item:any,index:any) => {
-        const date = new Date(item.t);
-  
-        // Increment date by one day for each item
+  useEffect(() => {
+    const socket = new WebSocket(
+      "wss://ws.finnhub.io?token=cnv0m69r01qub9j05af0cnv0m69r01qub9j05afg"
+    );
+
+    socket.addEventListener("open", function (event) {
+      socket.send(JSON.stringify({ type: "subscribe", symbol: "AAPL" }));
+    });
+
+    const handleMessage = (event: any) => {
+      const rawData = JSON.parse(event.data);
+      const finalArray = rawData.data;
+      if (finalArray[0].length != 0) {
+        const date = new Date(finalArray[0].t);
         date.setDate(date.getDate() + count.current);
         count.current++;
-        // Convert incremented date to string in YYYY-MM-DD format
-        const formattedDate = date.toISOString().split('T')[0];
-      
-        // Format value to 2 decimal places
-        const value = item.p.toFixed(2);
-        
-        return {
+        const formattedDate = date.toISOString().split("T")[0];
+        const value = finalArray[0].p.toFixed(2);
+        let newData = {
           time: formattedDate,
           value: parseFloat(value),
         };
-    });
-    console.log(formattedData);
-    setInitialData(initialData.concat(formattedData));
 
-});
+        setInitialData(initialData.concat(newData));
+          console.log(initialData);
+      }
+    }
+      socket.addEventListener("message", handleMessage);
+    
+
+    return () => {
+      socket.removeEventListener("message", handleMessage);
+      socket.close();
+    };
+  }, []);
 
   return (
     <div className="">
