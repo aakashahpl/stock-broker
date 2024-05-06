@@ -4,6 +4,7 @@ import passport from "passport";
 import jwt from "jsonwebtoken";
 import verifyToken from "../middleware/auth";
 import userModel from "../model/user";
+import orderModel from "../model/order";
 
 const Router = express.Router();
 
@@ -21,6 +22,26 @@ Router.get("/balance", verifyToken, async (req: any, res: any) => {
             .json({
                 success: true,
                 balance: user.balances,
+            });
+    } catch (error: any) {
+        return res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+Router.get("/order", verifyToken, async (req: any, res: any) => {
+    try {
+        // console.log("inside balance get");
+        // const cookies = req.cookies.authorization;
+        // console.log(cookies);
+        const userId = req.user.user._id;
+        console.log(userId);
+        const orders:any = await orderModel.find({user:userId});
+        console.log(orders);
+        return res
+            .status(200)
+            .json({
+                success: true,
+                orders: orders,
             });
     } catch (error: any) {
         return res.status(500).json({ success: false, error: error.message });

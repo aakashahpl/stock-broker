@@ -24,7 +24,7 @@ function BasicComponent() {
   }, [router.query.slug]);
 
   const timeFrames = [
-    { value: "1D", label: "1D" },
+    { value: "1D", label: "1D (Live)" },
     { value: "1M", label: "1M" },
     { value: "1Y", label: "1Y" },
     { value: "3Y", label: "3Y" },
@@ -79,8 +79,8 @@ function BasicComponent() {
             <div className=" flex justify-between items-center">
               <Image
                 className=" overflow-hidden w-24 h-24"
-                width={10}
-                height={10}
+                width={96}
+                height={96}
                 src={stockData.logo}
                 alt=""
                 style={{ opacity: 0.4 }}
@@ -99,7 +99,7 @@ function BasicComponent() {
           <div className=" h-3/5">
             {orderBook === false ? (
               <>
-                {/* <Chart ticker={slug} timeFrame={timeFrame} /> */}
+                <Chart ticker={slug} timeFrame={timeFrame} />
                 <div className=" flex flex-row justify-around w-full h-32  mt-4 border-t-[1px] border-myBorder pt-2">
                   <div className=" flex-[2] ">
                     <div className=" max-w-fit border-[1px] border-myBorder p-2 rounded-md">
