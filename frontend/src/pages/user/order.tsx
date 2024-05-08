@@ -47,7 +47,7 @@ export default function Home() {
               >
                 <div className="flex flex-row justify-start items-start py-2">
                   <h3 className=" text-sm">
-                    {new Date(order.date).toLocaleDateString("en-US", {
+                    {new Date(order.date).toLocaleDateString("en-US", { 
                       day: "2-digit",
                       month: "long",
                       year: "numeric",
