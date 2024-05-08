@@ -146,18 +146,18 @@ function Navbar() {
       ) : (
         <div className=" flex-[1] flex flex-row justify-center items-center ">
           <div className=" px-4">
-            <IoIosNotificationsOutline size={22} />
+            <IoIosNotificationsOutline size={26} />
           </div>
           <Link href="/user/order" className=" px-4">
-            <BsCart size={22} />
+            <BsCart size={25} />
           </Link>
           <div className=" px-4">
-            <CiWallet size={22} />
+            <CiWallet size={25} />
           </div>
           <div className=" px-4">
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <CgProfile size={22} />
+                <CgProfile size={25} />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>

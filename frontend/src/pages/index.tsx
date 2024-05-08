@@ -10,10 +10,12 @@ import Cookies from "universal-cookie";
 import LoginForm from "../components/indexPage/form";
 import axios from "axios";
 import cors from "cors";
+import { useRef } from "react";
 import z from "zod";
 import { useUser } from "./context/userContext";
 import { redirect } from "next/dist/server/api-utils";
 import jwt from "jsonwebtoken";
+
 
 interface Payload {
   user: {
@@ -23,6 +25,7 @@ interface Payload {
 }
 
 const Hero = () => {
+  const pageRef = useRef(null);
   const cookies = new Cookies();
   const { loginUser, user } = useUser();
   const [signUp, setSignUp] = useState(false);
@@ -30,14 +33,15 @@ const Hero = () => {
   if (cookies.get("authorization")) {
     const token = cookies.get("authorization");
     console.log(token);
-    const payload = jwt.decode(token) as Payload ;   // type assertion
+    const payload = jwt.decode(token) as Payload; // type assertion
     if (payload) {
       loginUser(payload.user);
     }
-
     router.push("/explore");
   }
   const handleFormData = async (data: any) => {
+    
+
     console.log(data);
     const userLogin = async () => {
       try {
@@ -56,13 +60,18 @@ const Hero = () => {
     userLogin();
   };
   const handleSignUp = () => {
+    // pageRef.current.scrollIntoView({ behavior: "smooth" });
+    window.scrollTo(0, 0);
     setSignUp(true);
   };
 
   return (
     <div>
-      <div className=" flex flex-col items-center justify-center h-screen relative bg-white">
-        <div className=" h-3/4 w-full  max-lg:px-5 flex flex-col justify-start items-center relative">
+      <div className=" flex flex-col items-center justify-center h-[91vh] relative bg-[white]">
+        <div
+          className=" h-11/12 w-full  max-lg:px-5 flex flex-col justify-start items-center relative"
+          ref={pageRef}
+        >
           <div className="text-center opacity-80">
             <p className="font-medium pb-3 text-8xl">
               All things finance,
@@ -78,7 +87,7 @@ const Hero = () => {
           </Button>
           <div>
             <img
-              className=" h-96 transition-height duration-500 ease-in-out"
+              className=" h-96 "
               src="https://zerodha.com/static/images/landing.png"
               alt=""
             />
@@ -86,8 +95,8 @@ const Hero = () => {
         </div>
         <div>
           {signUp == true ? (
-            <div className=" h-screen w-full bg-slate-600 bg-opacity-70 absolute top-0 left-0 flex justify-center ">
-              <div className=" flex flex-row absolute h-3/5 w-2/4 top-40 rounded-md overflow-hidden ">
+            <div className=" h-screen w-full bg-slate-600 bg-opacity-70 absolute top-0 left-0 flex justify-center items-center ">
+              <div className=" flex flex-row absolute h-3/5 w-2/4 rounded-md overflow-hidden ">
                 <div className=" bg-[#77c1ad] h-full w-1/2 ">
                   <Image
                     className=" overflow-hidden w-full h-full"
@@ -133,6 +142,48 @@ const Hero = () => {
             </div>
           ) : null}
         </div>
+      </div>
+      <div className=" bg-[#c8f43c] px-10 flex flex-row h-[90vh]">
+        <div className=" flex justify-center items-center flex-[1.2]">
+          <img
+            className=""
+            src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/product_hero_invest__91b9077cf4788b508a013b9dda8c3ffe4d4fff969655c212a0201c9533237d46.png"
+            alt=""
+          />
+        </div>
+        <div className=" flex-1 flex flex-col  gap-2 items-start justify-center ">
+          <div className=" mb-10">
+            <h3 className=" text-5xl w-60 text-[#3bb84b]">Investing</h3>
+            <h3 className=" text-5xl w-96 ">
+              Build your portfolio starting with just $1
+            </h3>
+          </div>
+          <h3 className=" text-lg w-96">
+            Invest in stocks, options, and ETFs at your pace and
+            commission-free.
+          </h3>
+          <h3>Investing Disclosures</h3>
+        </div>
+      </div>
+      <div className="w-screen h-[90vh] flex justify-center">
+        <div className="absolute w-2/6 mt-20 flex flex-col justify-center items-center gap-5">
+          <h3 className="  font-bold text-6xl text-center">
+            Join a new generation of Investors
+          </h3>
+          <Button
+            onClick={handleSignUp}
+            className=" rounded-full"
+            variant={"default"}
+            size={"lg"}
+          >
+            Sign Up
+          </Button>
+        </div>
+        <img
+          className=" w-full"
+          src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png"
+          alt=""
+        />
       </div>
     </div>
   );
