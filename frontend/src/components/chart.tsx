@@ -121,10 +121,10 @@ export default function Chart(props: prop) {
   const inputData: any = useRef([]);
   const formattedData: any = useRef([]);
 
-  console.log(formattedData);
+  // console.log(formattedData);
 
   useEffect(() => {
-    console.log("inside useEffect");
+    // console.log("inside useEffect");
     const fetchData = async () => {
       try {
         if (inputData.current.length === 0) {
@@ -166,7 +166,7 @@ export default function Chart(props: prop) {
 
             setConvertedData(formattedData365Days.reverse());
           } else if (frame == "3Y") {
-            console.log("inside 1Y");
+            console.log("inside 3Y");
             const formattedData365Days = formattedData.current.slice(
               0,
               356 * 3

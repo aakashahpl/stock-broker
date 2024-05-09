@@ -4,6 +4,7 @@ import connectToDB from "./db";
 import route1 from "./api/frontPage";
 import userRoute from "./api/user";
 import orderRoute from "./api/order";
+import newsRoute from "./api/news"
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
@@ -24,6 +25,7 @@ app.use(cors({
 app.use("/frontPage",route1);
 app.use("/user",userRoute);
 app.use("/order",orderRoute);
+app.use("/news",newsRoute);
 
 connectToDB();
 const PORT = process.env.PORT||3001;
