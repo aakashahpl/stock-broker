@@ -112,10 +112,18 @@ const StockDetails = () => {
                     return nameArray[0] + " " + nameArray[1];
                   })()}
                 </div>
-                <div>
-                  <div className=" text-sm">{element.ticker}</div>
-                  <div className=" text-sm text-green-400">
-                    ${element.price}$
+                <div className="px-2">
+                <div className=" text-base font-semibold">
+                    {element.ticker}
+                  </div>
+                  <div className=" text-base font-semibold">
+                    ${element.price}
+                  </div>
+                  <div className=" text-sm font-semibold text-[#0c9b7a]">
+                    {Number(element.change_amount).toFixed(2) +
+                      " (" +
+                      parseInt(element.change_percentage) +
+                      "%)"}
                   </div>
                 </div>
               </div>
@@ -137,9 +145,19 @@ const StockDetails = () => {
             >
               <div className="flex flex-col w-11/12 justify-around h-full">
                 <div className=" text-sm font-bold">{element.name}</div>
-                <div>
-                  <div className=" text-sm">{element.ticker}</div>
-                  <div className=" text-sm text-red-400">${element.price}</div>
+                <div className="px-2">
+                  <div className=" text-base font-semibold">
+                    ${element.ticker}
+                  </div>
+                  <div className=" text-base font-semibold">
+                    ${element.price}
+                  </div>
+                  <div className=" text-sm font-semibold text-[#b94b33]">
+                    {Number(element.change_amount).toFixed(2) +
+                      " (" +
+                      parseInt(element.change_percentage) +
+                      "%)"}
+                  </div>
                 </div>
               </div>
             </Link>

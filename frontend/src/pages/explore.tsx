@@ -6,7 +6,7 @@ import axios from "axios";
 const inter = Inter({ subsets: ["latin"] });
 import Link from "next/link";
 import StockDetails from "@/components/explore/stock";
-import InvestmentDetails from "@/components/explore/investments";
+import InvestmentDetails from "@/components/explore/investment";
 import Chart from "@/components/realTimeChart";
 
 export default function Home() {

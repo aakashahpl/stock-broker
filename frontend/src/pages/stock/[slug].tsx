@@ -24,7 +24,7 @@ function BasicComponent() {
   }, [router.query.slug]);
 
   const timeFrames = [
-    { value: "1D", label: "1D (Live)" },
+    { value: "1D", label: "1D" },
     { value: "1M", label: "1M" },
     { value: "1Y", label: "1Y" },
     { value: "3Y", label: "3Y" },
@@ -61,7 +61,7 @@ function BasicComponent() {
           const response = await axios.get(apiUrl);
           if (Object.values(response.data.depth).length != 0)
             setOrderBookData(response.data.depth);
-          console.log(response.data);
+          // console.log(response.data);
         } catch (error) {
           console.error("Error fetching data:", error);
         }

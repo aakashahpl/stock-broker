@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
 
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,7 +27,7 @@ function Navbar() {
   // const [inputValue, setInputValue] = useState("");
   const cookies = new Cookies();
   const [searchData, setSearchData] = useState(0);
-  const {logoutUser} = useUser();
+  const { logoutUser } = useUser();
   const inputValue = useRef("");
   const [searchResults, setSearchResults] = useState([]);
   const router = useRouter();
@@ -71,12 +70,12 @@ function Navbar() {
 
   const handleLogout = () => {
     logoutUser();
-    router.push("/")
+    router.push("/");
     cookies.remove("authorization", { path: "/" });
-  }
+  };
 
   return (
-    <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-18 h-16 border-myBorder">
+    <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-24 h-16 border-myBorder">
       <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
         <Image
           width={230}
@@ -99,6 +98,12 @@ function Navbar() {
                 className=" text-neutral-100 font-semibold hover:cursor-pointer"
               >
                 Investments
+              </Link>
+              <Link
+                href={`/news`}
+                className=" text-neutral-100 font-semibold hover:cursor-pointer"
+              >
+                News
               </Link>
             </div>
           ) : null}
@@ -163,9 +168,15 @@ function Navbar() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem><Link href="/user/order">Orders</Link></DropdownMenuItem>
-                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/user/investments">Investments</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link href="/user/order">Orders</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

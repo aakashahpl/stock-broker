@@ -27,69 +27,49 @@ const fetchInterval = setInterval(async () => {
   const currentHour = currentDate.getUTCHours(); // Get the current hour in UTC
 
   // Check if the current hour is 15 (3 PM in 24-hour format)
-  if (currentHour === 15) {
-    try {
-      const stockData = JSON.parse(
-        fs.readFileSync(
-          "/home/caesarisdead/Desktop/stock-broker/backend/stock-data.json",
-          "utf8"
-        )
-      );
 
-      const response2 = await axios.get(
-        `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=demo`
-      );
+  try {
+    const stockData = JSON.parse(
+      fs.readFileSync(
+        "/home/caesarisdead/Desktop/stock-broker/backend/stock-data.json",
+        "utf8"
+      )
+    );
 
-      topGainers = response2.data.top_gainers
-        .map((gainer: any) => ({
-          ...gainer,
-          name: stockData[gainer.ticker] || "Unknown", // Add stock name if available, otherwise "Unknown"
-        }))
-        .slice(0, 11);
-      topLosers = response2.data.top_losers
-        .map((loser: any) => ({
-          ...loser,
-          name: stockData[loser.ticker] || "Unknown", // Add stock name if available, otherwise "Unknown"
-        }))
-        .slice(0, 10);
+    const response2 = await axios.get(
+      `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=demo`
+    );
 
-      // Save the data to a file
-      fs.writeFileSync(
-        "/home/caesarisdead/Desktop/stock-broker/backend/top-gainers-losers.json",
-        JSON.stringify({ topGainers, topLosers })
-      );
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+    topGainers = response2.data.top_gainers
+      .map((gainer: any) => ({
+        ...gainer,
+        name: stockData[gainer.ticker] || "Unknown", // Add stock name if available, otherwise "Unknown"
+      }))
+      .slice(0, 11);
+    topLosers = response2.data.top_losers
+      .map((loser: any) => ({
+        ...loser,
+        name: stockData[loser.ticker] || "Unknown", // Add stock name if available, otherwise "Unknown"
+      }))
+      .slice(0, 10);
+
+    // Save the data to a file
+    fs.writeFileSync(
+      "/home/caesarisdead/Desktop/stock-broker/backend/top-gainers-losers.json",
+      JSON.stringify({ topGainers, topLosers })
+    );
+  } catch (error) {
+    console.error("Error fetching data:", error);
   }
 }, 60 * 60 * 1000); // Check every hour (60 minutes * 60 seconds * 1000 milliseconds)
 
 route.get("/fetch", async (req, res) => {
   try {
-    // const stockData = JSON.parse(fs.readFileSync('/home/caesarisdead/Desktop/stock-broker/backend/stock-data.json', 'utf8'));
-    // // const response1 = await axios.get(
-
-    // //     `https://api.twelvedata.com/time_series?symbol=SPX,IXIC,DJI&interval=1day&apikey=${twelvedataKey}`
-    // // );
-    // const response2 = await axios.get(
-    //     `https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=demo`
-    // );
-
-    // // const indexesData = response1.data;
-    // const topGainers = response2.data.top_gainers.map((gainer: any) => ({
-    //     ...gainer,
-    //     name: stockData[gainer.ticker] || "Unknown" // Add stock name if available, otherwise "Unknown"
-    // })).slice(0,11);
-    // const topLosers = response2.data.top_losers.map((loser: any) => ({
-    //     ...loser,
-    //     name: stockData[loser.ticker] || "Unknown" // Add stock name if available, otherwise "Unknown"
-    // })).slice(0,10);
     const fileData = fs.readFileSync(
       "/home/caesarisdead/Desktop/stock-broker/backend/top-gainers-losers.json",
       "utf8"
     );
 
-    // Parse the JSON data
     const { topGainers, topLosers } = JSON.parse(fileData);
     res.json({ TopGainers: topGainers, TopLossers: topLosers });
   } catch (error: any) {
