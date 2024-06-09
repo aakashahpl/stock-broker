@@ -33,8 +33,8 @@ function BasicComponent() {
   const [stockData, setStockData] = useState({});
   const [stockData2, setStockData2] = useState({});
   useEffect(() => {
-    const apiUrl = `https://api.finnhub.io/api/v1/stock/profile2?symbol=${slug}&token=demo`;
-    const apiUrl2 = `https://api.twelvedata.com/quote?symbol=AAPL&apikey=demo`;
+    const apiUrl = `https://api.finnhub.io/api/v1/stock/profile2?symbol=${slug}&token=cov7sh1r01ql1b01vftgcov7sh1r01ql1b01vfu0`;
+    const apiUrl2 = `https://api.twelvedata.com/quote?symbol=AAPL&apikey=ff82ae6c189242c2bc3500daf28f6919`;
     async function fetchData() {
       if (slug) {
         try {

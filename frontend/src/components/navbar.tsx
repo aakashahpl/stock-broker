@@ -39,7 +39,7 @@ function Navbar() {
   // console.log(user);
   const handleSubmit = async (event: any) => {
     event.preventDefault();
-    console.log(inputValue.current); // Do whatever you want with the input value
+    console.log(inputValue.current);
     // Clear the input after submission if needed
 
     const apiUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${inputValue.current}&apikey=demo`;
@@ -89,19 +89,31 @@ function Navbar() {
             <div className="gap-6 flex flex-row">
               <Link
                 href={`/explore`}
-                className=" text-neutral-100 font-semibold hover:cursor-pointer"
+                className={`font-semibold hover:cursor-pointer ${
+                  window.location.pathname === "/explore"
+                    ? "text-[#0ba782]"
+                    : "text-neutral-100"
+                }`}
               >
                 Explore
               </Link>
+
               <Link
                 href={`/user/investments`}
-                className=" text-neutral-100 font-semibold hover:cursor-pointer"
+                className={` font-semibold hover:cursor-pointer ${
+                  window.location.pathname == "/user/investments"
+                    ? "text-[#0ba782]"
+                    : "text-neutral-100"
+                }`}
               >
                 Investments
               </Link>
               <Link
                 href={`/news`}
-                className=" text-neutral-100 font-semibold hover:cursor-pointer"
+                className={`font-semibold hover:cursor-pointer ${window.location.pathname == "/news"
+                ? "text-[#0ba782]"
+                : "text-neutral-100"
+            }`}
               >
                 News
               </Link>
