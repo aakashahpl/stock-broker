@@ -37,7 +37,7 @@ const twelvedataKey = process.env.TWELVE_DATA_KEY;
 if (!alphavantageKey || !twelvedataKey) {
     console.log("Please enter correct api keys in .env file");
 }
-const stockData = JSON.parse(fs.readFileSync("/home/caesarisdead/Desktop/stock-broker/backend/stock-data.json", "utf8"));
+const stockData = JSON.parse(fs.readFileSync("../../stock-data.json", "utf8"));
 const fetchInterval = setInterval(async () => {
     let topGainers = null;
     let topLosers = null;
@@ -60,7 +60,7 @@ const fetchInterval = setInterval(async () => {
         }))
             .slice(0, 10);
         // Save the data to a file
-        fs.writeFileSync("/home/caesarisdead/Desktop/stock-broker/backend/top-gainers-losers.json", JSON.stringify({ topGainers, topLosers }));
+        fs.writeFileSync("../../top-gainers-losers.json", JSON.stringify({ topGainers, topLosers }));
     }
     catch (error) {
         console.error("Error fetching data:", error);
@@ -68,7 +68,7 @@ const fetchInterval = setInterval(async () => {
 }, 60 * 60 * 1000); // Check every hour (60 minutes * 60 seconds * 1000 milliseconds)
 route.get("/fetch", async (req, res) => {
     try {
-        const fileData = fs.readFileSync("/home/caesarisdead/Desktop/stock-broker/backend/top-gainers-losers.json", "utf8");
+        const fileData = fs.readFileSync("../../top-gainers-losers.json", "utf8");
         const { topGainers, topLosers } = JSON.parse(fileData);
         res.json({ TopGainers: topGainers, TopLossers: topLosers });
     }
