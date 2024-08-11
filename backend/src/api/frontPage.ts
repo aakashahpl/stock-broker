@@ -15,7 +15,7 @@ if (!alphavantageKey || !twelvedataKey) {
 
 const stockData = JSON.parse(
   fs.readFileSync(
-    "/home/caesarisdead/Desktop/stock-broker/backend/stock-data.json",
+    "../../stock-data.json",
     "utf8"
   )
 );
@@ -55,7 +55,7 @@ const fetchInterval = setInterval(async () => {
 
     // Save the data to a file
     fs.writeFileSync(
-      "/home/caesarisdead/Desktop/stock-broker/backend/top-gainers-losers.json",
+      "../../top-gainers-losers.json",
       JSON.stringify({ topGainers, topLosers })
     );
   } catch (error) {
@@ -66,7 +66,7 @@ const fetchInterval = setInterval(async () => {
 route.get("/fetch", async (req, res) => {
   try {
     const fileData = fs.readFileSync(
-      "/home/caesarisdead/Desktop/stock-broker/backend/top-gainers-losers.json",
+      "../../top-gainers-losers.json",
       "utf8"
     );
 
