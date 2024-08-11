@@ -2,12 +2,12 @@
     "version": 2,
     "builds": [
         {
-            "src": "dist/app.js",
+            "src": "dist/index.js",
             "use": "@vercel/node",
             "config": { "includeFiles": ["dist/**"] }
         }
     ],
-    "rewrites": [{"source": "/(.*)", "destination": "dist/app.js" }],
+    "rewrites": [{"source": "/(.*)", "destination": "dist/index.js" }],
     "headers": [
       {
         "source": "/(.*)",
