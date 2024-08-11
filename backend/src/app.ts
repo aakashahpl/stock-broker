@@ -26,6 +26,9 @@ app.use("/frontPage",route1);
 app.use("/user",userRoute);
 app.use("/order",orderRoute);
 app.use("/news",newsRoute);
+app.use("/test",(req,res)=>{
+  res.send("api working correctly");
+})
 
 connectToDB();
 const PORT = process.env.PORT||3001;
