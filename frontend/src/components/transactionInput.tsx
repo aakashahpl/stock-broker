@@ -87,13 +87,13 @@ const TransactionInput = ({ currentStock }: any) => {
 
       <div className="flex-[1] border-b-[1px] border-myBorder px-2">
         <button
-          className=" bg-myBg text-white h-full w-1/5 focus:border-b-4 focus:text-[#0ba782] border-[#0abb92] font-semibold"
+          className={`bg-myBg text-white h-full w-1/5 border-[#0abb92] font-semibold ${transactionType==="buy"?"text-[#0ba782] border-b-4 border-[#0abb92]":""}`}
           onClick={() => changeTransactionType("buy")}
         >
           BUY
         </button>
         <button
-          className=" bg-myBg text-white h-full w-1/5 focus:text-[#0ba782] focus:border-b-4 border-[#0abb92] font-semibold "
+          className={` bg-myBg text-white h-full w-1/5 border-[#0abb92] font-semibold  ${transactionType==="sell"?"text-[#0ba782] border-b-4 border-[#0abb92]":""}`}
           onClick={() => changeTransactionType("sell")}
         >
           SELL
