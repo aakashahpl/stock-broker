@@ -30,14 +30,17 @@ const express_1 = __importDefault(require("express"));
 const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const fs = __importStar(require("fs"));
+const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 const route = express_1.default.Router();
+const stockDataPath = path_1.default.join(__dirname, "../../stock-data.json");
+const TopGainersLosersPath = path_1.default.join(__dirname, "../../top-gainers-losers.json");
 const alphavantageKey = process.env.ALPHA_VANTAGE_KEY;
 const twelvedataKey = process.env.TWELVE_DATA_KEY;
 if (!alphavantageKey || !twelvedataKey) {
     console.log("Please enter correct api keys in .env file");
 }
-const stockData = JSON.parse(fs.readFileSync("../../stock-data.json", "utf8"));
+const stockData = JSON.parse(fs.readFileSync(stockDataPath, "utf8"));
 const fetchInterval = setInterval(async () => {
     let topGainers = null;
     let topLosers = null;
@@ -45,7 +48,7 @@ const fetchInterval = setInterval(async () => {
     const currentHour = currentDate.getUTCHours(); // Get the current hour in UTC
     // Check if the current hour is 15 (3 PM in 24-hour format)
     try {
-        const stockData = JSON.parse(fs.readFileSync("/home/caesarisdead/Desktop/stock-broker/backend/stock-data.json", "utf8"));
+        const stockData = JSON.parse(fs.readFileSync(stockDataPath, "utf8"));
         const response2 = await axios_1.default.get(`https://www.alphavantage.co/query?function=TOP_GAINERS_LOSERS&apikey=demo`);
         topGainers = response2.data.top_gainers
             .map((gainer) => ({
@@ -60,7 +63,7 @@ const fetchInterval = setInterval(async () => {
         }))
             .slice(0, 10);
         // Save the data to a file
-        fs.writeFileSync("../../top-gainers-losers.json", JSON.stringify({ topGainers, topLosers }));
+        fs.writeFileSync(TopGainersLosersPath, JSON.stringify({ topGainers, topLosers }));
     }
     catch (error) {
         console.error("Error fetching data:", error);
@@ -68,7 +71,7 @@ const fetchInterval = setInterval(async () => {
 }, 60 * 60 * 1000); // Check every hour (60 minutes * 60 seconds * 1000 milliseconds)
 route.get("/fetch", async (req, res) => {
     try {
-        const fileData = fs.readFileSync("../../top-gainers-losers.json", "utf8");
+        const fileData = fs.readFileSync(TopGainersLosersPath, "utf8");
         const { topGainers, topLosers } = JSON.parse(fileData);
         res.json({ TopGainers: topGainers, TopLossers: topLosers });
     }
