@@ -2,11 +2,14 @@ import express from "express";
 import axios from "axios";
 import dotenv from "dotenv";
 import * as fs from "fs";
+import path from "path";
 
 dotenv.config();
 
 const route = express.Router();
 
+const stockDataPath = path.join(__dirname, "../../stock-data.json");
+const TopGainersLosersPath = path.join(__dirname, "../../top-gainers-losers.json");
 const alphavantageKey: string | undefined = process.env.ALPHA_VANTAGE_KEY;
 const twelvedataKey: string | undefined = process.env.TWELVE_DATA_KEY;
 if (!alphavantageKey || !twelvedataKey) {
@@ -15,7 +18,7 @@ if (!alphavantageKey || !twelvedataKey) {
 
 const stockData = JSON.parse(
   fs.readFileSync(
-    "../../stock-data.json",
+    stockDataPath,
     "utf8"
   )
 );
@@ -31,7 +34,7 @@ const fetchInterval = setInterval(async () => {
   try {
     const stockData = JSON.parse(
       fs.readFileSync(
-        "/home/caesarisdead/Desktop/stock-broker/backend/stock-data.json",
+        stockDataPath,
         "utf8"
       )
     );
@@ -55,7 +58,7 @@ const fetchInterval = setInterval(async () => {
 
     // Save the data to a file
     fs.writeFileSync(
-      "../../top-gainers-losers.json",
+      TopGainersLosersPath,
       JSON.stringify({ topGainers, topLosers })
     );
   } catch (error) {
@@ -66,7 +69,7 @@ const fetchInterval = setInterval(async () => {
 route.get("/fetch", async (req, res) => {
   try {
     const fileData = fs.readFileSync(
-      "../../top-gainers-losers.json",
+      TopGainersLosersPath,
       "utf8"
     );
 
