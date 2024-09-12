@@ -4,6 +4,9 @@ import dotenv from "dotenv";
 import * as fs from "fs";
 dotenv.config();
 
+const path = require('path');
+const newsPath = path.join(__dirname, 'news.json');
+
 const route = express.Router();
 
 const fetchInterval = setInterval(async () => {
@@ -18,7 +21,7 @@ const fetchInterval = setInterval(async () => {
     );
     // console.log(response.data);
     fs.writeFileSync(
-      "/home/caesarisdead/Desktop/stock-broker/backend/news.json",
+      newsPath,
       JSON.stringify( response.data.feed )
     );
   } catch (error) {
@@ -29,7 +32,7 @@ const fetchInterval = setInterval(async () => {
 route.get("/", async (req, res) => {
   try {
     const fileData = fs.readFileSync(
-      "/home/caesarisdead/Desktop/stock-broker/backend/news.json",
+      newsPath,
       "utf8"
     );
 

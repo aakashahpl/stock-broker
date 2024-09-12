@@ -174,7 +174,7 @@ export default function Chart(props: prop) {
 
             setConvertedData(formattedData365Days.reverse());
           } else {
-            console.error("Status:", response.status);
+            console.error("Status:");
           }
         }
       } catch (error: any) {

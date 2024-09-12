@@ -5,7 +5,7 @@ import { BsCart } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { useState, useRef } from "react";
 import { IoSearchSharp } from "react-icons/io5";
-import { useUser } from "../pages/context/userContext";
+import { useUser } from "../context/userContext";
 import axios from "axios";
 import { RiH1 } from "react-icons/ri";
 import Link from "next/link";

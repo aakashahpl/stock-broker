@@ -1,5 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
-import { UserProvider } from "./context/userContext";
+import { UserProvider } from "../context/userContext";
 
 export default function Document() {
   return (
