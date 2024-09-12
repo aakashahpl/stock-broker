@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Chart from "../../components/chart";
 import { useRouter } from "next/router";
-import { useUser } from "../context/userContext";
+import { useUser } from "../../context/userContext";
 import axios from "axios";
 import Image from "next/image";
 import TransactionInput from "@/components/transactionInput";
@@ -10,17 +10,60 @@ import { FaCircleInfo } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Divide } from "lucide-react";
 
+
+interface StockData {
+  logo: string;
+  name: string;
+  ticker?: string;
+  country?: string;
+  currency?: string;
+  exchange?: string;
+  ipo?: string;
+  marketCapitalization?: number;
+  phone?: string;
+  weburl?: string;
+  finnhubIndustry?: string;
+}
+
+interface StockData2 {
+  symbol: string;
+  name: string;
+  open: number;
+  previous_close: number;
+  volume: number;
+  high: number;
+  low: number;
+  close: number;
+  change?: number;
+  change_percent?: number;
+  currency?: string;
+  exchange?: string;
+  datetime?: string;
+}
+
+interface OrderBookData {
+  bids: {
+    [price: string]: number; // Assuming the quantity is a number
+  };
+  asks: {
+    [price: string]: number;
+  };
+}
+
+
 function BasicComponent() {
   const [timeFrame, setTimeFrame] = useState("1M");
   const borderColor = "#2e2e2e";
   const router = useRouter();
   const { user } = useUser();
   // console.log(router.query.slug);
-  const [slug, setSlug] = useState(router.query.slug);
+  const [slug, setSlug] = useState<string>();
   // console.log(slug);
 
   useEffect(() => {
-    setSlug(router.query.slug);
+    if(typeof router.query.slug === 'string'){
+      setSlug(router.query.slug);
+    }
   }, [router.query.slug]);
 
   const timeFrames = [
@@ -30,8 +73,8 @@ function BasicComponent() {
     { value: "3Y", label: "3Y" },
   ];
 
-  const [stockData, setStockData] = useState({});
-  const [stockData2, setStockData2] = useState({});
+  const [stockData, setStockData] = useState<StockData|undefined>();
+  const [stockData2, setStockData2] = useState<StockData2>();
   useEffect(() => {
     const apiUrl = `https://api.finnhub.io/api/v1/stock/profile2?symbol=${slug}&token=cov7sh1r01ql1b01vftgcov7sh1r01ql1b01vfu0`;
     const apiUrl2 = `https://api.twelvedata.com/quote?symbol=AAPL&apikey=ff82ae6c189242c2bc3500daf28f6919`;
@@ -52,7 +95,7 @@ function BasicComponent() {
   }, [slug]);
 
   const [orderBook, setOrderBook] = useState(false);
-  const [orderBookData, setOrderBookData] = useState({ bids: {}, asks: {} });
+  const [orderBookData, setOrderBookData] = useState<OrderBookData>({ bids: {}, asks: {} });
   useEffect(() => {
     const apiUrl = `http://localhost:3001/order/depth/AAPL`;
     async function fetchData() {
@@ -81,7 +124,7 @@ function BasicComponent() {
                 className=" overflow-hidden w-24 h-24"
                 width={96}
                 height={96}
-                src={stockData.logo}
+                src={stockData?.logo}
                 alt=""
                 style={{ opacity: 0.4 }}
               />
@@ -94,7 +137,7 @@ function BasicComponent() {
                 {orderBook === false ? <>Order Book</> : <>Price Chart</>}
               </Button>
             </div>
-            <div className=" text-3xl font-semibold">{stockData.name}</div>
+            <div className=" text-3xl font-semibold">{stockData?.name}</div>
           </div>
           <div className=" h-3/5">
             {orderBook === false ? (
@@ -127,29 +170,29 @@ function BasicComponent() {
                 </div>
                 <div>
                   {Object.values(orderBookData.bids).length != 0 ? (
-                    Object.entries(orderBookData.bids).map(([price, data]) => (
+                    Object.entries(orderBookData.bids).map(([price, quant]) => (
                       <div
                         key={price}
                         className="flex flex-row justify-between w-full text-green-400 px-3 h-20 items-center border-b border-myBorder border-dashed"
                       >
                         <div>{price}</div>
-                        <div>{data}</div>
+                        <div>{quant}</div>
                       </div>
                     ))
                   ) : (
                     <div className=" font-bold text-xl pt-10 text-red-500">
-                      No orders were placed for this stock
+                      No orders were placed for this stocks
                     </div>
                   )}
                 </div>
                 <div>
-                  {Object.entries(orderBookData.asks).map(([price, data]) => (
+                  {Object.entries(orderBookData.asks).map(([price]) => (
                     <div
                       key={price}
                       className="flex flex-row justify-between w-full text-red-600 px-3 h-20 items-center border-b border-myBorder border-dashed"
                     >
                       <div>{price}</div>
-                      <div>{data}</div>
+                      {/* <div>{data}</div> */}
                     </div>
                   ))}
                 </div>
@@ -163,27 +206,27 @@ function BasicComponent() {
           <div className=" grid grid-cols-4 grid-flow-row h-56 ">
             <div>
               <div>Open</div>
-              <div>{stockData2.open}</div>
+              <div>{stockData2?.open}</div>
             </div>
             <div>
               <div>Prev. Close</div>
-              <div>{stockData2.previous_close}</div>
+              <div>{stockData2?.previous_close}</div>
             </div>
             <div>
               <div>Volume</div>
-              <div>{stockData2.volume}</div>
+              <div>{stockData2?.volume}</div>
             </div>
             <div>
               <div>Total traded value</div>
-              <div>{stockData2.volume}</div>
+              <div>{stockData2?.volume}</div>
             </div>
             <div>
               <div>Upper Circuit</div>
-              <div>{stockData2.high}</div>
+              <div>{stockData2?.high}</div>
             </div>
             <div>
               <div>Lower Circuit</div>
-              <div>{stockData2.low}</div>
+              <div>{stockData2?.low}</div>
             </div>
           </div>
         </div>

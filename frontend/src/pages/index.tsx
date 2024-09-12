@@ -12,7 +12,7 @@ import axios from "axios";
 import cors from "cors";
 import { useRef } from "react";
 import z from "zod";
-import { useUser } from "./context/userContext";
+import { useUser } from "../context/userContext";
 import { redirect } from "next/dist/server/api-utils";
 import jwt from "jsonwebtoken";
 
@@ -40,7 +40,7 @@ const Hero = () => {
     router.push("/explore");
   }
   const handleFormData = async (data: any) => {
-    
+
 
     console.log(data);
     const userLogin = async () => {
@@ -67,13 +67,10 @@ const Hero = () => {
 
   return (
     <div>
-      <div className=" flex flex-col items-center justify-center h-[91vh] relative bg-[white]">
-        <div
-          className=" h-11/12 w-full  max-lg:px-5 flex flex-col justify-start items-center relative"
-          ref={pageRef}
-        >
+      <div className="w-screen h-[90vh] flex justify-center">
+        <div className="absolute w-2/6 mt-20 flex flex-col justify-center items-center gap-5">
           <div className="text-center opacity-80">
-            <p className="font-medium pb-3 text-8xl">
+            <p className="font-medium pb-3 text-7xl">
               All things finance,
               <br />
               right here.
@@ -82,18 +79,21 @@ const Hero = () => {
               Online platform to invest in stocks.
             </p>
           </div>
-          <Button variant={"myButton"} onClick={handleSignUp} size={"lg"}>
-            <div className=" font-bold text-md text-white ">Get Started</div>
+          <Button
+            onClick={handleSignUp}
+            className=" rounded-full"
+            variant={"default"}
+            size={"lg"}
+          >
+            Login / Sign Up
           </Button>
-          <div>
-            <img
-              className=" h-96 "
-              src="https://zerodha.com/static/images/landing.png"
-              alt=""
-            />
-          </div>
         </div>
-        <div>
+        <img
+          className=" w-full h-screen"
+          src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png"
+          alt=""
+        />
+            <div>
           {signUp == true ? (
             <div className=" h-screen w-full bg-slate-600 bg-opacity-70 absolute top-0 left-0 flex justify-center items-center ">
               <div className=" flex flex-row absolute h-3/5 w-2/4 rounded-md overflow-hidden ">
@@ -143,6 +143,28 @@ const Hero = () => {
           ) : null}
         </div>
       </div>
+
+      <div className=" flex flex-col items-center justify-center h-[91vh] relative bg-[white]">
+        <div
+          className=" h-11/12 w-full  max-lg:px-5 flex flex-col justify-start items-center relative"
+          ref={pageRef}
+        >
+          <h3 className="  font-bold text-6xl text-center">
+            Join a new generation of <br />Investors
+          </h3>
+          <Button variant={"myButton"} onClick={handleSignUp} size={"lg"}>
+            <div className=" font-bold text-md text-white ">Get Started</div>
+          </Button>
+          <div>
+            <img
+              className=" h-96 "
+              src="https://zerodha.com/static/images/landing.png"
+              alt=""
+            />
+          </div>
+        </div>
+    
+      </div>
       <div className=" bg-[#c8f43c] px-10 flex flex-row h-[90vh]">
         <div className=" flex justify-center items-center flex-[1.2]">
           <img
@@ -164,26 +186,6 @@ const Hero = () => {
           </h3>
           <h3>Investing Disclosures</h3>
         </div>
-      </div>
-      <div className="w-screen h-[90vh] flex justify-center">
-        <div className="absolute w-2/6 mt-20 flex flex-col justify-center items-center gap-5">
-          <h3 className="  font-bold text-6xl text-center">
-            Join a new generation of Investors
-          </h3>
-          <Button
-            onClick={handleSignUp}
-            className=" rounded-full"
-            variant={"default"}
-            size={"lg"}
-          >
-            Sign Up
-          </Button>
-        </div>
-        <img
-          className=" w-full"
-          src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png"
-          alt=""
-        />
       </div>
     </div>
   );

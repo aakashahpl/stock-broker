@@ -90,7 +90,7 @@ export default function Home() {
 
         console.log(response);
         setUserStockData(response.balance.stocks);
-        setUserBalance(response);
+        // setUserBalance(response);
 
         let currentValue = 0;
         Object.keys(response.balance.stocks).forEach((key) => {
@@ -119,7 +119,8 @@ export default function Home() {
 
   return (
     <>
-      <main
+    <div>temp code ts error</div>
+      {/* <main
         className={`flex min-h-screen flex-row justify-between  mx-96 mt-10`}
       >
         <div className=" w-8/12 flex flex-col justify-start gap-5">
@@ -163,7 +164,7 @@ export default function Home() {
                   <h3 className=" font-semibold text-xl">
                     {(() => {
                       let fullName =
-                        userBalance.userStockDetails[symbol]?.name || ""; // Access the name property correctly
+                        userBalance?.userStockDetails[symbol]?.name || ""; // Access the name property correctly
                       let nameArray = fullName.split(" ");
                       return nameArray[0];
                     })()}
@@ -184,7 +185,7 @@ export default function Home() {
         </div>
 
         <div className=" border border-myBorder w-80 h-96"></div>
-      </main>
+      </main> */}
     </>
   );
 }

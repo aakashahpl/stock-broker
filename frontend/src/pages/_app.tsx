@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { UserProvider } from "./context/userContext";
+import { UserProvider } from "../context/userContext";
 import { Toaster } from "@/components/ui/toaster"
 import Navbar from "../components/navbar";
 
