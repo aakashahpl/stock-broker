@@ -18,10 +18,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-  }));
+// app.use(cors({
+//     origin: '*',
+//     credentials: true
+//   }));
 app.use("/frontPage",route1);
 app.use("/user",userRoute);
 app.use("/order",orderRoute);
