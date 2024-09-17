@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`http://localhost:3001/user/order`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_Backend_URL}/user/order`, {
           withCredentials: true,
         });
         console.log(response.data.orders);

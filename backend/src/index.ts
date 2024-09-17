@@ -19,8 +19,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
 const corsOptions = {
-  origin: '*',
+  origin: 'https://stock-broker-tau.vercel.app/', // specify the exact origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, // allow credentials (cookies, authorization headers, etc.)
 };
 app.use(cors(corsOptions));
 

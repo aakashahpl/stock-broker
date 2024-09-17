@@ -46,7 +46,7 @@ const Hero = () => {
     const userLogin = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3001/user/login",
+          `${process.env.NEXT_PUBLIC_Backend_URL}/user/login`,
           data
         );
         cookies.set("authorization", response.data.accessToken, { path: "/" });

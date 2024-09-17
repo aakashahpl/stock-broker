@@ -188,7 +188,7 @@ export default function InvestmentDetails() {
       </div>
       <div className=" h-20 rounded-sm border-[1px] border-[#2b2b2b] flex flex-row items-center justify-between px-4">
         <div>
-          <h3 className=" text-[#0ba481] font-bold text-lg">+$9999</h3>
+          <h3 className=" text-[#0ba481] font-bold text-lg">+$340</h3>
           <h3 className=" text-base">Total Returns</h3>
         </div>
         <div className=" text-end">
@@ -208,7 +208,7 @@ export default function InvestmentDetails() {
       <div className=" h-80 rounded-md border-[1px] border-[#2b2b2b] overflow-x-hidden overflow-y-scroll">
         {Object.entries(userStockData).map(([symbol, quantity]) => (
           <div className=" h-20 rounded-sm border-b-[1px] border-[#2b2b2b] flex flex-row items-center justify-between px-4">
-            {/* <div>
+            <div>
               <h3 className=" text-base">
                 {" "}
                 {(() => {
@@ -229,7 +229,7 @@ export default function InvestmentDetails() {
                 ).toFixed(2)}
                 %
               </h3>
-            </div> */}
+            </div>
           </div>
         ))}
       </div>
