@@ -97,7 +97,7 @@ function BasicComponent() {
   const [orderBook, setOrderBook] = useState(false);
   const [orderBookData, setOrderBookData] = useState<OrderBookData>({ bids: {}, asks: {} });
   useEffect(() => {
-    const apiUrl = `http://localhost:3001/order/depth/AAPL`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_Backend_URL}/order/depth/AAPL`;
     async function fetchData() {
       if (slug) {
         try {

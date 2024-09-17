@@ -38,7 +38,7 @@ const TransactionInput = ({ currentStock }: any) => {
     resolver: zodResolver(schema),
   });
   const onSubmit: SubmitHandler<FormFields> = async (data: any) => {
-    const URL = "http://localhost:3001/order/place-order";
+    const URL = `${process.env.NEXT_PUBLIC_Backend_URL}/order/place-order`;
 
     async function fetchData() {
       try {

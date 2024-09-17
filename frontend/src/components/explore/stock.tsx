@@ -27,7 +27,7 @@ const StockDetails = () => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          `http://localhost:3001/frontpage/fetch`
+          `${process.env.NEXT_PUBLIC_Backend_URL}/frontpage/fetch`
         );
 
         const data = response.data;

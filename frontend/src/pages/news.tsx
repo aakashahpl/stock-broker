@@ -7,7 +7,7 @@ const News = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/news");
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_Backend_URL}/news`);
         // console.log(response.feed)
         setNewsData(response.data);
       } catch (error) {
