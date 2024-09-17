@@ -6,9 +6,59 @@ import axios from "axios";
 import Link from "next/link";
 import Cookies from "universal-cookie";
 
+
+interface UserStockData  {
+  [symbol: string]: number; 
+}
+
+interface UserBalance {
+  balance: {
+    USD: number;
+    stocks: {
+      [symbol: string]: number; // Dynamic keys for stock symbols (e.g., AAPL, AMZN)
+    };
+  };
+  userStockDetails: {
+    [symbol: string]: StockDetails; // Dynamic keys for stock symbols
+  };
+}
+
+
+interface StockDetails {
+  symbol: string;
+  name: string;
+  exchange: string;
+  mic_code: string;
+  currency: string;
+  datetime: string;
+  timestamp: number;
+  open: string;
+  high: string;
+  low: string;
+  close: string;
+  volume: string;
+  previous_close: string;
+  change: string;
+  percent_change: string;
+  average_volume: string;
+  is_market_open: boolean;
+  fifty_two_week: FiftyTwoWeekDetails;
+}
+
+interface FiftyTwoWeekDetails {
+  low: string;
+  high: string;
+  low_change: string;
+  high_change: string;
+  low_change_percent: string;
+  high_change_percent: string;
+  range: string;
+}
+
+
 export default function Home() {
-  const [userBalance, setUserBalance] = useState();
-  const [userStockData, setUserStockData] = useState({});
+  const [userBalance, setUserBalance] = useState<UserBalance | null>();
+  const [userStockData, setUserStockData] = useState<UserStockData | null>();
   const [currentStocksValue,setCurrentStocksValue] = useState(0);
   useEffect(() => {
     async function fetchData() {
@@ -90,7 +140,7 @@ export default function Home() {
 
         console.log(response);
         setUserStockData(response.balance.stocks);
-        // setUserBalance(response);
+        setUserBalance(response);
 
         let currentValue = 0;
         Object.keys(response.balance.stocks).forEach((key) => {
@@ -119,8 +169,8 @@ export default function Home() {
 
   return (
     <>
-    <div>temp code ts error</div>
-      {/* <main
+    {/* <div className="text-white">temp code ts error</div> */}
+      <main
         className={`flex min-h-screen flex-row justify-between  mx-96 mt-10`}
       >
         <div className=" w-8/12 flex flex-col justify-start gap-5">
@@ -155,7 +205,7 @@ export default function Home() {
               <h1 className="">MKT PRICE</h1>
               <h1 className="">QTY</h1>
             </div>
-            {Object.entries(userStockData).map(([symbol, quantity]) => (
+            {userStockData &&Object.entries(userStockData).map(([symbol, quantity]) => (
               <div
                 key={symbol}
                 className="flex flex-row justify-between w-full text-white px-6 h-20 items-center border-b border-myBorder border-dashed"
@@ -173,11 +223,11 @@ export default function Home() {
                 </div>
                 <h3 className=" text-base">
                   $
-                  {Number(userBalance.userStockDetails[symbol].close).toFixed(
+                  {Number(userBalance?.userStockDetails[symbol].close).toFixed(
                     2
                   )}
                 </h3>
-                <h3 className=" text-lg font-semibold ">{quantity}</h3>
+                <h3 className=" text-lg font-semibold ">{quantity}</h3> 
               </div>
             ))}
           </div>
@@ -185,7 +235,7 @@ export default function Home() {
         </div>
 
         <div className=" border border-myBorder w-80 h-96"></div>
-      </main> */}
+      </main>
     </>
   );
 }

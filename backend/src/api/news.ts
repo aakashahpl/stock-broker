@@ -5,7 +5,7 @@ import * as fs from "fs";
 dotenv.config();
 
 const path = require('path');
-const newsPath = path.join(__dirname, 'news.json');
+const newsPath = path.join(__dirname, '../../news.json');
 
 const route = express.Router();
 
