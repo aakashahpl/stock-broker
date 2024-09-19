@@ -7,8 +7,6 @@ import orderRoute from "./api/order";
 import newsRoute from "./api/news"
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
-
 import passport from "passport";
 import dotenv from "dotenv";
 dotenv.config();
@@ -19,7 +17,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
 const corsOptions = {
-  origin: 'https://stock-broker-tau.vercel.app/', // specify the exact origin
+  origin: 'https://stock-broker-tau.vercel.app', // specify the exact origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // allow credentials (cookies, authorization headers, etc.)
 };
