@@ -1,17 +1,18 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { RxCross2 } from "react-icons/rx";
 import Link from "next/link";
 import Cookies from "universal-cookie";
+import { CgProfile } from "react-icons/cg";
 import LoginForm from "../components/indexPage/form";
 import axios from "axios";
 import cors from "cors";
 import { useRef } from "react";
-import z from "zod";
+// import z from "zod";
 import { useUser } from "../context/userContext";
 import { redirect } from "next/dist/server/api-utils";
 import jwt from "jsonwebtoken";
@@ -70,7 +71,7 @@ const Hero = () => {
       <div className="w-screen h-[90vh] flex justify-center">
         <div className="absolute w-2/6 mt-20 flex flex-col justify-center items-center gap-5">
           <div className="text-center opacity-80">
-            <p className="font-medium pb-3 text-7xl">
+            <p className="font-medium pb-3 text-5xl lg:text-7xl">
               All things finance,
               <br />
               right here.
@@ -93,13 +94,13 @@ const Hero = () => {
           src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png"
           alt=""
         />
-            <div>
+        <div>
           {signUp == true ? (
             <div className=" h-screen w-full bg-slate-600 bg-opacity-70 absolute top-0 left-0 flex justify-center items-center ">
               <div className=" flex flex-row absolute h-3/5 w-2/4 rounded-md overflow-hidden ">
                 <div className=" bg-[#77c1ad] h-full w-1/2 ">
                   <Image
-                    className=" overflow-hidden w-full h-full"
+                    className=" overflow-hidden mx-w-screen h-full"
                     width={500}
                     height={500}
                     src="/signUpBg.jpg"
@@ -123,14 +124,14 @@ const Hero = () => {
                       Welcome to Nook
                     </div>
                     <div>
-                      <Button variant={"outline"} size={"xl"}>
+                      <button className="border-gray-400 border px-10 py-2 rounded-md">
                         <div className="flex flex-row gap-2 justify-center items-center">
-                          <FcGoogle size={30} />
+                          <CgProfile size={30} />
                           <div className=" font-semibold text-slate-700 text-base ">
-                            Continue with Google
+                            Guest Login
                           </div>
                         </div>{" "}
-                      </Button>
+                      </button>
                     </div>
                   </div>
                   <div className="flex-[0.1]">Or</div>
@@ -144,9 +145,9 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className=" flex flex-col items-center justify-center h-[91vh] relative bg-[white]">
+      <div className=" flex flex-col items-center justify-center h-screen relative bg-[white]">
         <div
-          className=" h-11/12 w-full  max-lg:px-5 flex flex-col justify-start items-center relative"
+          className=" h-11/12 w-full  max-lg:px-5 flex flex-col justify-start items-center relative gap-4"
           ref={pageRef}
         >
           <h3 className="  font-bold text-6xl text-center">
@@ -163,7 +164,7 @@ const Hero = () => {
             />
           </div>
         </div>
-    
+
       </div>
       <div className=" bg-[#c8f43c] px-10 flex flex-row h-[90vh]">
         <div className=" flex justify-center items-center flex-[1.2]">
