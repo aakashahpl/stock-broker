@@ -75,7 +75,7 @@ function Navbar() {
   };
 
   return (
-    <div className="flex flex-row text-white  justify-center items-center border-b-[1px] px-24 h-16 border-myBorder">
+    <div className="flex flex-row text-stone-200 bg-neutral-900 justify-center items-center border-b-[1px] px-24 h-20">
       <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
         <Image
           width={230}
@@ -129,7 +129,7 @@ function Navbar() {
         >
           <IoSearchSharp size={20} />
           <input
-            className=" text-white bg-myBackground border-myBorder  focus:border-transparent outline-none "
+            className=" text-white bg-transparent border-myBorder  focus:border-transparent outline-none "
             type="text"
             // value={inputValue.current}
             onChange={handleChange}
@@ -156,9 +156,9 @@ function Navbar() {
       </div>
       {user === null ? (
         <div className=" flex-1 ">
-          <Button variant={"myButton"} type="submit">
+          {/* <Button variant={"myButton"} type="submit">
             <div className=" font-bold text-md text-white ">Login/Register</div>
-          </Button>
+          </Button> */}
         </div>
       ) : (
         <div className=" flex-[1] flex flex-row justify-center items-center ">
