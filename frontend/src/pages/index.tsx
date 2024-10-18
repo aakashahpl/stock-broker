@@ -41,8 +41,6 @@ const Hero = () => {
     router.push("/explore");
   }
   const handleFormData = async (data: any) => {
-
-
     console.log(data);
     const userLogin = async () => {
       try {
@@ -60,6 +58,29 @@ const Hero = () => {
     };
     userLogin();
   };
+
+  const handleGuestLogin = async () => {
+    const data = {
+      username: "robin@gmail.com",
+      password: "robin"
+    }
+    const guestUserLogin = async () => {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_Backend_URL}/user/login`,
+          data
+        );
+        cookies.set("authorization", response.data.accessToken, { path: "/" });
+        console.log(cookies.get("authorization"));
+        await loginUser(data);
+        router.push("/explore");
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    };
+    guestUserLogin();
+  };
+
   const handleSignUp = () => {
     // pageRef.current.scrollIntoView({ behavior: "smooth" });
     window.scrollTo(0, 0);
@@ -68,7 +89,7 @@ const Hero = () => {
 
   return (
     <div>
-      <div className="w-screen h-[90vh] flex justify-center">
+      <div className="w-full h-[90vh] flex justify-center">
         <div className="absolute w-2/6 mt-20 flex flex-col justify-center items-center gap-5">
           <div className="text-center opacity-80">
             <p className="font-medium pb-3 text-5xl lg:text-7xl">
@@ -90,7 +111,7 @@ const Hero = () => {
           </Button>
         </div>
         <img
-          className=" w-full h-screen"
+          className=" w-screen h-screen"
           src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png"
           alt=""
         />
@@ -124,7 +145,7 @@ const Hero = () => {
                       Welcome to Nook
                     </div>
                     <div>
-                      <button className="border-gray-400 border px-10 py-2 rounded-md">
+                      <button className="border-gray-400 border px-10 py-2 rounded-md" onClick={handleGuestLogin}>
                         <div className="flex flex-row gap-2 justify-center items-center">
                           <CgProfile size={30} />
                           <div className=" font-semibold text-slate-700 text-base ">
