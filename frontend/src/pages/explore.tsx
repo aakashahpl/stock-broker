@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <main
-        className={`flex min-h-screen flex-row justify-between  mx-96 mt-4`}
+        className={`flex min-h-screen flex-row justify-between mx-auto max-w-[60%] mt-4`}
       >
         {/* <Chart ticker="AAPL" timeFrame="1M"/> */}
         <StockDetails />
