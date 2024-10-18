@@ -69,7 +69,7 @@ const StockDetails = () => {
     };
   }, []);
   return (
-    <div className=" w-8/12 flex flex-col justify-start gap-5">
+    <div className=" w-10/12 lg:w-8/12 flex flex-col justify-start gap-5">
       <div className="flex flex-col w-full h-48 justify-center  ">
         <div className=" flex-1 font-bold text-slate-100 text-xl pb-3">
           Index
