@@ -89,7 +89,7 @@ const Hero = () => {
 
   return (
     <div>
-      <div className="w-full h-[90vh] flex justify-center">
+      <div className="w-full h-[90vh] flex justify-center sticky top-0">
         <div className="absolute w-2/6 mt-20 flex flex-col justify-center items-center gap-5">
           <div className="text-center opacity-80">
             <p className="font-medium pb-3 text-5xl lg:text-7xl">
@@ -166,7 +166,7 @@ const Hero = () => {
         </div>
       </div>
 
-      <div className=" flex flex-col items-center justify-center h-screen relative bg-[white]">
+      <div className=" flex flex-col items-center justify-center h-screen bg-[white] sticky top-0">
         <div
           className=" h-11/12 w-full  max-lg:px-5 flex flex-col justify-start items-center relative gap-4"
           ref={pageRef}
@@ -187,7 +187,7 @@ const Hero = () => {
         </div>
 
       </div>
-      <div className=" bg-[#c8f43c] px-10 flex flex-row h-[90vh]">
+      <div className=" bg-[#c8f43c] px-10 flex flex-row h-[90vh] relative">
         <div className=" flex justify-center items-center flex-[1.2]">
           <img
             className=""
