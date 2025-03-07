@@ -8,17 +8,20 @@ import Link from "next/link";
 import StockDetails from "@/components/explore/stock";
 import InvestmentDetails from "@/components/explore/investment";
 import Chart from "@/components/realTimeChart";
+import Navbar from "../components/navbar";
+
 
 export default function Home() {
   return (
-    <>
-      <main
-        className={`flex min-h-screen flex-row justify-between mx-auto max-w-[60%] mt-4`}
-      >
-        {/* <Chart ticker="AAPL" timeFrame="1M"/> */}
-        <StockDetails />
-        <InvestmentDetails />
-      </main>
-    </>
+
+    <main
+      className={`flex min-h-screen flex-row justify-between mx-auto max-w-[60%] mt-24 `}
+    >
+
+      {/* <Chart ticker="AAPL" timeFrame="1M"/> */}
+      <StockDetails />
+      <InvestmentDetails />
+    </main>
+
   );
 }

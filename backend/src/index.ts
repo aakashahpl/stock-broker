@@ -16,8 +16,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
+
 const corsOptions = {
-  origin: 'https://stock-broker-tau.vercel.app', // specify the exact origin
+  origin: 'https://stock-broker-tau.vercel.app', 
+  // origin: 'http://localhost:3000', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // allow credentials (cookies, authorization headers, etc.)
 };
@@ -27,6 +29,8 @@ app.use(cors(corsOptions));
 //     origin: '*',
 //     credentials: true
 //   }));
+
+
 app.use("/frontPage",route1);
 app.use("/user",userRoute);
 app.use("/order",orderRoute);

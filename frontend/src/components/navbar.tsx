@@ -75,45 +75,41 @@ function Navbar() {
   };
 
   return (
-    <div className="flex flex-row text-stone-200 bg-neutral-900 justify-center items-center border-b-[1px] px-24 h-20">
-      <div className="flex-[1.8] h-full  flex justify-center items-center overflow-hidden">
-        <Image
-          width={230}
-          height={230}
-          src="/nookLogo.png"
-          alt=""
-          priority={false}
-        />
+    <div className={`flex flex-row text-stone-200 justify-center items-center px-24 h-20 bg-transparent absolute top-0 z-[1000] w-full ${user !== null ? 'border-[#2b2b2b] border-b-[1px]' : ''}`}
+    >
+      <div className="flex-[1.8] h-full flex justify-center items-center overflow-hidden">
+        <div className="flex flex-row items-center px-5 gap-2">
+          <img src="/zenith-logo.png" width={45} alt="" />
+          <div className={`uppercase font-semibold text-[2rem] text-[#31373d] ${user == null ? 'text-neutral-800' : 'text-neutral-200'}`}>Zenith</div>
+        </div>
         <div>
           {user ? (
-            <div className="gap-6 flex flex-row">
+            <div className="gap-6 flex flex-row pl-4">
               <Link
                 href={`/explore`}
-                className={`font-semibold hover:cursor-pointer ${
-                  window.location.pathname === "/explore"
-                    ? "text-[#0ba782]"
-                    : "text-neutral-100"
-                }`}
+                className={`font-semibold hover:cursor-pointer ${window.location.pathname === "/explore"
+                  ? "text-[#0ba782]"
+                  : "text-neutral-100"
+                  }`}
               >
                 Explore
               </Link>
 
               <Link
                 href={`/user/investments`}
-                className={` font-semibold hover:cursor-pointer ${
-                  window.location.pathname == "/user/investments"
-                    ? "text-[#0ba782]"
-                    : "text-neutral-100"
-                }`}
+                className={` font-semibold hover:cursor-pointer ${window.location.pathname == "/user/investments"
+                  ? "text-[#0ba782]"
+                  : "text-neutral-100"
+                  }`}
               >
                 Investments
               </Link>
               <Link
                 href={`/news`}
                 className={`font-semibold hover:cursor-pointer ${window.location.pathname == "/news"
-                ? "text-[#0ba782]"
-                : "text-neutral-100"
-            }`}
+                  ? "text-[#0ba782]"
+                  : "text-neutral-100"
+                  }`}
               >
                 News
               </Link>

@@ -15,7 +15,7 @@ export default function Home() {
           withCredentials: true,
         });
         console.log(response.data.orders);
-        setOrders(response.data.orders);
+        setOrders(response.data.orders.reverse());
         if (!response) {
           console.log("no response");
         }
@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <>
       <main
-        className={`flex min-h-screen flex-row justify-between  mx-96 mt-10`}
+        className={`flex min-h-screen flex-row justify-between  mx-96 mt-24`}
       >
         <div className=" w-8/12 flex flex-col justify-start gap-5">
           <div className=" font-bold text-slate-100 pb-3 text-xl ">Orders</div>
