@@ -32,7 +32,7 @@ const StockDetails = () => {
 
         const data = response.data;
 
-        // console.log(data.TopGainers);
+        console.log(data.TopGainers);
 
         // if(data.indexesData.SPX&&data.indexesData.IXIC&&data.indexesData.DJI){
 
@@ -72,7 +72,7 @@ const StockDetails = () => {
     <div className=" w-10/12 flex flex-col justify-start gap-5">
       <div className="flex flex-col w-full h-48 justify-center  ">
         <div className=" flex-1 font-bold text-slate-100 text-xl pb-3">
-          Index
+          Indices
         </div>
         <div className=" flex-[3] flex flex-row justify-between h-40 ">
           {indexes.current.map((element, index) => (
@@ -146,9 +146,9 @@ const StockDetails = () => {
               <div className="flex flex-col w-11/12 justify-around h-full">
                 <div className=" text-sm font-bold">{element.name}</div>
                 <div className="px-2">
-                  <div className=" text-base font-semibold">
+                  {/* <div className=" text-base font-semibold">
                     ${element.ticker}
-                  </div>
+                  </div> */}
                   <div className=" text-base font-semibold">
                     ${element.price}
                   </div>

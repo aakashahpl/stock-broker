@@ -115,7 +115,7 @@ function BasicComponent() {
 
   const [option, setOption] = useState("buy");
   return (
-    <div>
+    <div className="mt-24">
       <div className=" text-white flex flex-row justify-center h-screen mt-10">
         <div className="w-6/12 ">
           <div className=" ">

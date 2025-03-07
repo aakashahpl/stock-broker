@@ -16,6 +16,7 @@ import { useRef } from "react";
 import { useUser } from "../context/userContext";
 import { redirect } from "next/dist/server/api-utils";
 import jwt from "jsonwebtoken";
+import Navbar from "../components/navbar";
 
 
 interface Payload {
@@ -89,8 +90,9 @@ const Hero = () => {
 
   return (
     <div>
-      <div className="w-full h-[90vh] flex justify-center sticky top-0">
-        <div className="absolute w-2/6 mt-20 flex flex-col justify-center items-center gap-5">
+      <Navbar />
+      <div className="w-full h-full flex justify-center sticky top-0">
+        <div className="absolute w-2/6 mt-40 flex flex-col justify-center items-center gap-5">
           <div className="text-center opacity-80">
             <p className="font-medium pb-3 text-5xl lg:text-7xl">
               All things finance,
@@ -114,6 +116,7 @@ const Hero = () => {
           className=" w-screen h-screen"
           src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png"
           alt=""
+          draggable="false"
         />
         <div>
           {signUp == true ? (
@@ -142,7 +145,7 @@ const Hero = () => {
                   </div>
                   <div className=" flex-1 flex flex-col justify-center gap-10  items-center">
                     <div className=" font-bold text-4xl text-slate-700 ">
-                      Welcome to Nook
+                      Welcome to Zenith
                     </div>
                     <div>
                       <button className="border-gray-400 border px-10 py-2 rounded-md" onClick={handleGuestLogin}>
@@ -155,7 +158,11 @@ const Hero = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="flex-[0.1]">Or</div>
+                  <div className="flex-[0.1] flex flex-row items-center w-5/6">
+                    <div className="border h-[1px] w-full border-neutral-300"></div>
+                    <p className="mx-2">Or</p>
+                    <div className="border h-[1px] w-full border-neutral-300"></div>
+                  </div>
                   <div className=" flex-1 w-full flex justify-center items-start mt-10">
                     <LoginForm onSubmit={handleFormData} />
                   </div>
@@ -187,12 +194,13 @@ const Hero = () => {
         </div>
 
       </div>
-      <div className=" bg-[#c8f43c] px-10 flex flex-row h-[90vh] relative">
+      <div className=" bg-[#c8f43c] px-10 flex flex-row h-[100vh] relative">
         <div className=" flex justify-center items-center flex-[1.2]">
           <img
             className=""
             src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/product_hero_invest__91b9077cf4788b508a013b9dda8c3ffe4d4fff969655c212a0201c9533237d46.png"
             alt=""
+            draggable="false"
           />
         </div>
         <div className=" flex-1 flex flex-col  gap-2 items-start justify-center ">
