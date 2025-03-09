@@ -12,36 +12,32 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
+// Get port from command line arguments if provided
+const portArg = process.argv.find(arg => arg.startsWith('--port='));
+const PORT = portArg ? portArg.split('=')[1] : process.env.PORT || 3001;
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(passport.initialize());
 
-const corsOptions = {
-  origin: 'https://stock-broker-tau.vercel.app', 
-  // origin: 'http://localhost:3000', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true, // allow credentials (cookies, authorization headers, etc.)
-};
-app.use(cors(corsOptions));
+// CORS configuration to accept requests from any origin
+app.use(cors({
+    origin: '*',  // Allow requests from any origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true // allow credentials (cookies, authorization headers, etc.)
+}));
 
-// app.use(cors({
-//     origin: '*',
-//     credentials: true
-//   }));
-
-
-app.use("/frontPage",route1);
-app.use("/user",userRoute);
-app.use("/order",orderRoute);
-app.use("/news",newsRoute);
-app.use("/test",(req,res)=>{
-  res.send("api working correctly");
-})
+app.use("/frontPage", route1);
+app.use("/user", userRoute);
+app.use("/order", orderRoute);
+app.use("/news", newsRoute);
+app.use("/test", (req, res) => {
+    res.send("api working correctly");
+});
 
 connectToDB();
-const PORT = process.env.PORT||3001;
-app.listen(PORT,()=>{
-    console.log(`server is running on Port ${PORT}`);
-}) 
 
+app.listen(PORT, () => {
+    console.log(`server is running on Port ${PORT}`);
+});
