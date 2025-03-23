@@ -24,7 +24,6 @@ app.use(passport.initialize());
 // CORS configuration to accept requests from any origin
 app.use(cors({
     origin: 'https://stock-broker-tau.vercel.app/',
-    // origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true // allow credentials (cookies, authorization headers, etc.)
 }));
