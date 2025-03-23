@@ -20,7 +20,7 @@ const Search: React.FC = () => {
     const fetchStockData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:3001/stock/all');
+        const response = await fetch(`${process.env.NEXT_PUBLIC_Backend_URL}/stock/all`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch stock data');
