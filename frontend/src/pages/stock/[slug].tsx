@@ -9,9 +9,9 @@ import TransactionInput from "@/components/transactionInput";
 import { FaCircleInfo } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Divide, LineChart } from "lucide-react";
-import { MovingAverageChart } from "@/components/MovingAverageChart";
-import { MonteCarloChart } from "@/components/MonteCarloChart";
-import { ARIMAForecastChart } from "@/components/ArimaForecastChart";
+// import { MovingAverageChart } from "@/components/MovingAverageChart";
+// import { MonteCarloChart } from "@/components/MonteCarloChart";
+// import { ARIMAForecastChart } from "@/components/ArimaForecastChart";
 
 interface StockData {
   logo: string;
@@ -239,7 +239,7 @@ function BasicComponent() {
             )}
           </div>
           
-          {showCharts && (
+          {/* {showCharts && (
             <>
               <div className="flex flex-row justify-start items-center gap-2 text-xl font-semibold mt-20">
                 <h1 className="text-white">Performance Analysis</h1>
@@ -260,7 +260,7 @@ function BasicComponent() {
                 </div>
               </div>
             </>
-          )}
+          )} */}
         </div>
         <TransactionInput currentStock={stockData} />
       </div>
