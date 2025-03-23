@@ -26,6 +26,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/nodemon": "^1.19.6",
     "@types/passport": "^1.0.16",
+    "aws-sdk": "^2.1692.0",
     "axios": "^1.6.7",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
@@ -37,10 +38,12 @@
     "nodemon": "^3.0.3",
     "passport": "^0.7.0",
     "passport-local-mongoose": "^8.0.0",
+    "pg": "^8.13.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
   "devDependencies": {
+    "@types/pg": "^8.11.11",
     "rimraf": "^6.0.1"
   }
 }
