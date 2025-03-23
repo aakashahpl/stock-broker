@@ -9,6 +9,7 @@ import StockDetails from "@/components/explore/stock";
 import InvestmentDetails from "@/components/explore/investment";
 import Chart from "@/components/realTimeChart";
 import Navbar from "../components/navbar";
+import Search from "../components/Search";
 
 
 export default function Home() {

@@ -100,7 +100,7 @@ export default function Chart(props: prop) {
       },
     },
   };
-  const [ticker, setTicker] = useState("");
+  const [ticker, setTicker] = useState("ca");
   const count = useRef(0);
 
   const prevFrame = useRef("");
@@ -111,8 +111,13 @@ export default function Chart(props: prop) {
 
   if (props.ticker != undefined && count.current === 0) {
     count.current++;
+    setTicker("hat");
+
+  }  
+  useEffect(() => {
+    // This will run whenever the `ticker` state changes 
     setTicker(props.ticker);
-  }
+  }, [props.ticker]);  // This effect will trigger when `ticker` changes
 
   useEffect(() => {
     setFrame(props.timeFrame);
@@ -128,54 +133,79 @@ export default function Chart(props: prop) {
     const fetchData = async () => {
       try {
         if (inputData.current.length === 0) {
-          // const url =
-          //     `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&outputsize=full&apikey=${process.env.ALPHA_VANTAGE_KEY_2}`;
-          const url =
-            "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo";
+          // const url =`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${ticker}&outputsize=full&apikey=9WGXSOBJOXC21HVG`;
+          // // const url ="https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo";
 
-          const response = await axios.get(url, {
-            headers: { "User-Agent": "axios" },
-          });
+          // const response = await axios.get(url, {
+          //   headers: { "User-Agent": "axios" },
+          // });
+          const url = `https://data.alpaca.markets/v2/stocks/bars?symbols=${ticker}&timeframe=1D&start=2023-03-15&end=2025-03-15&limit=1000&adjustment=raw&feed=sip&sort=asc`;
 
-          inputData.current = response.data;
-          // console.log(inputData.current);
-          //transform the data from the api to your required data
-          //required data format :--
-          //[{time:"2023-10-18",value:139.97},...]
-          Object.keys(inputData.current["Time Series (Daily)"]).forEach(
-            (key) => {
-              formattedData.current.push({
-                time: key,
-                value: parseFloat(
-                  inputData.current["Time Series (Daily)"][key]["4. close"]
-                ),
-              });
+          const options = {
+            method: 'GET',
+            headers: {
+              'APCA-API-KEY-ID': process.env.NEXT_PUBLIC_ALPACA_KEY,
+              'APCA-API-SECRET-KEY':process.env.NEXT_PUBLIC_ALPACA_SECRET,
+              'accept': 'application/json'
             }
-          );
+          };
+
+          try {
+            const response = await fetch(url, options);
+
+            if (!response.ok) {
+              throw new Error('Failed to fetch data');
+            }
+
+            const data = await response.json();
+
+            inputData.current = data.bars[ticker];
+            //transform the data from the api to your required data
+            //required data format :--
+            //[{time:"2023-10-18",value:139.97},...]
+            Object.keys(inputData.current).forEach(
+              (key) => {
+                formattedData.current.push({
+                  time: new Date(inputData.current[key]["t"]).toISOString().slice(0, 10),
+                  value: parseFloat(
+                    inputData.current[key]["c"]
+                  ),
+                });
+              }
+            );
+            // console.log(formattedData);
+
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+
+
+
         }
 
         if (formattedData.current.length > 0) {
-          if (frame === "1M") {
-            console.log("inside 1M");
-            const formattedData30Days = formattedData.current.slice(0, 30);
-            // console.log(formattedData30Days[0]);
-            setConvertedData(formattedData30Days.reverse());
-          } else if (frame == "1Y") {
-            console.log("inside 1Y");
-            const formattedData365Days = formattedData.current.slice(0, 365);
+          // if (frame === "1M") {
+          //   console.log("inside 1M");
+          //   const formattedData30Days = formattedData.current.slice(0, 30);
+          //   // console.log(formattedData30Days[0]);
+          //   setConvertedData(formattedData30Days);
+          // } else if (frame == "1Y") {
+          //   console.log("inside 1Y");
+          //   const formattedData365Days = formattedData.current.slice(0, 365);
 
-            setConvertedData(formattedData365Days.reverse());
-          } else if (frame == "3Y") {
-            console.log("inside 3Y");
-            const formattedData365Days = formattedData.current.slice(
-              0,
-              356 * 3
-            );
-
-            setConvertedData(formattedData365Days.reverse());
-          } else {
-            console.error("Status:");
-          }
+          //   setConvertedData(formattedData365Days);
+          // } else if (frame == "3Y") {
+          //   console.log("inside 3Y");
+          //   const formattedData365Days = formattedData.current.slice(
+          //     0,
+          //     356 * 3
+          //   );
+          // }
+          // console.log("formatted data over here", formattedData.current);
+          setConvertedData(formattedData.current.slice(0, 500));
+          //  else {
+          //   console.error("Status:");
+          // }
         }
       } catch (error: any) {
         console.error("Error:", error.message);
@@ -185,18 +215,28 @@ export default function Chart(props: prop) {
     fetchData();
   }, [ticker, frame]);
 
+  // return (
+  //   <div className="">
+  //     {/* <div> {JSON.stringify(convertedData)}</div> */}
+  //     {frame === "1D" ? (
+  //       <RealTimeChart ticker="AAPL" timeFrame="1D" />
+  //     ) : (
+  //       <ChartComponent
+  //         {...chartProps}
+  //         data={convertedData}
+  //         frame={frame}
+  //       ></ChartComponent>
+  //     )}
+  //   </div>
+  // );
+
   return (
     <div className="">
-      {/* <div> {JSON.stringify(convertedData)}</div> */}
-      {frame === "1D" ? (
-        <RealTimeChart ticker="AAPL" timeFrame="1D" />
-      ) : (
-        <ChartComponent
-          {...chartProps}
-          data={convertedData}
-          frame={frame}
-        ></ChartComponent>
-      )}
+      <ChartComponent
+        {...chartProps}
+        data={convertedData}
+        frame={frame}
+      ></ChartComponent>
     </div>
   );
 }

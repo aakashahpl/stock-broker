@@ -128,6 +128,7 @@ const fillOrders = (
 };
 
 route.post("/place-order", verifyToken, (req: any, res: any) => {
+  console.log("placing order");
   const side: string = req.body.side;
   const price: number = req.body.price;
   const quantity: number = req.body.quantity;

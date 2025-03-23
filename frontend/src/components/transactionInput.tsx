@@ -19,6 +19,7 @@ import {
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
+import StockDetails from "./explore/stock";
 
 const schema = z.object({
   firstNumber: z.string(),
@@ -27,6 +28,8 @@ const schema = z.object({
 type FormFields = z.infer<typeof schema>;
 
 const TransactionInput = ({ currentStock }: any) => {
+
+  console.log(currentStock);
   const [transactionType, setTransactionType] = useState("buy");
   const [orderDetails, setOrderDetails] = useState({});
   const { toast } = useToast();
@@ -38,7 +41,7 @@ const TransactionInput = ({ currentStock }: any) => {
     resolver: zodResolver(schema),
   });
   const onSubmit: SubmitHandler<FormFields> = async (data: any) => {
-    const URL = `${process.env.NEXT_PUBLIC_Backend_URL}/order/place-order`;
+    const URL = `http://localhost:3001/order/place-order`;
 
     async function fetchData() {
       try {
@@ -47,7 +50,7 @@ const TransactionInput = ({ currentStock }: any) => {
           side: side,
           price: Number(data.secondNumber),
           quantity: Number(data.firstNumber),
-          ticker: "AAPL",
+          ticker: currentStock["ticker"],
         };
         const response = await axios.post(URL, orderData, {
           withCredentials: true,

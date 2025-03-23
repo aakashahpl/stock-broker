@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import connectToDB from "./db";
-import route1 from "./api/frontPage";
+import route1 from "./api/stock";
 import userRoute from "./api/user";
 import orderRoute from "./api/order";
 import newsRoute from "./api/news"
@@ -23,12 +23,12 @@ app.use(passport.initialize());
 
 // CORS configuration to accept requests from any origin
 app.use(cors({
-    origin: '*',  // Allow requests from any origin
+    origin: 'https://stock-broker-tau.vercel.app/',  // Allow requests from any origin
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true // allow credentials (cookies, authorization headers, etc.)
 }));
 
-app.use("/frontPage", route1);
+app.use("/stock", route1);
 app.use("/user", userRoute);
 app.use("/order", orderRoute);
 app.use("/news", newsRoute);

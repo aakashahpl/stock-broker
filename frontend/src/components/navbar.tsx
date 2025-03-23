@@ -13,6 +13,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
+import Search from "./Search";
 
 import {
   DropdownMenu,
@@ -22,6 +23,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import ProfileDropdown from "./ProfileDropdown";
 
 function Navbar() {
   // const [inputValue, setInputValue] = useState("");
@@ -119,7 +121,7 @@ function Navbar() {
       </div>
 
       <div className=" flex-[1.5]  h-full flex items-center justify-center  relative">
-        <form
+        {/* <form
           onSubmit={handleSubmit}
           className="flex flex-row justify-center items-center gap-2 border-[1px] border-myBorder px-4 py-1 rounded-lg"
         >
@@ -127,12 +129,11 @@ function Navbar() {
           <input
             className=" text-white bg-transparent border-myBorder  focus:border-transparent outline-none "
             type="text"
-            // value={inputValue.current}
             onChange={handleChange}
             placeholder="Enter stock symbol"
           />
-          {/* No explicit submit button, pressing Enter in the input field will trigger form submission */}
-        </form>
+        </form> */}
+        <Search />
         <div>
           {searchResults.length != 0 ? (
             <div className=" bg-orange-300 w-60 h-32 absolute right-40 top-16 flex flex-col">
@@ -168,25 +169,7 @@ function Navbar() {
             <CiWallet size={25} />
           </div>
           <div className=" px-4">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <CgProfile size={25} />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/user/investments">Investments</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link href="/user/order">Orders</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleLogout}>
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <ProfileDropdown handleLogout={handleLogout}/>
           </div>
         </div>
       )}
