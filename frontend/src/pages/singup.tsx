@@ -50,7 +50,7 @@ const SignUpForm = () => {
       submitData.append('kycPhoto', kycPhoto);
 
       // Make POST request
-      const response = await fetch('http://localhost:4200/auth/signup', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_Backend_URL}/auth/signup`, {
         method: 'POST',
         body: submitData,
       });

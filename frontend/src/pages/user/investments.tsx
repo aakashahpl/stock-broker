@@ -63,9 +63,6 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        // const response = await axios.get(`http://localhost:3001/user/balance`, {
-        //   withCredentials: true,
-        // });
         const response = {
           balance: {
             USD: 1663,
