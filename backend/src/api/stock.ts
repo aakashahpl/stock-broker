@@ -96,4 +96,5 @@ route.get("/all", async (req, res) => {
   }
 });
 
+
 export default route;
