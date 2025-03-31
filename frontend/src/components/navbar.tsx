@@ -80,8 +80,8 @@ function Navbar() {
     <div className={`flex flex-row text-stone-200 justify-center items-center px-24 h-20 bg-transparent absolute top-0 z-[1000] w-full ${user !== null ? 'border-[#2b2b2b] border-b-[1px]' : ''}`}
     >
       <div className="flex-[1.8] h-full flex justify-center items-center overflow-hidden">
-        <div className="flex flex-row items-center px-5 gap-2">
-          <img src="/zenith-logo.png" width={45} alt="" />
+        <div className="flex flex-row items-center px-5">
+          <img src="/zenith-logo.svg" width={60} alt="" className=" px-2 mix-blend-difference"/>
           <div className={`uppercase font-semibold text-[2rem] text-[#31373d] ${user == null ? 'text-neutral-800' : 'text-neutral-200'}`}>Zenith</div>
         </div>
         <div>
