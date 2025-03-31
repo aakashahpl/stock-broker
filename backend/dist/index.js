@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const db_1 = __importDefault(require("./db"));
-const frontPage_1 = __importDefault(require("./api/frontPage"));
+const stock_1 = __importDefault(require("./api/stock"));
 const user_1 = __importDefault(require("./api/user"));
 const order_1 = __importDefault(require("./api/order"));
 const news_1 = __importDefault(require("./api/news"));
@@ -25,11 +25,11 @@ app.use(express_1.default.json());
 app.use(passport_1.default.initialize());
 // CORS configuration to accept requests from any origin
 app.use((0, cors_1.default)({
-    origin: '*', // Allow requests from any origin
+    origin: ['https://stock-broker-tau.vercel.app', "https://www.thunderclient.com", "http://localhost:3000"],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true // allow credentials (cookies, authorization headers, etc.)
 }));
-app.use("/frontPage", frontPage_1.default);
+app.use("/stock", stock_1.default);
 app.use("/user", user_1.default);
 app.use("/order", order_1.default);
 app.use("/news", news_1.default);

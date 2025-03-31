@@ -94,6 +94,7 @@ const fillOrders = (side, price, quantity, userId, ticker) => {
     }
 };
 route.post("/place-order", auth_1.default, (req, res) => {
+    console.log("placing order");
     const side = req.body.side;
     const price = req.body.price;
     const quantity = req.body.quantity;

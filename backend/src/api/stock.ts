@@ -84,12 +84,11 @@ route.get("/fetch", async (req, res) => {
 
 route.get("/all", async (req, res) => {
   try {
-    // const fileData = fs.readFileSync(
-    //   stockDataPath,
-    //   "utf8"
-    // );
-    // const data = JSON.parse(fileData);
-    const data = {"message":"route working"};
+    const fileData = fs.readFileSync(
+      stockDataPath,
+      "utf8"
+    );
+    const data = JSON.parse(fileData);
     res.json(data);
   } catch (error: any) {
     res.json({ Error: error });

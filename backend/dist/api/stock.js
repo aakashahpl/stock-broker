@@ -80,5 +80,16 @@ route.get("/fetch", async (req, res) => {
         throw error;
     }
 });
+route.get("/all", async (req, res) => {
+    try {
+        const fileData = fs.readFileSync(stockDataPath, "utf8");
+        const data = JSON.parse(fileData);
+        res.json(data);
+    }
+    catch (error) {
+        res.json({ Error: error });
+        throw error;
+    }
+});
 exports.default = route;
-//# sourceMappingURL=frontPage.js.map
+//# sourceMappingURL=stock.js.map
