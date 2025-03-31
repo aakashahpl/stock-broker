@@ -23,7 +23,7 @@ app.use(passport.initialize());
 
 // CORS configuration to accept requests from any origin
 app.use(cors({
-    origin: 'https://stock-broker-tau.vercel.app',
+    origin: ['https://stock-broker-tau.vercel.app',"https://www.thunderclient.com"],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true // allow credentials (cookies, authorization headers, etc.)
 }));
