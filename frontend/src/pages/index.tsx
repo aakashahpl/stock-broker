@@ -65,17 +65,26 @@ const Hero = () => {
       username: "robin@gmail.com",
       password: "robin"
     }
+    
     const guestUserLogin = async () => {
       try {
+        // Add withCredentials to enable sending cookies cross-origin
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_Backend_URL}/user/login`,
-          data
+          data,
+          { withCredentials: true }
         );
+        
         console.log(response.data.accessToken);
+        
+        // Update cookie settings for cross-origin compatibility
         cookies.set("authorization", response.data.accessToken, {
           path: "/",
-          sameSite: false, // Necessary for cross-origin cookies
+          sameSite: "none", // Use "none" instead of false
+          secure: true, // Required when sameSite is "none"
+          expires: new Date(Date.now() + 24 * 60 * 60 * 1000) // Optional: set expiration (e.g., 24 hours)
         });   
+        
         console.log(cookies.get("authorization"));
         await loginUser(data);
         console.log("over here in index.ts ");
@@ -84,6 +93,7 @@ const Hero = () => {
         console.log(error.message);
       }
     };
+    
     guestUserLogin();
   };
 
