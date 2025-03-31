@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const verifyToken = (req, res, next) => {
     const token = req.cookies.authorization || req.headers.authorization;
+    console.log("inside auth middelware token:", token);
+    console.log(req.cookies);
     if (!token) {
         return res.status(401).json({ message: 'Unauthorized: Token missing' });
     }

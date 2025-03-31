@@ -19,25 +19,41 @@ const app = (0, express_1.default)();
 // Get port from command line arguments if provided
 const portArg = process.argv.find(arg => arg.startsWith('--port='));
 const PORT = portArg ? portArg.split('=')[1] : process.env.PORT || 3001;
-app.use(body_parser_1.default.urlencoded({ extended: true }));
+// Use cookieParser before bodyParser to ensure cookies are properly parsed
 app.use((0, cookie_parser_1.default)());
-app.use(express_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.json()); // Ensure the bodyParser middleware works for JSON requests
 app.use(passport_1.default.initialize());
-// CORS configuration to accept requests from any origin
+// CORS configuration to allow specific origins and credentials (cookies)
 app.use((0, cors_1.default)({
-    origin: ['https://stock-broker-tau.vercel.app', "https://www.thunderclient.com", "http://localhost:3000"],
+    origin: (origin, callback) => {
+        const allowedOrigins = [
+            //   'https://stock-broker-tau.vercel.app',
+            'http://localhost:3000',
+        ];
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new Error('Not allowed by CORS'), false);
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true // allow credentials (cookies, authorization headers, etc.)
+    credentials: true // This allows sending cookies with requests
 }));
+// Routes
 app.use("/stock", stock_1.default);
 app.use("/user", user_1.default);
 app.use("/order", order_1.default);
 app.use("/news", news_1.default);
+// Test route for debugging (optional, can be removed once everything works)
 app.use("/test", (req, res) => {
-    res.send("api working correctly");
+    res.send("API working correctly");
 });
+// Connect to the database
 (0, db_1.default)();
+// Start the server
 app.listen(PORT, () => {
-    console.log(`server is running on Port ${PORT}`);
+    console.log(`Server is running on Port ${PORT}`);
 });
 //# sourceMappingURL=index.js.map
