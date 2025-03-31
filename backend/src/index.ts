@@ -27,8 +27,7 @@ app.use(passport.initialize());
 app.use(cors({
   origin: (origin, callback) => {
     const allowedOrigins = [
-      'https://stock-broker-tau.vercel.app',
-    //   'http://localhost:3000',
+      'https://stock-broker-tau.vercel.app', 
     ];
     if (allowedOrigins.includes(origin)) {
       callback(null, true);

@@ -63,38 +63,23 @@ const Hero = () => {
   const handleGuestLogin = async () => {
     const data = {
       username: "robin@gmail.com",
-      password: "robin"
-    }
-    
-    const guestUserLogin = async () => {
-      try {
-        // Add withCredentials to enable sending cookies cross-origin
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_Backend_URL}/user/login`,
-          data,
-          { withCredentials: true }
-        );
-        
-        console.log(response.data.accessToken);
-        
-        // Update cookie settings for cross-origin compatibility
-        cookies.set("authorization", response.data.accessToken, {
-          path: "/",
-          sameSite: "none", // Use "none" instead of false
-          secure: true, // Required when sameSite is "none"
-          expires: new Date(Date.now() + 24 * 60 * 60 * 1000) // Optional: set expiration (e.g., 24 hours)
-        });   
-        
-        console.log(cookies.get("authorization"));
-        await loginUser(data);
-        console.log("over here in index.ts ");
-        router.push("/explore");
-      } catch (error: any) {
-        console.log(error.message);
-      }
+      password: "robin",
     };
-    
-    guestUserLogin();
+
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_Backend_URL}/user/login`,
+        data,
+        { withCredentials: true } // ✅ Ensures the cookie is stored in the browser
+      );
+
+      console.log("Login successful:", response.data);
+
+      await loginUser(data); // Keep this if it's needed for local state updates
+      router.push("/explore");
+    } catch (error: any) {
+      console.log("Login error:", error.message);
+    }
   };
 
   const handleSignUp = () => {
