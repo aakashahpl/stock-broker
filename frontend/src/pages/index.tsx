@@ -71,9 +71,14 @@ const Hero = () => {
           `${process.env.NEXT_PUBLIC_Backend_URL}/user/login`,
           data
         );
-        cookies.set("authorization", response.data.accessToken, { path: "/" });
+        console.log(response.data.accessToken);
+        cookies.set("authorization", response.data.accessToken, {
+          path: "/",
+          sameSite: false, // Necessary for cross-origin cookies
+        });   
         console.log(cookies.get("authorization"));
         await loginUser(data);
+        console.log("over here in index.ts ");
         router.push("/explore");
       } catch (error: any) {
         console.log(error.message);

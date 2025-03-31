@@ -9,6 +9,8 @@ interface decodedToken {
 
 const verifyToken = (req:any, res:any, next:any) => {
   const token = req.cookies.authorization||req.headers.authorization;
+  console.log("inside auth middelware token:",token);
+  console.log(req.cookies);
   if (!token) {
     return res.status(401).json({ message: 'Unauthorized: Token missing' });
   }
