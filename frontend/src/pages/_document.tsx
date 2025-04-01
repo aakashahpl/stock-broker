@@ -4,7 +4,10 @@ import { UserProvider } from "../context/userContext";
 export default function Document() {
   return (
     <Html lang="en">
-      <Head />
+      <Head>
+        <title>Zenith</title>
+        <link rel="icon" href="/zenith-logo2.svg" />
+      </Head>
       <body>
         <UserProvider>
           <Main />
