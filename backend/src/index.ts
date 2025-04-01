@@ -27,7 +27,7 @@ app.use(passport.initialize());
 app.use(cors({
   origin: (origin, callback) => {
     const allowedOrigins = [
-      'https://zenith-broker.vercel.app', 
+      'https://zenith.aakashpatel7.me', 
       // 'http://localhost:3000'
     ];
     if (allowedOrigins.includes(origin)) {
