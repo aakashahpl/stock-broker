@@ -122,7 +122,16 @@ Router.post("/login", async (req, res, next) => {
 });
 
 
-Router.get("/logout", (req, res) => {});
+Router.get("/logout", (req, res) => {
+  res.clearCookie("authorization", {
+    path: "/", // Ensure it clears across all routes
+    httpOnly: true,
+    secure: true, // Use HTTPS in production
+    sameSite: "none",
+  });
+
+  return res.status(200).json({ message: "Logged out successfully" });
+});
 
 Router.put("/balance", verifyToken, async (req: any, res: any) => {
   try {

@@ -74,7 +74,7 @@ const Hero = () => {
       );
 
       console.log("Login successful:", response.data);
-
+      
       await loginUser(data); // Keep this if it's needed for local state updates
       router.push("/explore");
     } catch (error: any) {

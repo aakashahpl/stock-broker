@@ -14,15 +14,14 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/router";
 import Cookies from "universal-cookie";
 import Search from "./Search";
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuLabel,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 import ProfileDropdown from "./ProfileDropdown";
 
 function Navbar() {
@@ -38,7 +37,7 @@ function Navbar() {
     // Manually update the input field's value
   };
   const { user } = useUser();
-  // console.log(user);
+  console.log("user data asdf", user);
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     console.log(inputValue.current);
@@ -71,6 +70,7 @@ function Navbar() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("user");
     logoutUser();
     router.push("/");
     cookies.remove("authorization", { path: "/" });
@@ -81,8 +81,23 @@ function Navbar() {
     >
       <div className="flex-[1.8] h-full flex justify-center items-center overflow-hidden">
         <div className="flex flex-row items-center px-5">
-          <img src="/zenith-logo.svg" width={60} alt="" className=" px-2 mix-blend-difference"/>
-          <div className={`uppercase font-semibold text-[2rem] text-[#31373d] ${user == null ? 'text-neutral-800' : 'text-neutral-200'}`}>Zenith</div>
+          {user ? (
+            <Image
+              src="/zenith-logo2.svg"  // Change to "zenith-logo2.svg" if user is present
+              width={60}
+              height={60}
+              alt="Zenith Logo"
+              className="px-2"
+            />
+          ) : (
+            <Image
+              src="/zenith-logo.svg"  // Default image if user is not present
+              width={60}
+              height={60}
+              alt="Zenith Logo"
+              className="px-2"
+            />
+          )}          <div className={`uppercase font-semibold text-[2rem] text-[#31373d] ${user == null ? 'text-neutral-800' : 'text-neutral-200'}`}>Zenith</div>
         </div>
         <div>
           {user ? (
@@ -169,7 +184,7 @@ function Navbar() {
             <CiWallet size={25} />
           </div>
           <div className=" px-4">
-            <ProfileDropdown handleLogout={handleLogout}/>
+            <ProfileDropdown handleLogout={handleLogout} />
           </div>
         </div>
       )}

@@ -1,23 +1,21 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import Cookies from "universal-cookie";
-// import { useUser } from "./pages/context/userContext";
 
-// This function can be marked `async` if using `await` inside
 export function middleware(req: NextRequest) {
-    // const { loginUser } = useUser();
-    const cookies = new Cookies();
-    const user = req.cookies.get("authorization");
-    console.log("user", user);
-    if (!user) {
-        return NextResponse.redirect(new URL("/", req.url));
-    }else{
-        // loginUser(user);
-    }
+  // ✅ Read HttpOnly cookie directly from the request
+  const userToken = req.cookies.get("authorization")?.value;
 
+  console.log("Middleware - Authorization Cookie:", userToken);
+
+  if (!userToken) {
+    return NextResponse.redirect(new URL("/", req.url)); // Redirect if no auth token
+  }
+
+  // Proceed normally if the user is authenticated
+  return NextResponse.next();
 }
-// return NextResponse.redirect(new URL("/home", req.url));
-// See "Matching Paths" below to learn more
+
+// ✅ Apply middleware to protected routes
 export const config = {
-    matcher: ["/explore","/stock/:slug*","/investments"],
+  matcher: ["/explore", "/stock/:slug*", "/investments"],
 };

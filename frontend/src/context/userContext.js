@@ -1,54 +1,42 @@
-import React, { createContext, useContext, useState,useEffect } from 'react';
-import Cookies from "universal-cookie";
-import jwt from "jsonwebtoken";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
+
 const UserContext = createContext();
 
-//  custom hook to access user data from the context
+// Custom hook to access user data from the context
 export const useUser = () => useContext(UserContext);
 
-
-
- export const UserProvider = ({ children }) => {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const cookies = new Cookies();
-
 
   useEffect(() => {
-    const token = cookies.get("authorization");
-
-    if (token && !user) {
-      const payload = jwt.decode(token); 
-      if (payload) {
-        loginUser(payload.user);
-      }
+    // Fetch user from localStorage on mount
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
-  }, [user, cookies]);
+  }, []);
 
-
-  const loginUser = async (userData) => {
+  const loginUser = (userData) => {
     if (!user) {
-      // // console.log(userData);
-      // const response = await axios.post(
-      //   "http://localhost:3001/user/login",
-      //   userData
-      // );
-      // cookies.set("authorization", response.data.accessToken, { path: "/" });
+      console.log("Logging in user:", userData);
+      localStorage.setItem("user", JSON.stringify(userData)); // Store in localStorage
       setUser(userData);
-
     }
-    else {
-      return 1;
-    }
-
   };
 
-
-  const logoutUser = () => {
-
-    setUser(null);
-    return 1;
+  const logoutUser = async () => {
+    try {
+      console.log("logoutUser runnign");
+      await axios.get(`${process.env.NEXT_PUBLIC_Backend_URL}/user/logout`, {
+        withCredentials: true, // Ensure cookies are sent with the request
+      });
+      localStorage.removeItem("user"); // Reqmove user from localStorage
+      setUser(null);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
-
 
   return (
     <UserContext.Provider value={{ user, loginUser, logoutUser }}>

@@ -29,6 +29,7 @@ app.use((0, cors_1.default)({
     origin: (origin, callback) => {
         const allowedOrigins = [
             'https://stock-broker-tau.vercel.app',
+            // 'http://localhost:3000'
         ];
         if (allowedOrigins.includes(origin)) {
             callback(null, true);
