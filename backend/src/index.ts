@@ -27,8 +27,7 @@ app.use(passport.initialize());
 app.use(cors({
   origin: (origin, callback) => {
     const allowedOrigins = [
-      'https://zenith.aakashpatel7.me', 
-      // 'http://localhost:3000'
+      process.env.ALLOWED_ORIGIN
     ];
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
