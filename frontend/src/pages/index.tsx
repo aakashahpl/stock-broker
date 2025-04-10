@@ -91,7 +91,8 @@ const Hero = () => {
   return (
     <div>
       <Navbar />
-      <div className="w-full h-full flex justify-center sticky top-0">
+      <div className="w-full h-screen flex justify-center sticky top-0 overflow-hidden bg-[url('https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png')] bg-cover bg-center">
+      {/* <div className="h-screen">aaksh</div> */}
         <div className="absolute w-2/6 mt-40 flex flex-col justify-center items-center gap-5">
           <div className="text-center opacity-80">
             <p className="font-medium pb-3 text-5xl lg:text-7xl">
@@ -112,12 +113,12 @@ const Hero = () => {
             Login / Sign Up
           </Button>
         </div>
-        <img
-          className=" w-screen h-screen"
+        {/* <img
+          className=""
           src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png"
           alt=""
           draggable="false"
-        />
+        /> */}
         <div>
           {signUp == true ? (
             <div className=" h-screen w-full bg-slate-600 bg-opacity-70 absolute top-0 left-0 flex justify-center items-center ">
