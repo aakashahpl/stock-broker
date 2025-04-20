@@ -6,7 +6,6 @@ import { Currency } from "lucide-react";
 import RealTimeChart from "@/components/realTimeChart";
 
 export const ChartComponent = (props: any) => {
-  // console.log("current frame in chartComponent", props.frame);
   const {
     data,
     colors: {
@@ -139,13 +138,11 @@ export default function Chart(props: prop) {
           // const response = await axios.get(url, {
           //   headers: { "User-Agent": "axios" },
           // });
-          const url = `https://data.alpaca.markets/v2/stocks/bars?symbols=${ticker}&timeframe=1D&start=2023-03-15&end=2025-03-15&limit=1000&adjustment=raw&feed=sip&sort=asc`;
+          const url = `${process.env.NEXT_PUBLIC_Backend_URL}/stock/historical-data/${ticker}`;
 
           const options = {
             method: 'GET',
             headers: {
-              'APCA-API-KEY-ID': process.env.NEXT_PUBLIC_ALPACA_KEY,
-              'APCA-API-SECRET-KEY':process.env.NEXT_PUBLIC_ALPACA_SECRET,
               'accept': 'application/json'
             }
           };

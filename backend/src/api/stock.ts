@@ -1,5 +1,6 @@
 import express from "express";
 import axios from "axios";
+import { createClient } from 'redis';
 import dotenv from "dotenv";
 import * as fs from "fs";
 import path from "path";
@@ -7,6 +8,15 @@ import path from "path";
 dotenv.config();
 
 const route = express.Router();
+
+// Redis client
+const redisClient = createClient();
+
+redisClient.on('error', (err) => {
+  console.error('Redis Client Error', err);
+});
+
+redisClient.connect();
 
 const stockDataPath = path.join(__dirname, "../../stock-data.json");
 const TopGainersLosersPath = path.join(__dirname, "../../top-gainers-losers.json");
@@ -80,6 +90,52 @@ route.get("/fetch", async (req, res) => {
     throw error;
   }
 });
+
+route.get("/historical-data/:ticker", async (req, res) => {
+  const { ticker } = req.params;
+  console.log("historical-data", ticker);
+
+  const cacheKey = `alpaca:bars:${ticker}`;
+
+  try {
+    // 1. Try to get from Redis
+    const cached = await redisClient.get(cacheKey);
+    if (cached) {
+      console.log("Serving from cache");
+      // console.log(JSON.parse(cached));
+      return res.json(JSON.parse(cached));
+    }
+
+    // 2. Not in cache → Fetch from Alpaca
+    const url = `https://data.alpaca.markets/v2/stocks/bars?symbols=${ticker}&timeframe=1D&start=2023-03-15&end=2025-03-15&limit=1000&adjustment=raw&feed=sip&sort=asc`;
+
+    const options = {
+      method: 'GET',
+      headers: {
+        'APCA-API-KEY-ID': process.env.NEXT_PUBLIC_ALPACA_KEY,
+        'APCA-API-SECRET-KEY': process.env.NEXT_PUBLIC_ALPACA_SECRET,
+        'accept': 'application/json'
+      }
+    };
+
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (!response.ok) {
+      return res.status(response.status).json({ error: data });
+    }
+
+    // 3. Save to Redis with 24h expiry
+    await redisClient.set(cacheKey, JSON.stringify(data), {
+      EX: 86400 // seconds = 24 hours
+    });
+
+    res.json(data);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 
 route.get("/all", async (req, res) => {

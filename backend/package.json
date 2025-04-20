@@ -39,6 +39,7 @@
     "passport": "^0.7.0",
     "passport-local-mongoose": "^8.0.0",
     "pg": "^8.13.3",
+    "redis": "^4.7.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },

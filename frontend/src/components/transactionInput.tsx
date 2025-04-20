@@ -29,7 +29,7 @@ type FormFields = z.infer<typeof schema>;
 
 const TransactionInput = ({ currentStock }: any) => {
 
-  console.log(currentStock);
+  // console.log(currentStock);
   const [transactionType, setTransactionType] = useState("buy");
   const [orderDetails, setOrderDetails] = useState({});
   const { toast } = useToast();
@@ -55,7 +55,7 @@ const TransactionInput = ({ currentStock }: any) => {
         const response = await axios.post(URL, orderData, {
           withCredentials: true,
         });
-        console.log(response.data);
+        console.log("order response over here",response.data);
         if (response.data) {
           toast({
             variant:"default",

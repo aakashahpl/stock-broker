@@ -83,19 +83,16 @@ const Hero = () => {
   };
 
   const handleSignUp = () => {
-    // pageRef.current.scrollIntoView({ behavior: "smooth" });
     window.scrollTo(0, 0);
     setSignUp(true);
   };
 
   return (
     <div>
-      <Navbar />
       <div className="w-full h-screen flex justify-center sticky top-0 overflow-hidden bg-[url('https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png')] bg-cover bg-center">
-      {/* <div className="h-screen">aaksh</div> */}
-        <div className="absolute w-2/6 mt-40 flex flex-col justify-center items-center gap-5">
+        <div className="absolute lg:w-2/6 mt-40 flex flex-col justify-center items-center gap-5">
           <div className="text-center opacity-80">
-            <p className="font-medium pb-3 text-5xl lg:text-7xl">
+            <p className="font-medium pb-3 text-4xl lg:text-7xl">
               All things finance,
               <br />
               right here.
@@ -113,12 +110,7 @@ const Hero = () => {
             Login / Sign Up
           </Button>
         </div>
-        {/* <img
-          className=""
-          src="https://cdn.robinhood.com/assets/generated_assets/brand/_next/static/images/intro-background@1x__d80cfee2ff3621c010d506de30f360c57c94eece7bcdedd008b73463335ada71.png"
-          alt=""
-          draggable="false"
-        /> */}
+
         <div>
           {signUp == true ? (
             <div className=" h-screen w-full bg-slate-600 bg-opacity-70 absolute top-0 left-0 flex justify-center items-center ">
@@ -179,7 +171,7 @@ const Hero = () => {
           className=" h-11/12 w-full  max-lg:px-5 flex flex-col justify-start items-center relative gap-4"
           ref={pageRef}
         >
-          <h3 className="  font-bold text-6xl text-center">
+          <h3 className="  font-bold text-5xl lg:text-6xl text-center">
             Join a new generation of <br />Investors
           </h3>
           <Button variant={"myButton"} onClick={handleSignUp} size={"lg"}>
@@ -187,7 +179,7 @@ const Hero = () => {
           </Button>
           <div>
             <img
-              className=" h-96 "
+              className=" lg:h-96 "
               src="https://zerodha.com/static/images/landing.png"
               alt=""
             />
@@ -195,7 +187,7 @@ const Hero = () => {
         </div>
 
       </div>
-      <div className=" bg-[#c8f43c] px-10 flex flex-row h-[100vh] relative">
+      <div className=" bg-[#c8f43c] px-10 flex flex-col lg:flex-row h-[100vh] relative border border-amber-500">
         <div className=" flex justify-center items-center flex-[1.2]">
           <img
             className=""
@@ -206,12 +198,12 @@ const Hero = () => {
         </div>
         <div className=" flex-1 flex flex-col  gap-2 items-start justify-center ">
           <div className=" mb-10">
-            <h3 className=" text-5xl w-60 text-[#3bb84b]">Investing</h3>
-            <h3 className=" text-5xl w-96 ">
+            <h3 className=" text-4xl lg:text-5xl w-60 text-[#3bb84b]">Investing</h3>
+            <h3 className=" text-4xl lg:text-5xl lg:w-96 ">
               Build your portfolio starting with just $1
             </h3>
           </div>
-          <h3 className=" text-lg w-96">
+          <h3 className=" text-lg lg:w-96">
             Invest in stocks, options, and ETFs at your pace and
             commission-free.
           </h3>

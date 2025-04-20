@@ -110,7 +110,7 @@ Router.post("/login", async (req, res, next) => {
         secure: true, // Send only over HTTPS
         sameSite: "none", // Allow cross-origin requests
         path: "/", // Available across the entire site
-        domain: ".aakashpatel7.me", // Specify the domain (subdomains included)
+        domain: process.env.COOKIE_DOMAIN, // Specify the domain (subdomains included)
         expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // Cookie expiration (24 hours)
       });
 

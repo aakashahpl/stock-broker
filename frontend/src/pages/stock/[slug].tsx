@@ -9,9 +9,9 @@ import TransactionInput from "@/components/transactionInput";
 import { FaCircleInfo } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Divide, LineChart } from "lucide-react";
-// import { MovingAverageChart } from "@/components/MovingAverageChart";
-// import { MonteCarloChart } from "@/components/MonteCarloChart";
-// import { ARIMAForecastChart } from "@/components/ArimaForecastChart";
+import { MovingAverageChart } from "@/components/MovingAverageChart";
+import { MonteCarloChart } from "@/components/MonteCarloChart";
+import { ARIMAForecastChart } from "@/components/ArimaForecastChart";
 
 interface StockData {
   logo: string;
@@ -53,6 +53,7 @@ interface OrderBookData {
 }
 
 function BasicComponent() {
+  console.log("slug mounted");
   const [timeFrame, setTimeFrame] = useState("1M");
   const borderColor = "#2e2e2e";
   const router = useRouter();
@@ -60,6 +61,7 @@ function BasicComponent() {
   const [slug, setSlug] = useState<string>();
   const [showCharts, setShowCharts] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
+  const [option, setOption] = useState("buy");
 
   useEffect(() => {
     if(typeof router.query.slug === 'string'){
@@ -84,7 +86,7 @@ function BasicComponent() {
         try {
           const response = await axios.get(apiUrl);
           const response2 = await axios.get(apiUrl2);
-          console.log("slug over here ",slug);
+          // console.log("slug over here ",slug);
           setStockData(response.data);
           setStockData2(response2.data);
         } catch (error) {
@@ -98,7 +100,7 @@ function BasicComponent() {
   const [orderBook, setOrderBook] = useState(false);
   const [orderBookData, setOrderBookData] = useState<OrderBookData>({ bids: {}, asks: {} });
   useEffect(() => {
-    const apiUrl = `${process.env.NEXT_PUBLIC_Backend_URL}/order/depth/AAPL`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_Backend_URL}/order/depth/${slug}`;
     async function fetchData() {
       if (slug) {
         try {
@@ -119,7 +121,7 @@ function BasicComponent() {
     try {
       setAnalyzing(true);
       // Call the API to trigger data preparation for charts
-      const response = await axios.get(`http://localhost:8000/fetch-stock/${slug}`);
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_ANALYSIS_Backend_URL}/fetch-stock/${slug}`);
       
       if (response.status === 200) {
         setShowCharts(true);
@@ -132,7 +134,7 @@ function BasicComponent() {
     }
   };
 
-  const [option, setOption] = useState("buy");
+  console.log("sloug over here",slug);
   return (
     <div className="mt-24">
       <div className=" text-white flex flex-row justify-center h-screen mt-10">
@@ -181,7 +183,8 @@ function BasicComponent() {
           <div className=" h-3/5">
             {orderBook === false ? (
               <>
-                <Chart ticker={slug} timeFrame={timeFrame} />
+                {slug&&<Chart ticker={slug} timeFrame={timeFrame} />}
+
                 <div className=" text-4xl">{slug}</div>
                 <div className=" flex flex-row justify-around w-full h-32  mt-4 border-t-[1px] border-myBorder pt-2">
                   <div className=" flex-[2] ">
@@ -226,12 +229,13 @@ function BasicComponent() {
                   )}
                 </div>
                 <div>
-                  {Object.entries(orderBookData.asks).map(([price]) => (
+                  {Object.entries(orderBookData.asks).map(([price,quant]) => (
                     <div
                       key={price}
                       className="flex flex-row justify-between w-full text-red-600 px-3 h-20 items-center border-b border-myBorder border-dashed"
                     >
                       <div>{price}</div>
+                      <div>{quant}</div>
                     </div>
                   ))}
                 </div>
@@ -239,7 +243,7 @@ function BasicComponent() {
             )}
           </div>
           
-          {/* {showCharts && (
+          {showCharts && (
             <>
               <div className="flex flex-row justify-start items-center gap-2 text-xl font-semibold mt-20">
                 <h1 className="text-white">Performance Analysis</h1>
@@ -260,7 +264,7 @@ function BasicComponent() {
                 </div>
               </div>
             </>
-          )} */}
+          )}
         </div>
         <TransactionInput currentStock={stockData} />
       </div>

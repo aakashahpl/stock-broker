@@ -30,7 +30,7 @@ const Search: React.FC = () => {
         setStockData(data);
         setError(null);
       } catch (err) {
-        setError('Error fetching stock data. Please try again.');
+        setError('Error fetching');
         console.error(err);
       } finally {
         setLoading(false);
