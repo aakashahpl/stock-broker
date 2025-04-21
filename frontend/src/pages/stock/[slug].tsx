@@ -258,10 +258,15 @@ function BasicComponent() {
                   <h2 className="text-lg font-medium mb-2">Monte Carlo Simulation</h2>
                   <MonteCarloChart ticker={slug} />
                 </div>
-                <div className="border border-myBorder rounded-lg p-4">
+                {/* <div className="border border-myBorder rounded-lg p-4">
                   <h2 className="text-lg font-medium mb-2">ARIMA Forecast</h2>
                   <ARIMAForecastChart ticker={slug} />
+                </div> */}
+                <div className="border border-myBorder rounded-lg p-4">
+                  <h2 className="text-lg font-medium mb-2">LSTM Prediction</h2>
+                  <img src="https://maang-stock-data-modified.s3.ap-south-1.amazonaws.com/lstm/MSFT.png" alt="" />
                 </div>
+
               </div>
             </>
           )}
